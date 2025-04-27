@@ -1,0 +1,126 @@
+
+PRELIMINARY RESEARCH AND INFORMATION
+------------------------------------------------------------------------
+
+CLAPPER/SLATE INFO
+*TC		hh:mm:ss:ff	 - local 24hr time
+*ROLL	A001	camera#-card#
+
+*SCENE	V03B	prefix-scene#-setup/shot
+				|
+				V=VFX (say visual)
+				R=reshoot
+				X=2nd unit
+
+*TAKE	1
+		-or-
+		series	for not cuts
+		01PU	"pick up" rolling thru glitches
+
+PROD	project name
+DIR		director
+DOP		dop
+DATE	date
+SYNC	shooting w/sound
+MOS		shooting w/o sound
+FPS		fps
+
+NOTES:
+	-ISO
+	-SHUT
+	-FOC
+	-FILT
+	-APER
+	-WB
+
+TIPS:
+-Dont use letters ISO
+-"sticks" 
+	head sticks	- slate at start
+	tail sticks	- slate at end
+	2nd sticks	- slate again
+	soft sticks - near actors face
+
+PCC6Kpro framerates:
+	23.98, 24, 25, 29.97, 30, 50, 59.94 and 60 fps supported
+
+========================================================================
+
+
+PROGRAM SPECIFICS, STATS, LAYOUT, & DIMENSIONS
+------------------------------------------------------------------------
+DESIGNED for a TOUCHSCREEN LAPTOP/WIN TABLET
+
+FULLSCREEN = 1900 x 1200
+
+DIMENSIONS of SLATEBOARD (WxH in px)		[OLD 1457 x 1057]
+(FULLSCREEN - START BAR + CONTROL BAR/TITLE) = 1900 x 1130
+
+
+
+CLAPPER HEIGHT
+130
+154 px	PS
+
+SLATE HEIGHT
+927
+1046 px PS
+
+882 = avail height
+194 = top row
+126 = TC
+112 = smaller rows
+
+─│┴┬
+
+::DESIGN::
+─────────┬───────┬───────
+SCENE    │TAKE   │ROLL
+─────────┴───────┴───────
+TC	hh : mm : ss : ff
+─────────────────────────
+PROD
+────────────┬────────────
+DIR         │ DP
+──────────┬─┴────────────
+FPS       │ DATE
+───────┬──┴─────┬────────
+INT/EXT│DAY/NITE│SYNC/MOS
+───────┴────────┴────────
+NOTES: is,sh,fl,ap,wb,ft
+
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+------------------------------------------------------
+
+VARIABLES:
+	
+ LABEL			TXTBOX			VAR				CFG
+ ----------------------------------------------------
+ lblScene		txtScene		scene			cfgScene
+    X			txtScenePre		scenePre		cfgScPre
+    X			txtSceneNum		sceneNum		cfgScNum
+    X			txtShot			shot			cfgShot
+ 			
+ lblTake		txtTake			take			cfgTake
+ 			
+ lblRoll		txtRoll			roll			cfgRoll
+    X			txtCameraNum	cameraNum		cfgCamNum
+    X			txtCardNum		camCardNum		cfgCardNum
+ 
+ lblProduction	txtProduction	production		cfgProduction
+ 
+ lblDirector	txtDirector		director		cfgDirector
+ lblDOP			txtDOP			dop				cfgDOP
+ 
+ lblFPS			txtFPS			fps				cfgFPS
+ lblDate		txtCustDate		custDate		cfgDate
+ 	-->			cbTodaysDate	currentDate		cfgCurrDate
+ 
+ lblHideInt		cbInt			int(0)			cfgInt
+ lblHideExt		cbExt			int(1)			
+ lblHideDay		cbDay			day(0)			cfgDay
+ lblHideNite	cbNite			day(1)			
+ lblHideSYnc	cbSync			sync(0)			cfgSync
+ lblHideMos		cbMos			sync(1)		

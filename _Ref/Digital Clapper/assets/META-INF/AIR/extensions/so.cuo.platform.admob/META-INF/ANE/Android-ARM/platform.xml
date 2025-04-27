@@ -1,0 +1,12 @@
+<platform xmlns="http://ns.adobe.com/air/extension/17.0">
+    <packagedDependencies>
+
+    </packagedDependencies>
+     <packagedResources>
+        <packagedResource>
+            <packageName>com.google.android.gms</packageName>
+            <folderName>res</folderName>
+        </packagedResource>
+        
+    </packagedResources>
+</platform>

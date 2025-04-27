@@ -1,0 +1,69 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="cfgCountdownCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="cfgBeepCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgDisplayCaps" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="cfgScene" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1A</Value>
+    </Setting>
+    <Setting Name="cfgScenePre" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="cfgSceneNum" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgShot" Type="System.String" Scope="User">
+      <Value Profile="(Default)">A</Value>
+    </Setting>
+    <Setting Name="cfgTake" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgRoll" Type="System.String" Scope="User">
+      <Value Profile="(Default)">A001</Value>
+    </Setting>
+    <Setting Name="cfgCameraNum" Type="System.String" Scope="User">
+      <Value Profile="(Default)">A</Value>
+    </Setting>
+    <Setting Name="cfgCamCardNum" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgProduction" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Your Film Title</Value>
+    </Setting>
+    <Setting Name="cfgDirector" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Ian Knight</Value>
+    </Setting>
+    <Setting Name="cfgDOP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Steve Perry</Value>
+    </Setting>
+    <Setting Name="cfgFPS" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">24</Value>
+    </Setting>
+    <Setting Name="cfgInt" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgDay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgSync" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgDate" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="cfgCurrentDate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">05 Jun 2024</Value>
+    </Setting>
+    <Setting Name="cfgCustDate" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

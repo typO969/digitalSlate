@@ -1,0 +1,90 @@
+Public Class Timecode
+    Public Property Hours As Integer
+    Public Property Minutes As Integer
+    Public Property Seconds As Integer
+    Public Property Frames As Integer
+
+    Public Sub New(hours As Integer, minutes As Integer, seconds As Integer, frames As Integer)
+        Me.Hours = hours
+        Me.Minutes = minutes
+        Me.Seconds = seconds
+        Me.Frames = frames
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return $"{Hours:D2}:{Minutes:D2}:{Seconds:D2}:{Frames:D2}"
+    End Function
+End Class
+
+Public Class TimecodeGenerator
+    Public Shared Function GenerateTimecode(totalFrames As Integer, framesPerSecond As Integer) As Timecode
+        Dim frames = totalFrames Mod framesPerSecond
+        Dim seconds = (totalFrames \ framesPerSecond) Mod 60
+        Dim minutes = ((totalFrames \ framesPerSecond) \ 60) Mod 60
+        Dim hours = (((totalFrames \ framesPerSecond) \ 60) \ 60) Mod 24
+
+        Return New Timecode(hours, minutes, seconds, frames)
+    End Function
+End Class
+
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+Dim framesPerSecond As Integer = 24
+Dim totalFrames As Integer = 1876
+Dim generatedTimecode As Timecode = TimecodeGenerator.GenerateTimecode(totalFrames, framesPerSecond)
+
+Console.WriteLine(generatedTimecode.ToString()) ' Output: 00:01:18:04
+
+
+____________________________
+
+
+Public Class DigitalFilmSlate
+    Private Sub UpdateTimecodeDisplay()
+        Dim framesPerSecond As Integer = 24
+        Dim totalFrames As Integer = GetCurrentFrameCount() ' Replace this with the actual frame count from your video playback or other source
+
+        Dim generatedTimecode As Timecode = TimecodeGenerator.GenerateTimecode(totalFrames, framesPerSecond)
+        TimecodeLabel.Text = generatedTimecode.ToString()
+    End Sub
+
+    Private Sub StartButton_Click(sender As Object, e As EventArgs) Handles StartButton.Click
+        StartVideoPlayback() ' Replace this with your video playback logic
+        UpdateTimecodeDisplay()
+    End Sub
+
+    ' Other methods for handling user interactions, video playback, etc.
+End Class
+
+
+____________________________
+
+
+
+Public Class DigitalFilmSlate
+    Private framesPerSecond As Integer = 24
+    Private totalFrames As Integer = 0 ' Initialize with your actual frame count
+
+    Private Sub UpdateTimecodeDisplay()
+        Dim framesPerSecond As Integer = 24
+        Dim totalFrames As Integer = GetCurrentFrameCount() ' Replace this with the actual frame count from your video playback or other source
+
+        Dim generatedTimecode As Timecode = TimecodeGenerator.GenerateTimecode(totalFrames, framesPerSecond)
+        TimecodeLabel.Text = generatedTimecode.ToString()
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        totalFrames += 1 ' Increment the frame count
+        UpdateTimecodeDisplay()
+    End Sub
+
+    Private Sub StartButton_Click(sender As Object, e As EventArgs) Handles StartButton.Click
+        Timer1.Start() ' Start the timer to update the timecode display
+    End Sub
+
+    Private Sub StopButton_Click(sender As Object, e As EventArgs) Handles StopButton.Click
+        Timer1.Stop() ' Stop the timer
+    End Sub
+
+    ' Other methods for handling user interactions, video playback, etc.
+End Class
