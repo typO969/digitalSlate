@@ -63,6 +63,7 @@ Partial Class frmEdit
         Me.rbMOS = New System.Windows.Forms.RadioButton()
         Me.rbSync = New System.Windows.Forms.RadioButton()
         Me.butOK = New System.Windows.Forms.Button()
+        Me.butCancel = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -527,13 +528,23 @@ Partial Class frmEdit
         '
         'butOK
         '
-        Me.butOK.Font = New System.Drawing.Font("Helvetica LT Std Cond", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butOK.Location = New System.Drawing.Point(417, 691)
+        Me.butOK.Font = New System.Drawing.Font("Helvetica LT Std Cond", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butOK.Location = New System.Drawing.Point(508, 690)
         Me.butOK.Name = "butOK"
-        Me.butOK.Size = New System.Drawing.Size(187, 70)
+        Me.butOK.Size = New System.Drawing.Size(92, 70)
         Me.butOK.TabIndex = 18
         Me.butOK.Text = "OK"
         Me.butOK.UseVisualStyleBackColor = True
+        '
+        'butCancel
+        '
+        Me.butCancel.Font = New System.Drawing.Font("Helvetica LT Std Cond", 10.8!)
+        Me.butCancel.Location = New System.Drawing.Point(413, 690)
+        Me.butCancel.Name = "butCancel"
+        Me.butCancel.Size = New System.Drawing.Size(92, 70)
+        Me.butCancel.TabIndex = 19
+        Me.butCancel.Text = "Cancel"
+        Me.butCancel.UseVisualStyleBackColor = True
         '
         'frmEdit
         '
@@ -541,6 +552,7 @@ Partial Class frmEdit
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.ClientSize = New System.Drawing.Size(605, 794)
         Me.ControlBox = False
+        Me.Controls.Add(Me.butCancel)
         Me.Controls.Add(Me.butOK)
         Me.Controls.Add(Me.GroupBox9)
         Me.Controls.Add(Me.GroupBox8)
@@ -623,4 +635,5 @@ Partial Class frmEdit
     Friend WithEvents rbMOS As RadioButton
     Friend WithEvents rbSync As RadioButton
     Friend WithEvents butOK As Button
+    Friend WithEvents butCancel As Button
 End Class

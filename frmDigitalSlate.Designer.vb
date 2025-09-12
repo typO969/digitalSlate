@@ -26,15 +26,8 @@ Partial Class frmDigitalSlate
 		Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
 		Me.cmsPrimary = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.tsiEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiProfiles = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiProfNum0 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiProfNum1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiProfNum2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiProfNum3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiProfNum4 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiProfNum5 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiImport = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsiExport = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiLoadProfile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiSaveProfile = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsiOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsiZeroTC = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsiReset = New System.Windows.Forms.ToolStripMenuItem()
@@ -76,9 +69,9 @@ Partial Class frmDigitalSlate
         'cmsPrimary
         '
         Me.cmsPrimary.ImageScalingSize = New System.Drawing.Size(28, 28)
-        Me.cmsPrimary.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiEdit, Me.tsiProfiles, Me.tsiImport, Me.tsiExport, Me.tsiOptions, Me.tsiZeroTC, Me.tsiReset, Me.ToolStripSeparator1, Me.tsiExit})
+        Me.cmsPrimary.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiEdit, Me.tsiLoadProfile, Me.tsiSaveProfile, Me.tsiOptions, Me.tsiZeroTC, Me.tsiReset, Me.ToolStripSeparator1, Me.tsiExit})
         Me.cmsPrimary.Name = "cmsPrimary"
-        Me.cmsPrimary.Size = New System.Drawing.Size(261, 266)
+        Me.cmsPrimary.Size = New System.Drawing.Size(275, 234)
         '
         'tsiEdit
         '
@@ -86,112 +79,56 @@ Partial Class frmDigitalSlate
         Me.tsiEdit.Name = "tsiEdit"
         Me.tsiEdit.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
-        Me.tsiEdit.Size = New System.Drawing.Size(260, 32)
+        Me.tsiEdit.Size = New System.Drawing.Size(274, 32)
         Me.tsiEdit.Text = "&Edit Slate"
         '
-        'tsiProfiles
+        'tsiLoadProfile
         '
-        Me.tsiProfiles.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiProfNum0, Me.tsiProfNum1, Me.tsiProfNum2, Me.tsiProfNum3, Me.tsiProfNum4, Me.tsiProfNum5})
-        Me.tsiProfiles.Enabled = False
-        Me.tsiProfiles.Name = "tsiProfiles"
-        Me.tsiProfiles.Size = New System.Drawing.Size(260, 32)
-        Me.tsiProfiles.Text = "Load/Save"
+        Me.tsiLoadProfile.Name = "tsiLoadProfile"
+        Me.tsiLoadProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
+        Me.tsiLoadProfile.Size = New System.Drawing.Size(274, 32)
+        Me.tsiLoadProfile.Text = "Load Slate"
         '
-        'tsiProfNum0
+        'tsiSaveProfile
         '
-        Me.tsiProfNum0.AutoToolTip = True
-        Me.tsiProfNum0.Name = "tsiProfNum0"
-        Me.tsiProfNum0.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D0), System.Windows.Forms.Keys)
-        Me.tsiProfNum0.Size = New System.Drawing.Size(221, 34)
-        Me.tsiProfNum0.Text = "Slot 0"
-        '
-        'tsiProfNum1
-        '
-        Me.tsiProfNum1.AutoToolTip = True
-        Me.tsiProfNum1.Name = "tsiProfNum1"
-        Me.tsiProfNum1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D1), System.Windows.Forms.Keys)
-        Me.tsiProfNum1.Size = New System.Drawing.Size(221, 34)
-        Me.tsiProfNum1.Text = "Slot 1"
-        '
-        'tsiProfNum2
-        '
-        Me.tsiProfNum2.AutoToolTip = True
-        Me.tsiProfNum2.Name = "tsiProfNum2"
-        Me.tsiProfNum2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D2), System.Windows.Forms.Keys)
-        Me.tsiProfNum2.Size = New System.Drawing.Size(221, 34)
-        Me.tsiProfNum2.Text = "Slot 2"
-        '
-        'tsiProfNum3
-        '
-        Me.tsiProfNum3.AutoToolTip = True
-        Me.tsiProfNum3.Name = "tsiProfNum3"
-        Me.tsiProfNum3.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D3), System.Windows.Forms.Keys)
-        Me.tsiProfNum3.Size = New System.Drawing.Size(221, 34)
-        Me.tsiProfNum3.Text = "Slot 3"
-        '
-        'tsiProfNum4
-        '
-        Me.tsiProfNum4.AutoToolTip = True
-        Me.tsiProfNum4.Name = "tsiProfNum4"
-        Me.tsiProfNum4.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D4), System.Windows.Forms.Keys)
-        Me.tsiProfNum4.Size = New System.Drawing.Size(221, 34)
-        Me.tsiProfNum4.Text = "Slot 4"
-        '
-        'tsiProfNum5
-        '
-        Me.tsiProfNum5.AutoToolTip = True
-        Me.tsiProfNum5.Name = "tsiProfNum5"
-        Me.tsiProfNum5.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D5), System.Windows.Forms.Keys)
-        Me.tsiProfNum5.Size = New System.Drawing.Size(221, 34)
-        Me.tsiProfNum5.Text = "Slot 5"
-        '
-        'tsiImport
-        '
-        Me.tsiImport.AutoToolTip = True
-        Me.tsiImport.Enabled = False
-        Me.tsiImport.Name = "tsiImport"
-        Me.tsiImport.Size = New System.Drawing.Size(260, 32)
-        Me.tsiImport.Text = "Import Slate"
-        '
-        'tsiExport
-        '
-        Me.tsiExport.AutoToolTip = True
-        Me.tsiExport.Enabled = False
-        Me.tsiExport.Name = "tsiExport"
-        Me.tsiExport.Size = New System.Drawing.Size(260, 32)
-        Me.tsiExport.Text = "Export Slate"
+        Me.tsiSaveProfile.Name = "tsiSaveProfile"
+        Me.tsiSaveProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.tsiSaveProfile.Size = New System.Drawing.Size(274, 32)
+        Me.tsiSaveProfile.Text = "Save Slate"
         '
         'tsiOptions
         '
         Me.tsiOptions.AutoToolTip = True
         Me.tsiOptions.Name = "tsiOptions"
-        Me.tsiOptions.Size = New System.Drawing.Size(260, 32)
+        Me.tsiOptions.Size = New System.Drawing.Size(274, 32)
         Me.tsiOptions.Text = "&Settings..."
         '
         'tsiZeroTC
         '
         Me.tsiZeroTC.Name = "tsiZeroTC"
-        Me.tsiZeroTC.Size = New System.Drawing.Size(260, 32)
+        Me.tsiZeroTC.Size = New System.Drawing.Size(274, 32)
         Me.tsiZeroTC.Text = "Zero Timecode"
         '
         'tsiReset
         '
         Me.tsiReset.AutoToolTip = True
         Me.tsiReset.Name = "tsiReset"
-        Me.tsiReset.Size = New System.Drawing.Size(260, 32)
+        Me.tsiReset.Size = New System.Drawing.Size(274, 32)
         Me.tsiReset.Text = "&Restore Defaults"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(257, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(271, 6)
         '
         'tsiExit
         '
         Me.tsiExit.AutoToolTip = True
         Me.tsiExit.Name = "tsiExit"
         Me.tsiExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.tsiExit.Size = New System.Drawing.Size(260, 32)
+        Me.tsiExit.Size = New System.Drawing.Size(274, 32)
         Me.tsiExit.Text = "&Quit"
         '
         'plPrimary
@@ -454,7 +391,7 @@ Partial Class frmDigitalSlate
         'lblDirector
         '
         Me.lblDirector.BackColor = System.Drawing.Color.White
-        Me.lblDirector.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDirector.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold)
         Me.lblDirector.Location = New System.Drawing.Point(83, 576)
         Me.lblDirector.Margin = New System.Windows.Forms.Padding(0)
         Me.lblDirector.MaximumSize = New System.Drawing.Size(725, 83)
@@ -605,38 +542,31 @@ Partial Class frmDigitalSlate
 	Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
 	Friend WithEvents tsiExit As ToolStripMenuItem
 	Friend WithEvents tsiEdit As ToolStripMenuItem
-	Friend WithEvents tsiProfiles As ToolStripMenuItem
-	Friend WithEvents tsiProfNum0 As ToolStripMenuItem
-	Friend WithEvents tsiProfNum1 As ToolStripMenuItem
-	Friend WithEvents tsiProfNum2 As ToolStripMenuItem
-	Friend WithEvents tsiProfNum3 As ToolStripMenuItem
-	Friend WithEvents tsiProfNum4 As ToolStripMenuItem
-	Friend WithEvents tsiProfNum5 As ToolStripMenuItem
-	Friend WithEvents tsiExport As ToolStripMenuItem
-	Friend WithEvents plPrimary As Panel
-	Friend WithEvents butQuit As Button
-	Friend WithEvents lblHideMos As Label
-	Friend WithEvents lblHideSync As Label
-	Friend WithEvents lblHideNite As Label
-	Friend WithEvents lblHideDay As Label
-	Friend WithEvents lblHideExt As Label
-	Friend WithEvents lblHideInt As Label
-	Friend WithEvents lblDate As Label
-	Friend WithEvents lblFPS As Label
-	Friend WithEvents lblDOP As Label
-	Friend WithEvents lblDirector As Label
-	Friend WithEvents lblProduction As Label
-	Friend WithEvents lblRoll As Label
-	Friend WithEvents lblTake As Label
-	Friend WithEvents lblScene As Label
-	Friend WithEvents lblTimecode As Label
-	Friend WithEvents pbClapper As PictureBox
-	Friend WithEvents pbSlateBody As PictureBox
+    Friend WithEvents plPrimary As Panel
+    Friend WithEvents butQuit As Button
+    Friend WithEvents lblHideMos As Label
+    Friend WithEvents lblHideSync As Label
+    Friend WithEvents lblHideNite As Label
+    Friend WithEvents lblHideDay As Label
+    Friend WithEvents lblHideExt As Label
+    Friend WithEvents lblHideInt As Label
+    Friend WithEvents lblDate As Label
+    Friend WithEvents lblFPS As Label
+    Friend WithEvents lblDOP As Label
+    Friend WithEvents lblDirector As Label
+    Friend WithEvents lblProduction As Label
+    Friend WithEvents lblRoll As Label
+    Friend WithEvents lblTake As Label
+    Friend WithEvents lblScene As Label
+    Friend WithEvents lblTimecode As Label
+    Friend WithEvents pbClapper As PictureBox
+    Friend WithEvents pbSlateBody As PictureBox
     Friend WithEvents tsiZeroTC As ToolStripMenuItem
     Friend WithEvents cbTakeInc As CheckBox
     Friend WithEvents butEdit As Button
     Friend WithEvents butSwAudio As Button
     Friend WithEvents butSwDayNit As Button
     Friend WithEvents butSwIntExt As Button
-    Friend WithEvents tsiImport As ToolStripMenuItem
+    Friend WithEvents tsiLoadProfile As ToolStripMenuItem
+    Friend WithEvents tsiSaveProfile As ToolStripMenuItem
 End Class

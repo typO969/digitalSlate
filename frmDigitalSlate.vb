@@ -11,6 +11,14 @@ Public Class frmDigitalSlate
 	Private Sub frmDigitalSlate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		loadFromSettings()
 		loadToForm(Me)
+
+		' Ensure save/load menu items reflect current timer state
+		Try
+			tsiSaveProfile.Enabled = Not Timer1.Enabled
+			tsiLoadProfile.Enabled = Not Timer1.Enabled
+		Catch ex As Exception
+			' Ignore if menu items are not present in designer yet
+		End Try
 	End Sub
 
 	Private framesPerSecond As Double = World.vDefaults.fps     'default is 24 fps
@@ -18,6 +26,13 @@ Public Class frmDigitalSlate
 	Private Sub frmDigitalSlate_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 		loadFromSettings()
 		loadToForm(Me)
+
+		Try
+			tsiSaveProfile.Enabled = Not Timer1.Enabled
+			tsiLoadProfile.Enabled = Not Timer1.Enabled
+		Catch ex As Exception
+			' Ignore if menu items are not present in designer yet
+		End Try
 	End Sub
 
 	Public Sub CenterPanel()
@@ -100,10 +115,26 @@ Public Class frmDigitalSlate
 				tsiZeroTC.Enabled = False
 			End If
 
+			' disable save/load while running
+			Try
+				tsiSaveProfile.Enabled = False
+				tsiLoadProfile.Enabled = False
+			Catch ex As Exception
+				' ignore if controls missing
+			End Try
+
 		Else
 			Timer1.Stop()
 			addTake()
 			tsiZeroTC.Enabled = True
+
+			' re-enable save/load now that timer stopped
+			Try
+				tsiSaveProfile.Enabled = True
+				tsiLoadProfile.Enabled = True
+			Catch ex As Exception
+				' ignore if controls missing
+			End Try
 		End If
 
 	End Sub
@@ -208,7 +239,30 @@ Public Class frmDigitalSlate
 		refreshSlate()
 	End Sub
 
-	Private Sub tsiImport_Click(sender As Object, e As EventArgs) Handles tsiImport.Click
+	' Menu handlers for save/load profile files (.clap)
+	Private Sub tsiSaveProfile_Click(sender As Object, e As EventArgs) Handles tsiSaveProfile.Click
+		' Delegate to shared Functions handler (which presents SaveFileDialog and verifies file)
+		Try
+			World.Functions.SaveSlateWithDialog()
+		Catch ex As Exception
+			MessageBox.Show("Error initiating save: " & ex.Message, "Save error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+	End Sub
+
+	Private Sub tsiLoadProfile_Click(sender As Object, e As EventArgs) Handles tsiLoadProfile.Click
+		' Delegate to shared Functions handler (which presents OpenFileDialog and verifies file)
+		Try
+			World.Functions.LoadSlateWithDialog()
+		Catch ex As Exception
+			MessageBox.Show("Error initiating load: " & ex.Message, "Load error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+	End Sub
+
+	Private Sub tsiImport_Click(sender As Object, e As EventArgs)
+
+	End Sub
+
+	Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs)
 
 	End Sub
 End Class

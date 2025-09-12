@@ -126,22 +126,61 @@ Public Class frmEdit
 
 
 	Public Sub getSettings()
-		myMainClass.scene = txtScene.Text
-		myMainClass.sceneNum = CInt(txtSceneNum.Text)
-		myMainClass.shot = txtShot.Text
-		myMainClass.roll = txtRoll.Text
-		myMainClass.cameraNum = txtCameraNum.Text
-		myMainClass.camCardNum = CInt(txtCardNum.Text)
-		myMainClass.take = CInt(txtTake.Text)
-		myMainClass.production = txtProduction.Text
-		myMainClass.director = txtDirector.Text
-		myMainClass.dop = txtDOP.Text
-		myMainClass.fps = Convert.ToDouble(txtFPS.Text)
-		If tmpCustDate = 1 Then myMainClass.custDate = txtCustDate.Text
-		myMainClass.scenePre = tmpScPre
-		myMainClass.day = tmpIsDay
-		myMainClass.int = tmpIsInt
-		myMainClass.sync = tmpIsSync
+		' Apply values directly to the shared World.vMain so other parts of the app see edits immediately.
+		Try
+			' Scene / Shot / Roll strings
+			World.vMain.scene = txtScene.Text
+			World.vMain.shot = txtShot.Text
+			World.vMain.roll = txtRoll.Text
+			World.vMain.cameraNum = txtCameraNum.Text
+			World.vMain.production = txtProduction.Text
+			World.vMain.director = txtDirector.Text
+			World.vMain.dop = txtDOP.Text
+
+			' Numeric fields using TryParse to avoid exceptions
+			Dim tmpInt As Integer
+			If Integer.TryParse(txtSceneNum.Text, tmpInt) Then
+				World.vMain.sceneNum = tmpInt
+			Else
+				World.vMain.sceneNum = World.vDefaults.sceneNum
+			End If
+
+			If Integer.TryParse(txtCardNum.Text, tmpInt) Then
+				World.vMain.camCardNum = tmpInt
+			Else
+				World.vMain.camCardNum = World.vDefaults.camCardNum
+			End If
+
+			If Integer.TryParse(txtTake.Text, tmpInt) Then
+				World.vMain.take = tmpInt
+			Else
+				World.vMain.take = 1
+			End If
+
+			Dim tmpDbl As Double
+			If Double.TryParse(txtFPS.Text, tmpDbl) Then
+				World.vMain.fps = tmpDbl
+			Else
+				World.vMain.fps = World.vDefaults.fps
+			End If
+
+			' Custom date
+			If tmpCustDate = 1 Then
+				World.vMain.custDate = txtCustDate.Text
+			Else
+				World.vMain.custDate = String.Empty
+			End If
+
+			' Prefix and flags
+			World.vMain.scenePre = tmpScPre
+			World.vMain.day = tmpIsDay
+			World.vMain.int = tmpIsInt
+			World.vMain.sync = tmpIsSync
+
+		Catch ex As Exception
+			' Defensive: should not crash the editor; notify user if something unexpected happens
+			MessageBox.Show("Error applying editor values: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
 	End Sub
 
 	Private Sub butOK_Click(sender As Object, e As EventArgs) Handles butOK.Click
@@ -153,6 +192,36 @@ Public Class frmEdit
 		refreshSlate()
 		Hide()
 		frmDigitalSlate.Select()
+	End Sub
+
+	Private Sub butCancel_Click(sender As Object, e As EventArgs) Handles butCancel.Click
+		' Discard any edits in the form and restore values from the shared World.vMain,
+		' then hide the editor and return focus to the slate.
+		Try
+			' Reload controls from current application state
+			loadFromSettings()   ' reload World.vMain from persisted settings if needed
+			loadToForm(Me)       ' populate the editor controls from World.vMain
+
+			' Ensure any temporary editor-only state is reset
+			tmpScPreDis = String.Empty
+			tmpScPre = String.Empty
+			tmpCustDate = 0
+
+			' Copy numeric flag values directly (avoid implicit Integer->Boolean conversions)
+			tmpIsDay = World.vMain.day
+			tmpIsInt = World.vMain.int
+			tmpIsSync = World.vMain.sync
+		Catch ex As Exception
+			MessageBox.Show("Error while cancelling edits: " & ex.Message, "Cancel error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+
+		' Close/hide the editor and return focus to the main slate
+		Try
+			Hide()
+			frmDigitalSlate.Select()
+		Catch
+			Hide()
+		End Try
 	End Sub
 
 	Private Sub frmEdit_Shown(sender As Object, e As EventArgs) Handles Me.Shown
@@ -253,114 +322,43 @@ Public Class frmEdit
 		updateDisplay("s")
 	End Sub
 
+	Private Sub txtDirector_TextChanged(sender As Object, e As EventArgs) Handles txtDirector.TextChanged
+		' Preserve caret/selection when forcing uppercase
+		Dim tb = DirectCast(sender, TextBox)
+		Dim selStart = tb.SelectionStart
+		Dim selLen = tb.SelectionLength
+		Dim upper = tb.Text.ToUpper()
+		If tb.Text <> upper Then
+			tb.Text = upper
+			' Restore selection/caret (clamp to length)
+			If selStart > tb.Text.Length Then selStart = tb.Text.Length
+			tb.SelectionStart = selStart
+			tb.SelectionLength = Math.Min(selLen, tb.Text.Length - selStart)
+		End If
+	End Sub
 
-	'Private Sub UpdateDisplay(source As String)
-	'If source = "s" Then
-	'	If txtSceneNum.Text.Length = 1 Then
-	'		If txtSceneNum.Text <> "0" Then
-	'			Dim paddedScNum As String = "0" + txtSceneNum.Text
-	'			txtSceneNum.Text = paddedScNum
-	'		ElseIf txtSceneNum.Text = "0" Then
-	'			SystemSounds.Asterisk.Play()
-	'			txtSceneNum.Focus()
-	'			Return
-	'		End If
-	'	End If
+	Private Sub txtDOP_TextChanged(sender As Object, e As EventArgs) Handles txtDOP.TextChanged
+		' Preserve caret/selection when forcing uppercase
+		Dim tb = DirectCast(sender, TextBox)
+		Dim selStart = tb.SelectionStart
+		Dim selLen = tb.SelectionLength
+		Dim upper = tb.Text.ToUpper()
+		If tb.Text <> upper Then
+			tb.Text = upper
+			If selStart > tb.Text.Length Then selStart = tb.Text.Length
+			tb.SelectionStart = selStart
+			tb.SelectionLength = Math.Min(selLen, tb.Text.Length - selStart)
+		End If
+	End Sub
 
-	'	If cbScR.Checked = True Or cbScV.Checked = True Or cbScX.Checked = True Then
-	'		If cbScR.Checked = True Then
-	'			If tmpScPreDis = "R" Or tmpScPreDis = "" Then
-	'				tmpScPreDis = "R"
-	'			Else
-	'				tmpScPreDis += "R"
-	'			End If
-	'		ElseIf cbScV.Checked = True Then
-	'			If tmpScPreDis = "V" Or tmpScPreDis = "" Then
-	'				tmpScPreDis = "V"
-	'			Else
-	'				tmpScPreDis += "V"
-	'			End If
-	'		ElseIf cbScX.Checked = True Then
-	'			If tmpScPreDis = "X" Or tmpScPreDis = "" Then
-	'				tmpScPreDis = "X"
-	'			Else
-	'				tmpScPreDis += "X"
-	'			End If
-	'		End If
+	' Optional: also ensure final conversion on LostFocus (keeps behavior if TextChanged not wired)
+	Private Sub txtDirector_LostFocus(sender As Object, e As EventArgs) Handles txtDirector.LostFocus
+		txtDirector.Text = txtDirector.Text.ToUpper()
+	End Sub
 
-	'		txtScene.Text = String.Concat(tmpScPreDis, txtSceneNum.Text, txtShot.Text)
-	'		tmpScPreDis = ""
-	'	Else
-	'		txtScene.Text = String.Concat(txtSceneNum.Text, txtShot.Text)
-	'	End If
-
-	'ElseIf source = "r" Then
-	'	If txtCardNum.Text.Length < 3 Then
-	'		If txtCardNum.Text <> "0" Or txtCardNum.Text <> "00" Then
-	'			If txtCardNum.Text.Length = 2 Then
-	'				Dim paddedCardNum As String = "0" + txtCardNum.Text
-	'				txtCardNum.Text = paddedCardNum
-	'			ElseIf txtCardNum.Text.Length = 1 Then
-	'				Dim paddedCardNum As String = "00" + txtCardNum.Text
-	'				txtCardNum.Text = paddedCardNum
-	'			End If
-	'		ElseIf txtSceneNum.Text = "0" Then
-	'			SystemSounds.Asterisk.Play()
-	'			txtSceneNum.Focus()
-	'			Return
-	'		End If
-	'	End If
-
-	'	txtRoll.Text = String.Concat(txtCameraNum.Text, txtCardNum.Text)
-	'End If
-	'end sub
-
-
-	'///////////////////////////
-
-
-	'Public Sub checkSettings()
-	'	txtSceneNum.Text.Trim()
-	'	txtShot.Text.Trim()
-	'	txtTake.Text.Trim()
-	'	txtCameraNum.Text.Trim()
-	'	txtCardNum.Text.Trim()
-	'	txtFPS.Text.Trim()
-	'	txtCustDate.Text.Trim()
-
-	'	If cbScR.Checked = True Then
-	'		tmpScPre += "R"
-	'	ElseIf cbScV.Checked = True Then
-	'		tmpScPre += "V"
-	'	ElseIf cbScX.Checked = True Then
-	'		tmpScPre += "X"
-	'	End If
-	'	If txtSceneNum.Text = "0" Or txtSceneNum.Text = "" Then txtSceneNum.Text = World.vDefaults.sceneNum.ToString()
-	'	If txtShot.Text = "" Then txtShot.Text = World.vDefaults.shot
-	'	If txtCameraNum.Text = "" Then txtCameraNum.Text = World.vDefaults.cameraNum
-	'	If txtCardNum.Text = "0" Or txtCardNum.Text = "" Then txtCardNum.Text = World.vDefaults.camCardNum.ToString()
-	'	If txtTake.Text = "0" Or txtTake.Text = "" Then txtTake.Text = "1"
-	'	If txtProduction.Text = "" Then txtProduction.Text = World.vDefaults.production
-	'	If txtDirector.Text = "" Then txtDirector.Text = World.vDefaults.director
-	'	If txtFPS.Text = "0" Or txtFPS.Text = "" Then txtFPS.Text = World.vDefaults.fps.ToString()
-	'	If cbTodaysDate.Checked = False Then
-	'		If txtCustDate.Text = "0" Or txtCustDate.Text = "" Then
-	'			txtCustDate.Text = ""
-	'			cbTodaysDate.Checked = True
-	'			tmpCustDate = 0
-	'		Else
-	'			tmpCustDate = 1
-	'		End If
-	'	End If
-
-	'	'If(condition, trueValue, falseValue)
-	'	tmpIsDay = If(rbDay.Checked, 1, 0)
-	'	tmpIsInt = If(rbInt.Checked, 1, 0)
-	'	tmpIsSync = If(rbSync.Checked, 1, 0)
-
-	'End Sub
-
-
+	Private Sub txtDOP_LostFocus(sender As Object, e As EventArgs) Handles txtDOP.LostFocus
+		txtDOP.Text = txtDOP.Text.ToUpper()
+	End Sub
 End Class
 
 

@@ -1,6 +1,7 @@
 ﻿Imports digitalSlate.World.mainClass
-
 Imports Newtonsoft.Json
+Imports System.Threading.Tasks
+Imports System.IO
 
 Namespace World
 
@@ -208,6 +209,138 @@ Namespace World
 			World.vMain.roll = String.Concat(World.vMain.cameraNum, paddedCard)
 		End Sub
 
+		' Flash message on lblTimecode for a duration (ms)
+		Private Shared Async Function FlashTimecodeAsync(message As String, durationMs As Integer) As Task
+			Try
+				Dim prevText As String = String.Empty
+				If frmDigitalSlate IsNot Nothing AndAlso frmDigitalSlate.lblTimecode IsNot Nothing Then
+					prevText = frmDigitalSlate.lblTimecode.Text
+					frmDigitalSlate.lblTimecode.Text = message
+					Await Task.Delay(durationMs)
+					If frmDigitalSlate IsNot Nothing AndAlso frmDigitalSlate.lblTimecode IsNot Nothing Then
+						frmDigitalSlate.lblTimecode.Text = prevText
+					End If
+				End If
+			Catch ex As Exception
+				Debug.WriteLine($"FlashTimecodeAsync error: {ex.Message}")
+			End Try
+		End Function
+
+		' Save current slate using SaveFileDialog (1 file per slate). Disallowed while Timer1 is running.
+		Public Shared Async Sub SaveSlateWithDialog()
+			Try
+				' Prevent save while running
+				If frmDigitalSlate.Timer1.Enabled Then
+					MessageBox.Show("Cannot save while timecode is running.", "Save disabled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Return
+				End If
+
+				Using sfd As New SaveFileDialog()
+					sfd.Filter = "Clapper files (*.clap)|*.clap|All files (*.*)|*.*"
+					sfd.DefaultExt = "clap"
+					sfd.AddExtension = True
+					sfd.Title = "Save slate configuration"
+
+					If sfd.ShowDialog() = DialogResult.OK Then
+						Dim mgr As New JsonSettingsManager()
+						Dim settings As New SettingsProfile With {
+							.Scene = World.vMain.scene,
+							.ScenePre = World.vMain.scenePre,
+							.SceneNum = World.vMain.sceneNum,
+							.Shot = World.vMain.shot,
+							.Take = CStr(World.vMain.take),
+							.Roll = World.vMain.roll,
+							.CameraNum = World.vMain.cameraNum,
+							.CamCardNum = CStr(World.vMain.camCardNum),
+							.Production = World.vMain.production,
+							.Director = World.vMain.director,
+							.DOP = World.vMain.dop,
+							.FPS = CStr(World.vMain.fps),
+							.CustDate = World.vMain.custDate,
+							.CurrentDate = World.vMain.currentDate,
+							.Int = CStr(World.vMain.int),
+							.Day = CStr(World.vMain.day),
+							.Sync = CStr(World.vMain.sync)
+						}
+
+						Try
+							JsonSettingsManager.SaveSlateToFile(settings, sfd.FileName)
+						Catch ex As Exception
+							MessageBox.Show("Error saving file: " & ex.Message, "Save error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+							Return
+						End Try
+
+						' verify file
+						Dim verified As SettingsProfile = Nothing
+						If JsonSettingsManager.TryLoadSlateFromFile(sfd.FileName, verified) Then
+							' Success: flash message for 3 seconds
+							Await FlashTimecodeAsync("FILE SAVED!", 3000)
+						Else
+							MessageBox.Show("File saved but verification failed. The file may be corrupted.", "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+						End If
+					End If
+				End Using
+			Catch ex As Exception
+				MessageBox.Show("Unexpected error saving slate: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+		End Sub
+
+		' Load a slate file chosen by the user. Disallowed while Timer1 is running.
+		Public Shared Async Sub LoadSlateWithDialog()
+			Try
+				If frmDigitalSlate.Timer1.Enabled Then
+					MessageBox.Show("Cannot load while timecode is running.", "Load disabled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Return
+				End If
+
+				Using ofd As New OpenFileDialog()
+					ofd.Filter = "Clapper files (*.clap)|*.clap|All files (*.*)|*.*"
+					ofd.Title = "Open slate configuration"
+					If ofd.ShowDialog() = DialogResult.OK Then
+						Dim settings As SettingsProfile = Nothing
+						If Not JsonSettingsManager.TryLoadSlateFromFile(ofd.FileName, settings) Then
+							MessageBox.Show("Selected file is not a valid slate configuration.", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error)
+							Return
+						End If
+
+						' Apply to active slate (World.vMain) using TryParse where appropriate
+						Try
+							World.vMain.scene = settings.Scene
+							World.vMain.scenePre = settings.ScenePre
+							World.vMain.sceneNum = settings.SceneNum
+							World.vMain.shot = settings.Shot
+
+							Dim tmpInt As Integer
+							If Integer.TryParse(settings.Take, tmpInt) Then World.vMain.take = tmpInt
+							World.vMain.roll = settings.Roll
+							World.vMain.cameraNum = settings.CameraNum
+							If Integer.TryParse(settings.CamCardNum, tmpInt) Then World.vMain.camCardNum = tmpInt
+							World.vMain.production = settings.Production
+							World.vMain.director = settings.Director
+							World.vMain.dop = settings.DOP
+							Dim tmpDouble As Double
+							If Double.TryParse(settings.FPS, tmpDouble) Then World.vMain.fps = tmpDouble
+							World.vMain.custDate = settings.CustDate
+							World.vMain.currentDate = settings.CurrentDate
+							If Integer.TryParse(settings.Int, tmpInt) Then World.vMain.int = tmpInt
+							If Integer.TryParse(settings.Day, tmpInt) Then World.vMain.day = tmpInt
+							If Integer.TryParse(settings.Sync, tmpInt) Then World.vMain.sync = tmpInt
+
+							' Update UI
+							refreshSlate()
+
+							' flash file loaded
+							Await FlashTimecodeAsync("FILE LOADED", 3000)
+						Catch ex As Exception
+							MessageBox.Show("Error applying loaded slate: " & ex.Message, "Apply error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+						End Try
+					End If
+				End Using
+			Catch ex As Exception
+				MessageBox.Show("Unexpected error loading slate: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+		End Sub
+
 		Public Sub parseScene()
 			With frmEdit
 				' Reset all checkboxes initially
@@ -270,91 +403,36 @@ Namespace World
 		End Function
 
 		Public Shared Sub AdjustFontSizeToFitText(label As Label)
-			Dim maxFontSize As Single = 60.0F ' Maximum font size
-			Dim minFontSize As Single = 20.0F ' Minimum font size
+			If label Is Nothing Then Return
 			Dim text As String = label.Text
+			If String.IsNullOrEmpty(text) Then Return
 
-			' Measure the size of the string
-			Dim size As SizeF
-			Using g As Graphics = label.CreateGraphics()
-				Dim font As Font = label.Font
-				size = g.MeasureString(text, font)
-			End Using
+			' Use a small vertical padding to avoid ascender/descender clipping
+			Dim verticalPadding As Integer = CInt(Math.Max(2, label.Height * 0.06)) ' ~6% of height or min 2px
 
-			' Adjust font size until the text fits within the label's width
-			Dim fontSize As Single = maxFontSize
+			Dim maxFontSize As Single = Math.Min(65.0F, label.Font.Size) ' don't jump larger than current font
+			Dim minFontSize As Single = 8.0F
+			Dim flags As System.Windows.Forms.TextFormatFlags = System.Windows.Forms.TextFormatFlags.SingleLine Or System.Windows.Forms.TextFormatFlags.NoPadding Or System.Windows.Forms.TextFormatFlags.NoPrefix
+
+			' Try decreasing font sizes until text fits both width and height (respect padding)
 			Using g As Graphics = label.CreateGraphics()
-				While fontSize > minFontSize
-					Dim font As New Font(label.Font.FontFamily, fontSize, label.Font.Style)
-					size = g.MeasureString(text, font)
-					If size.Width <= label.Width Then
-						label.Font = font
-						Exit While
-					End If
-					fontSize -= 0.5F
-				End While
+				For fontSize As Single = maxFontSize To minFontSize Step -0.5F
+					Using testFont As New Font(label.Font.FontFamily, fontSize, label.Font.Style)
+						' Measure using TextRenderer to account for WinForms rendering
+						Dim measured As Size = TextRenderer.MeasureText(text, testFont, New Size(label.Width, Integer.MaxValue), flags)
+
+						If measured.Width <= label.ClientSize.Width AndAlso measured.Height <= (label.ClientSize.Height - verticalPadding) Then
+							' Found a size that fits; apply and exit
+							label.Font = New Font(label.Font.FontFamily, fontSize, label.Font.Style)
+							Return
+						End If
+					End Using
+				Next
+
+				' If nothing fits, apply the minimum readable size
+				label.Font = New Font(label.Font.FontFamily, minFontSize, label.Font.Style)
 			End Using
 		End Sub
-
-
-		'Public Sub parseScene()
-		'	With frmEdit
-		'		If Not String.IsNullOrEmpty(World.vMain.scenePre) Then  'Variables not empty & not Nothing
-		'			Dim editScPre As String = World.vMain.scenePre
-
-		'			If editScPre.Length > 1 And editScPre.Length < 4 Then    '3 chars
-		'				Dim result3 As Integer = containsChars(editScPre)
-		'				If result3 = 6 Then
-		'					.cbScV.Checked = True
-		'					.cbScR.Checked = True
-		'					.cbScX.Checked = True
-		'				Else
-		'					.cbScV.Checked = False
-		'					.cbScR.Checked = False
-		'					.cbScX.Checked = False
-		'				End If
-
-		'			ElseIf editScPre.Length > 1 And editScPre.Length < 3 Then   '2 chars
-		'				Dim result2 As Integer = containsChars(editScPre)
-		'				Select Case result2
-		'					Case 3            'MessageBox.Show("Detected Letters: V and R")
-		'						.cbScV.Checked = True
-		'						.cbScR.Checked = True
-		'					Case 4            'MessageBox.Show("Detected Letters: V and X")
-		'						.cbScV.Checked = True
-		'						.cbScX.Checked = True
-		'					Case 5            'MessageBox.Show("Detected Letters: R and X")
-		'						.cbScR.Checked = True
-		'						.cbScX.Checked = True
-		'					Case Else         'MessageBox.Show("The string does not contain the required combination of letters.")
-		'						.cbScV.Checked = False
-		'						.cbScR.Checked = False
-		'						.cbScX.Checked = False
-		'				End Select
-
-		'			ElseIf editScPre.Length = 1 Then                         '1 char
-		'				Select Case editScPre
-		'					Case "V"
-		'						.cbScV.Checked = True
-		'					Case "R"
-		'						.cbScR.Checked = True
-		'					Case "X"
-		'						.cbScX.Checked = True
-		'					Case Else
-		'						.cbScV.Checked = False
-		'						.cbScR.Checked = False
-		'						.cbScX.Checked = False
-		'				End Select
-		'			Else
-		'				'if we end up here, who knows wtf is going on!
-		'			End If
-		'		Else
-		'			.cbScV.Checked = False
-		'			.cbScR.Checked = False
-		'			.cbScX.Checked = False
-		'		End If
-		'	End With
-		'End Sub
 
 	End Class
 
