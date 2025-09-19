@@ -1,7 +1,11 @@
-﻿Imports digitalSlate.World.mainClass
+﻿Imports digitalSlate.World.Functions
+Imports digitalSlate.World.mainClass
+Imports digitalSlate.World.Vars.vDefaults
 Imports Newtonsoft.Json
 Imports System.Threading.Tasks
 Imports System.IO
+Imports System.Windows.Forms
+Imports System.Media
 
 Namespace World
 
@@ -30,7 +34,6 @@ Namespace World
 				World.vMain.countdownCount = My.Settings.cfgCountdownCount
 				World.vMain.displayCaps = My.Settings.cfgDisplayCaps
 			Catch ex As Exception
-				' Handle the error (e.g., log it, show a message to the user)
 				MessageBox.Show("Error loading settings: " & ex.Message)
 			End Try
 		End Sub
@@ -59,7 +62,6 @@ Namespace World
 				My.Settings.cfgDisplayCaps = World.vMain.displayCaps
 				My.Settings.Save()
 			Catch ex As Exception
-				' Handle the error (e.g., log it, show a message to the user)
 				MessageBox.Show("Error saving settings: " & ex.Message)
 			End Try
 		End Sub
@@ -222,7 +224,7 @@ Namespace World
 					End If
 				End If
 			Catch ex As Exception
-				Debug.WriteLine($"FlashTimecodeAsync error: {ex.Message}")
+				System.Diagnostics.Debug.WriteLine($"FlashTimecodeAsync error: {ex.Message}")
 			End Try
 		End Function
 
@@ -242,25 +244,25 @@ Namespace World
 					sfd.Title = "Save slate configuration"
 
 					If sfd.ShowDialog() = DialogResult.OK Then
-						Dim mgr As New JsonSettingsManager()
+						' Build strongly-typed profile (numeric types used directly)
 						Dim settings As New SettingsProfile With {
 							.Scene = World.vMain.scene,
 							.ScenePre = World.vMain.scenePre,
 							.SceneNum = World.vMain.sceneNum,
 							.Shot = World.vMain.shot,
-							.Take = CStr(World.vMain.take),
+							.Take = World.vMain.take,
 							.Roll = World.vMain.roll,
 							.CameraNum = World.vMain.cameraNum,
-							.CamCardNum = CStr(World.vMain.camCardNum),
+							.CamCardNum = World.vMain.camCardNum,
 							.Production = World.vMain.production,
 							.Director = World.vMain.director,
 							.DOP = World.vMain.dop,
-							.FPS = CStr(World.vMain.fps),
+							.FPS = World.vMain.fps,
 							.CustDate = World.vMain.custDate,
 							.CurrentDate = World.vMain.currentDate,
-							.Int = CStr(World.vMain.int),
-							.Day = CStr(World.vMain.day),
-							.Sync = CStr(World.vMain.sync)
+							.Int = World.vMain.int,
+							.Day = World.vMain.day,
+							.Sync = World.vMain.sync
 						}
 
 						Try
@@ -303,28 +305,25 @@ Namespace World
 							Return
 						End If
 
-						' Apply to active slate (World.vMain) using TryParse where appropriate
+						' Apply to active slate (World.vMain) — direct assignment since SettingsProfile now uses numeric types
 						Try
 							World.vMain.scene = settings.Scene
 							World.vMain.scenePre = settings.ScenePre
 							World.vMain.sceneNum = settings.SceneNum
 							World.vMain.shot = settings.Shot
-
-							Dim tmpInt As Integer
-							If Integer.TryParse(settings.Take, tmpInt) Then World.vMain.take = tmpInt
+							World.vMain.take = settings.Take
 							World.vMain.roll = settings.Roll
 							World.vMain.cameraNum = settings.CameraNum
-							If Integer.TryParse(settings.CamCardNum, tmpInt) Then World.vMain.camCardNum = tmpInt
+							World.vMain.camCardNum = settings.CamCardNum
 							World.vMain.production = settings.Production
 							World.vMain.director = settings.Director
 							World.vMain.dop = settings.DOP
-							Dim tmpDouble As Double
-							If Double.TryParse(settings.FPS, tmpDouble) Then World.vMain.fps = tmpDouble
+							World.vMain.fps = settings.FPS
 							World.vMain.custDate = settings.CustDate
 							World.vMain.currentDate = settings.CurrentDate
-							If Integer.TryParse(settings.Int, tmpInt) Then World.vMain.int = tmpInt
-							If Integer.TryParse(settings.Day, tmpInt) Then World.vMain.day = tmpInt
-							If Integer.TryParse(settings.Sync, tmpInt) Then World.vMain.sync = tmpInt
+							World.vMain.int = settings.Int
+							World.vMain.day = settings.Day
+							World.vMain.sync = settings.Sync
 
 							' Update UI
 							refreshSlate()
@@ -435,6 +434,5 @@ Namespace World
 		End Sub
 
 	End Class
-
 
 End Namespace

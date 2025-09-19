@@ -19,7 +19,6 @@ End Class
 
 Public Class TimecodeGenerator
 	Public Shared Function GenerateTimecode(currentTime As Date, framesPerSecond As Double) As Timecode
-		' Calculate the timecode components
 		Dim hours As Integer = currentTime.Hour
 		Dim minutes As Integer = currentTime.Minute
 		Dim seconds As Integer = currentTime.Second

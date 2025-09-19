@@ -1,5 +1,9 @@
-﻿Imports digitalSlate.World.mainClass
+﻿
+Imports System.Windows.Forms
+
 Imports digitalSlate.World.Functions
+Imports digitalSlate.World.mainClass
+Imports digitalSlate.World.Vars.vDefaults
 
 Public Class frmSettings
 	Dim myMainClass As New World.mainClass()

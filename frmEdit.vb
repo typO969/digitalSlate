@@ -1,8 +1,11 @@
 ﻿Imports System.IO
 Imports System.Media
+Imports System.Windows.Forms
 
+Imports digitalSlate.World.Vars
 Imports digitalSlate.World.Functions
 Imports digitalSlate.World.mainClass
+Imports digitalSlate.World.Vars.vDefaults
 
 Public Class frmEdit
 	Dim myMainClass As New World.mainClass()
@@ -178,7 +181,6 @@ Public Class frmEdit
 			World.vMain.sync = tmpIsSync
 
 		Catch ex As Exception
-			' Defensive: should not crash the editor; notify user if something unexpected happens
 			MessageBox.Show("Error applying editor values: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 		End Try
 	End Sub

@@ -1,11 +1,11 @@
 ﻿Imports digitalSlate.World.Functions
+Imports digitalSlate.World.mainClass
+Imports digitalSlate.World.Vars.vDefaults
 
 Namespace World
 
 	Module Vars
 
-
-		'Public Class vMain
 		Public vMain As New mainClass()
 
 		Public Class mainClass

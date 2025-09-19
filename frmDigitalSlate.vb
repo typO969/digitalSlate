@@ -1,6 +1,7 @@
-﻿Imports digitalSlate.World.Vars.mainClass
+﻿Imports digitalSlate.World.Functions
+Imports digitalSlate.World.mainClass
 Imports digitalSlate.World.Vars.vDefaults
-Imports digitalSlate.World.Functions
+
 Imports System.Media
 
 
