@@ -7,6 +7,9 @@ Imports System.Windows.Forms
 Imports System.Diagnostics
 
 Public Class SettingsProfile
+	' NOTE: This profile is intentionally limited to slate content/state (scene, roll, etc.).
+	' App/user preferences (e.g. beepCount, countdownCount, displayCaps) are stored in My.Settings
+	' and MUST NOT be exported/imported via slate profile files.
 	Public Property Scene As String
 	Public Property ScenePre As String
 	Public Property SceneNum As Integer

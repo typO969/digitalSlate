@@ -46,7 +46,7 @@ Partial Class frmSettings
         Me.gbCaps.Controls.Add(Me.rbYesCaps)
         Me.gbCaps.Controls.Add(Me.rbNoCaps)
         Me.gbCaps.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.gbCaps.Location = New System.Drawing.Point(30, 222)
+        Me.gbCaps.Location = New System.Drawing.Point(18, 211)
         Me.gbCaps.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.gbCaps.Name = "gbCaps"
         Me.gbCaps.Padding = New System.Windows.Forms.Padding(9, 8, 9, 8)
@@ -62,7 +62,7 @@ Partial Class frmSettings
         Me.rbYesCaps.Location = New System.Drawing.Point(114, 36)
         Me.rbYesCaps.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rbYesCaps.Name = "rbYesCaps"
-        Me.rbYesCaps.Size = New System.Drawing.Size(71, 28)
+        Me.rbYesCaps.Size = New System.Drawing.Size(60, 24)
         Me.rbYesCaps.TabIndex = 3
         Me.rbYesCaps.Text = "Yes"
         Me.rbYesCaps.UseVisualStyleBackColor = True
@@ -75,7 +75,7 @@ Partial Class frmSettings
         Me.rbNoCaps.Location = New System.Drawing.Point(24, 36)
         Me.rbNoCaps.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rbNoCaps.Name = "rbNoCaps"
-        Me.rbNoCaps.Size = New System.Drawing.Size(62, 28)
+        Me.rbNoCaps.Size = New System.Drawing.Size(52, 24)
         Me.rbNoCaps.TabIndex = 2
         Me.rbNoCaps.TabStop = True
         Me.rbNoCaps.Text = "No"
@@ -87,7 +87,7 @@ Partial Class frmSettings
         Me.gbSyncBeeps.Controls.Add(Me.rb1SB)
         Me.gbSyncBeeps.Controls.Add(Me.rb0SB)
         Me.gbSyncBeeps.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.gbSyncBeeps.Location = New System.Drawing.Point(30, 126)
+        Me.gbSyncBeeps.Location = New System.Drawing.Point(18, 117)
         Me.gbSyncBeeps.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.gbSyncBeeps.Name = "gbSyncBeeps"
         Me.gbSyncBeeps.Padding = New System.Windows.Forms.Padding(9, 8, 9, 8)
@@ -103,7 +103,7 @@ Partial Class frmSettings
         Me.rb2SB.Location = New System.Drawing.Point(192, 36)
         Me.rb2SB.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb2SB.Name = "rb2SB"
-        Me.rb2SB.Size = New System.Drawing.Size(46, 28)
+        Me.rb2SB.Size = New System.Drawing.Size(39, 24)
         Me.rb2SB.TabIndex = 9
         Me.rb2SB.Text = "2"
         Me.rb2SB.UseVisualStyleBackColor = True
@@ -116,7 +116,7 @@ Partial Class frmSettings
         Me.rb1SB.Location = New System.Drawing.Point(111, 36)
         Me.rb1SB.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb1SB.Name = "rb1SB"
-        Me.rb1SB.Size = New System.Drawing.Size(46, 28)
+        Me.rb1SB.Size = New System.Drawing.Size(39, 24)
         Me.rb1SB.TabIndex = 8
         Me.rb1SB.TabStop = True
         Me.rb1SB.Text = "1"
@@ -129,7 +129,7 @@ Partial Class frmSettings
         Me.rb0SB.Location = New System.Drawing.Point(30, 36)
         Me.rb0SB.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb0SB.Name = "rb0SB"
-        Me.rb0SB.Size = New System.Drawing.Size(46, 28)
+        Me.rb0SB.Size = New System.Drawing.Size(39, 24)
         Me.rb0SB.TabIndex = 7
         Me.rb0SB.Text = "0"
         Me.rb0SB.UseVisualStyleBackColor = True
@@ -142,7 +142,7 @@ Partial Class frmSettings
         Me.gbCountdown.Controls.Add(Me.rb1CD)
         Me.gbCountdown.Controls.Add(Me.rb0CD)
         Me.gbCountdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.gbCountdown.Location = New System.Drawing.Point(30, 24)
+        Me.gbCountdown.Location = New System.Drawing.Point(18, 17)
         Me.gbCountdown.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.gbCountdown.Name = "gbCountdown"
         Me.gbCountdown.Padding = New System.Windows.Forms.Padding(9, 8, 9, 8)
@@ -158,7 +158,7 @@ Partial Class frmSettings
         Me.rb4CD.Location = New System.Drawing.Point(348, 36)
         Me.rb4CD.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb4CD.Name = "rb4CD"
-        Me.rb4CD.Size = New System.Drawing.Size(46, 28)
+        Me.rb4CD.Size = New System.Drawing.Size(39, 24)
         Me.rb4CD.TabIndex = 6
         Me.rb4CD.Text = "4"
         Me.rb4CD.UseVisualStyleBackColor = True
@@ -171,7 +171,7 @@ Partial Class frmSettings
         Me.rb3CD.Location = New System.Drawing.Point(269, 36)
         Me.rb3CD.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb3CD.Name = "rb3CD"
-        Me.rb3CD.Size = New System.Drawing.Size(46, 28)
+        Me.rb3CD.Size = New System.Drawing.Size(39, 24)
         Me.rb3CD.TabIndex = 5
         Me.rb3CD.TabStop = True
         Me.rb3CD.Text = "3"
@@ -184,7 +184,7 @@ Partial Class frmSettings
         Me.rb2CD.Location = New System.Drawing.Point(190, 36)
         Me.rb2CD.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb2CD.Name = "rb2CD"
-        Me.rb2CD.Size = New System.Drawing.Size(46, 28)
+        Me.rb2CD.Size = New System.Drawing.Size(39, 24)
         Me.rb2CD.TabIndex = 4
         Me.rb2CD.Text = "2"
         Me.rb2CD.UseVisualStyleBackColor = True
@@ -196,7 +196,7 @@ Partial Class frmSettings
         Me.rb1CD.Location = New System.Drawing.Point(111, 36)
         Me.rb1CD.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb1CD.Name = "rb1CD"
-        Me.rb1CD.Size = New System.Drawing.Size(46, 28)
+        Me.rb1CD.Size = New System.Drawing.Size(39, 24)
         Me.rb1CD.TabIndex = 3
         Me.rb1CD.Text = "1"
         Me.rb1CD.UseVisualStyleBackColor = True
@@ -208,7 +208,7 @@ Partial Class frmSettings
         Me.rb0CD.Location = New System.Drawing.Point(32, 36)
         Me.rb0CD.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.rb0CD.Name = "rb0CD"
-        Me.rb0CD.Size = New System.Drawing.Size(46, 28)
+        Me.rb0CD.Size = New System.Drawing.Size(39, 24)
         Me.rb0CD.TabIndex = 2
         Me.rb0CD.Text = "0"
         Me.rb0CD.UseVisualStyleBackColor = True
@@ -216,7 +216,7 @@ Partial Class frmSettings
         'butOK
         '
         Me.butOK.Font = New System.Drawing.Font("HelveticaNeueLT Std", 12.0!)
-        Me.butOK.Location = New System.Drawing.Point(360, 216)
+        Me.butOK.Location = New System.Drawing.Point(352, 234)
         Me.butOK.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.butOK.Name = "butOK"
         Me.butOK.Size = New System.Drawing.Size(80, 80)
@@ -226,9 +226,9 @@ Partial Class frmSettings
         '
         'frmSettings
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(14.0!, 28.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 24.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(461, 311)
+        Me.ClientSize = New System.Drawing.Size(449, 488)
         Me.ControlBox = False
         Me.Controls.Add(Me.butOK)
         Me.Controls.Add(Me.gbSyncBeeps)
@@ -238,7 +238,6 @@ Partial Class frmSettings
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Margin = New System.Windows.Forms.Padding(9, 8, 9, 8)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(483, 367)
         Me.MinimizeBox = False
         Me.Name = "frmSettings"
         Me.ShowIcon = False

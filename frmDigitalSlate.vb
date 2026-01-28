@@ -1,17 +1,46 @@
-﻿Imports digitalSlate.World.Functions
+﻿Imports System.IO
+Imports System.Media
+Imports System.Reflection.Emit
+Imports System.Windows.Forms
+Imports digitalSlate.World.Functions
 Imports digitalSlate.World.mainClass
 Imports digitalSlate.World.Vars.vDefaults
 
-Imports System.Media
-
-
 Public Class frmDigitalSlate
+	Private ReadOnly _ltcOut As New LtcAudioOutputService()
+	Private _targetValue As Integer = 1
 
-	Dim myMainClass As New World.mainClass()
+
+	Private Sub UpdateLtcIndicator()
+		If lblLtcStatus Is Nothing Then Return
+
+		If World.vMain.ltcEnabled <> 1 Then
+			lblLtcStatus.Text = "LTC: OFF"
+			lblLtcStatus.ForeColor = Color.Gray
+			Return
+		End If
+
+		If Timer1 IsNot Nothing AndAlso Timer1.Enabled Then
+			If World.vMain.ltcUnmute = 1 Then
+				lblLtcStatus.Text = "LTC: LIVE"
+				lblLtcStatus.ForeColor = Color.Lime
+			Else
+				lblLtcStatus.Text = "LTC: MUTED"
+				lblLtcStatus.ForeColor = Color.Gold
+			End If
+		Else
+			' Enabled but not currently running
+			lblLtcStatus.Text = "LTC: READY"
+			lblLtcStatus.ForeColor = Color.Green
+		End If
+	End Sub
+
 
 	Private Sub frmDigitalSlate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		loadFromSettings()
+		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
+		UpdateLtcIndicator()
 
 		' Ensure save/load menu items reflect current timer state
 		Try
@@ -20,13 +49,24 @@ Public Class frmDigitalSlate
 		Catch ex As Exception
 			' Ignore if menu items are not present in designer yet
 		End Try
+
+		nudTakes.Value = _targetValue
+		RefreshTargetLabel()
 	End Sub
+
+	Private Sub RefreshTargetLabel()
+		lblTake.Text = _targetValue.ToString()
+	End Sub
+
+
 
 	Private framesPerSecond As Double = World.vDefaults.fps     'default is 24 fps
 
 	Private Sub frmDigitalSlate_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 		loadFromSettings()
+		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
+		UpdateLtcIndicator()
 
 		Try
 			tsiSaveProfile.Enabled = Not Timer1.Enabled
@@ -43,44 +83,50 @@ Public Class frmDigitalSlate
 		End If
 	End Sub
 
+	Private Shared Function GetAudioPath(relativeFile As String) As String
+		Return Path.Combine(Application.StartupPath, "audio", relativeFile)
+	End Function
+
 	Private Async Function runCountDown(count As Integer) As Task
 		Await Task.Run(Sub()
-								' Create a new instance of SoundPlayer
-								Dim cdPlayer As New SoundPlayer("audio\countdown.wav")
+						   Dim filePath = GetAudioPath("countdown.wav")
+						   If Not File.Exists(filePath) Then
+							   MessageBox.Show("Missing audio file: " & filePath)
+							   Return
+						   End If
 
-								Try
-									' Load the WAV file
-									cdPlayer.Load()
-
-									' Play the WAV file
-									For i As Integer = 1 To count
-										cdPlayer.PlaySync()
-									Next
-								Catch ex As Exception
-									' Handle any errors that might occur
-									MessageBox.Show("An error occurred while trying to play the sound: " & ex.Message)
-								End Try
-							End Sub)
+						   Using cdPlayer As New SoundPlayer(filePath)
+							   Try
+								   cdPlayer.Load()
+								   For i As Integer = 1 To count
+									   cdPlayer.PlaySync()
+								   Next
+							   Catch ex As Exception
+								   MessageBox.Show("Error playing countdown: " & ex.Message)
+							   End Try
+						   End Using
+					   End Sub)
 	End Function
 
 	Private Async Function playSyncBeep(count As Integer) As Task
 		Await Task.Run(Sub()
-								' Create a new instance of SoundPlayer
-								Dim beepPlayer As New SoundPlayer("audio\syncBeep.wav")
+						   Dim filePath = GetAudioPath("syncBeep.wav")
+						   If Not File.Exists(filePath) Then
+							   MessageBox.Show("Missing audio file: " & filePath)
+							   Return
+						   End If
 
-								Try
-									' Load the WAV file
-									beepPlayer.Load()
-
-									' Play the WAV file
-									For i As Integer = 1 To count
-										beepPlayer.PlaySync()
-									Next
-								Catch ex As Exception
-									' Handle any errors that might occur
-									MessageBox.Show("An error occurred while trying to play the sound: " & ex.Message)
-								End Try
-							End Sub)
+						   Using beepPlayer As New SoundPlayer(filePath)
+							   Try
+								   beepPlayer.Load()
+								   For i As Integer = 1 To count
+									   beepPlayer.PlaySync()
+								   Next
+							   Catch ex As Exception
+								   MessageBox.Show("Error playing sync beep: " & ex.Message)
+							   End Try
+						   End Using
+					   End Sub)
 	End Function
 
 	Private Sub updateTimecodeDisplay()
@@ -96,13 +142,12 @@ Public Class frmDigitalSlate
 
 	Private Async Sub pbClapper_Click(sender As Object, e As EventArgs) Handles pbClapper.Click
 		' Will need to change this to all the clapper action calls
-		myMainClass.tcTimerGo = 1 - myMainClass.tcTimerGo
+		World.vMain.tcTimerGo = 1 - World.vMain.tcTimerGo
 
-		If myMainClass.tcTimerGo = 1 Then
+		If World.vMain.tcTimerGo = 1 Then
 
-			If myMainClass.skipSound = 1 Then
-				Timer1.Start()
-				tsiZeroTC.Enabled = False
+			If World.vMain.skipSound = 1 Then
+				' no pre-roll beeps
 			Else
 
 				If lblTimecode.Text = zeroTC Then
@@ -112,9 +157,19 @@ Public Class frmDigitalSlate
 					Await playSyncBeep(World.vMain.beepCount)
 				End If
 
-				Timer1.Start()
 				tsiZeroTC.Enabled = False
 			End If
+
+			If World.vMain.ltcEnabled = 1 Then
+				Dim deviceId As Integer = World.vMain.ltcOutputDeviceId
+				Dim fpsMode As LtcFpsMode = CType(Math.Max(0, Math.Min(3, World.vMain.ltcFpsMode)), LtcFpsMode)
+				_ltcOut.Start(deviceId, fpsMode)
+				_ltcOut.SetMuted(World.vMain.ltcUnmute <> 1)
+			End If
+
+			Timer1.Start()
+			tsiZeroTC.Enabled = False
+			UpdateLtcIndicator()
 
 			' disable save/load while running
 			Try
@@ -126,8 +181,10 @@ Public Class frmDigitalSlate
 
 		Else
 			Timer1.Stop()
+			_ltcOut.Stop()
 			addTake()
 			tsiZeroTC.Enabled = True
+			UpdateLtcIndicator()
 
 			' re-enable save/load now that timer stopped
 			Try
@@ -138,6 +195,14 @@ Public Class frmDigitalSlate
 			End Try
 		End If
 
+	End Sub
+
+	Protected Overrides Sub OnFormClosing(e As FormClosingEventArgs)
+		Try
+			_ltcOut.Stop()
+		Catch
+		End Try
+		MyBase.OnFormClosing(e)
 	End Sub
 
 	Private Sub addTake()
@@ -217,6 +282,7 @@ Public Class frmDigitalSlate
 
 	Private Sub tsiOptions_Click(sender As Object, e As EventArgs) Handles tsiOptions.Click
 		frmSettings.ShowDialog()
+		UpdateLtcIndicator()
 	End Sub
 
 	Private Sub tsiReset_Click(sender As Object, e As EventArgs) Handles tsiReset.Click
@@ -265,6 +331,11 @@ Public Class frmDigitalSlate
 
 	Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs)
 
+	End Sub
+
+	Private Sub NudTakes_ValueChanged(sender As Object, e As EventArgs) Handles nudTakes.ValueChanged
+		_targetValue = CInt(nudTakes.Value)
+		RefreshTargetLabel()
 	End Sub
 End Class
 

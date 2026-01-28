@@ -33,6 +33,10 @@ Namespace World
 				World.vMain.beepCount = My.Settings.cfgBeepCount
 				World.vMain.countdownCount = My.Settings.cfgCountdownCount
 				World.vMain.displayCaps = My.Settings.cfgDisplayCaps
+				World.vMain.ltcEnabled = My.Settings.cfgLtcEnabled
+				World.vMain.ltcFpsMode = My.Settings.cfgLtcFpsMode
+				World.vMain.ltcOutputDeviceId = My.Settings.cfgLtcOutputDeviceId
+				World.vMain.ltcUnmute = My.Settings.cfgLtcUnmute
 			Catch ex As Exception
 				MessageBox.Show("Error loading settings: " & ex.Message)
 			End Try
@@ -60,6 +64,10 @@ Namespace World
 				My.Settings.cfgBeepCount = World.vMain.beepCount
 				My.Settings.cfgCountdownCount = World.vMain.countdownCount
 				My.Settings.cfgDisplayCaps = World.vMain.displayCaps
+				My.Settings.cfgLtcEnabled = World.vMain.ltcEnabled
+				My.Settings.cfgLtcFpsMode = World.vMain.ltcFpsMode
+				My.Settings.cfgLtcOutputDeviceId = World.vMain.ltcOutputDeviceId
+				My.Settings.cfgLtcUnmute = World.vMain.ltcUnmute
 				My.Settings.Save()
 			Catch ex As Exception
 				MessageBox.Show("Error saving settings: " & ex.Message)
@@ -110,47 +118,30 @@ Namespace World
 		End Sub
 
 		Public Shared Sub resetSlate()
+			' Reset slate state (World.vMain) to defaults.
+			' Intentionally DO NOT touch app/user preferences (beepCount, countdownCount, displayCaps).
+			World.vMain.custDate = World.vDefaults.custDate
+			World.vMain.scenePre = String.Empty
+			World.vMain.sceneNum = World.vDefaults.sceneNum
+			World.vMain.shot = World.vDefaults.shot
+			World.vMain.take = World.vDefaults.take
+			World.vMain.cameraNum = World.vDefaults.cameraNum
+			World.vMain.camCardNum = World.vDefaults.camCardNum
+			World.vMain.production = World.vDefaults.production
+			World.vMain.director = World.vDefaults.director
+			World.vMain.dop = World.vDefaults.dop
+			World.vMain.fps = World.vDefaults.fps
+			World.vMain.int = World.vDefaults.int
+			World.vMain.day = World.vDefaults.day
+			World.vMain.sync = World.vDefaults.sync
+			World.vMain.tcTimerGo = 0
+
+			updateScene()
+			updateRoll()
+
 			With frmDigitalSlate
-				'Erase
-				.lblDate.Text = ""
-				.lblScene.Text = ""
-				.lblTake.Text = ""
-				.lblRoll.Text = ""
-				.lblProduction.Text = ""
-				.lblDirector.Text = ""
-				.lblDOP.Text = ""
-				.lblFPS.Text = ""
-				.lblHideInt.Visible = False
-				.lblHideExt.Visible = False
-				.lblHideDay.Visible = False
-				.lblHideNite.Visible = False
-				.lblHideSync.Visible = False
-				.lblHideMos.Visible = False
-
-				.lblDate.Text = World.vMain.currentDate
-				.lblScene.Text = World.vDefaults.scene
-				.lblTake.Text = World.vDefaults.take.ToString()
-				.lblRoll.Text = World.vDefaults.roll.ToString()
-				.lblProduction.Text = World.vDefaults.production
-				.lblDirector.Text = World.vDefaults.director
-				.lblDOP.Text = World.vDefaults.dop
-				.lblFPS.Text = World.vDefaults.fps.ToString()
+				refreshSlate()
 				.lblTimecode.Text = World.vDefaults.zeroTC
-
-				AdjustFontSizeToFitText(.lblScene)
-				AdjustFontSizeToFitText(.lblTake)
-				AdjustFontSizeToFitText(.lblRoll)
-				AdjustFontSizeToFitText(.lblProduction)
-				AdjustFontSizeToFitText(.lblDirector)
-				AdjustFontSizeToFitText(.lblDOP)
-
-				If World.vDefaults.int = 0 Then .lblHideInt.Visible = True
-				If World.vDefaults.int = 1 Then .lblHideExt.Visible = True
-				If World.vDefaults.day = 0 Then .lblHideDay.Visible = True
-				If World.vDefaults.day = 1 Then .lblHideNite.Visible = True
-				If World.vDefaults.sync = 0 Then .lblHideSync.Visible = True
-				If World.vDefaults.sync = 1 Then .lblHideMos.Visible = True
-
 				.tsiZeroTC.Enabled = True
 
 				If .WindowState = FormWindowState.Normal Then

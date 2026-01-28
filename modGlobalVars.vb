@@ -33,13 +33,18 @@ Namespace World
 			Public Property day As Integer
 			Public Property sync As Integer
 
-			Public Property skipSound As Integer = 1
+			Public Property skipSound As Integer = 0
 
 			Public Property beepCount As Integer = 1
 			Public Property countdownCount As Integer = 2
 			Public Property displayCaps As Integer = 0
 
 			Public Property autoUpTake As Integer = 0
+
+			Public Property ltcEnabled As Integer = 0
+			Public Property ltcFpsMode As Integer = 1 ' default 24
+			Public Property ltcOutputDeviceId As Integer = -1 ' -1 = default
+			Public Property ltcUnmute As Integer = 0
 
 		End Class
 
@@ -68,6 +73,11 @@ Namespace World
 			Public Const displayCaps As Integer = 0
 
 			Public Const autoUpTake As Integer = 0
+
+			Public Const ltcEnabled As Integer = 0
+			Public Const ltcFpsMode As Integer = 1
+			Public Const ltcOutputDeviceId As Integer = -1
+			Public Const ltcUnmute As Integer = 0
 
 			Public Const zeroTC As String = "00 : 00 : 00 : 00"
 		End Class

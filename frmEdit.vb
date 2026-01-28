@@ -8,8 +8,7 @@ Imports digitalSlate.World.mainClass
 Imports digitalSlate.World.Vars.vDefaults
 
 Public Class frmEdit
-	Dim myMainClass As New World.mainClass()
-	Dim mySlate As New frmDigitalSlate()
+
 
 	Private tmpScPreDis As String
 	Private tmpScPre As String

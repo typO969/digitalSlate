@@ -305,6 +305,54 @@ Namespace My
                 Me("cfgCustDate") = value
             End Set
         End Property
+
+		<Global.System.Configuration.UserScopedSettingAttribute(),  _
+		 Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+		 Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+		Public Property cfgLtcEnabled() As Integer
+			Get
+				Return CType(Me("cfgLtcEnabled"), Integer)
+			End Get
+			Set
+				Me("cfgLtcEnabled") = value
+			End Set
+		End Property
+
+		<Global.System.Configuration.UserScopedSettingAttribute(),  _
+		 Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+		 Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+		Public Property cfgLtcFpsMode() As Integer
+			Get
+				Return CType(Me("cfgLtcFpsMode"), Integer)
+			End Get
+			Set
+				Me("cfgLtcFpsMode") = value
+			End Set
+		End Property
+
+		<Global.System.Configuration.UserScopedSettingAttribute(),  _
+		 Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+		 Global.System.Configuration.DefaultSettingValueAttribute("-1")>  _
+		Public Property cfgLtcOutputDeviceId() As Integer
+			Get
+				Return CType(Me("cfgLtcOutputDeviceId"), Integer)
+			End Get
+			Set
+				Me("cfgLtcOutputDeviceId") = value
+			End Set
+		End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        Public Property cfgLtcUnmute() As Integer
+            Get
+                Return CType(Me("cfgLtcUnmute"), Integer)
+            End Get
+            Set
+                Me("cfgLtcUnmute") = Value
+            End Set
+        End Property
     End Class
 End Namespace
 
