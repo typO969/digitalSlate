@@ -1,4 +1,5 @@
 ﻿Imports System.Windows.Forms
+Imports System.IO
 
 Imports digitalSlate.World.Functions
 Imports digitalSlate.World.mainClass
@@ -7,6 +8,19 @@ Imports digitalSlate.World.Vars.vDefaults
 Public Class frmSettings
 
 	Private _ltcDevices As List(Of Tuple(Of Integer, String))
+
+	Private Function IsFolderWritable(folderPath As String) As Boolean
+		Try
+			If String.IsNullOrWhiteSpace(folderPath) Then Return False
+			If Not Directory.Exists(folderPath) Then Directory.CreateDirectory(folderPath)
+			Dim probeFile As String = Path.Combine(folderPath, ".write-test.tmp")
+			File.WriteAllText(probeFile, Date.Now.ToString("O"))
+			File.Delete(probeFile)
+			Return True
+		Catch
+			Return False
+		End Try
+	End Function
 
 	Private Sub butOK_Click(sender As Object, e As EventArgs) Handles butOK.Click
 		Dim crbCountdown As RadioButton = GetCheckedRadioButton(gbCountdown)
@@ -44,11 +58,50 @@ Public Class frmSettings
 		World.vMain.alwaysFullPreroll = If(cbAlwaysFullPreroll.Checked, 1, 0)
 		World.vMain.metadataFlashFpsEnabled = If(cbMetadataFps.Checked, 1, 0)
 		World.vMain.metadataFlashDateEnabled = If(cbMetadataDate.Checked, 1, 0)
+		World.vMain.logOutToFile = If(cbLogOut2File.Checked, 1, 0)
+		World.vMain.markerAppendDaily = If(cbAppendDailyMarkers.Checked, 1, 0)
+		World.vMain.sessionId = txtSessionId.Text.Trim()
+		World.vMain.unitName = txtUnitName.Text.Trim()
+		World.vMain.operatorName = txtOperatorName.Text.Trim()
+
+		If World.vMain.logOutToFile = 1 Then
+			Dim currentFolder As String = txtLogFolder.Text.Trim()
+			If String.IsNullOrWhiteSpace(currentFolder) OrElse Not Directory.Exists(currentFolder) Then
+				fbdLogOut.Description = "Choose folder for Resolve marker log output"
+				fbdLogOut.ShowNewFolderButton = True
+				If Not String.IsNullOrWhiteSpace(currentFolder) AndAlso Directory.Exists(currentFolder) Then
+					fbdLogOut.SelectedPath = currentFolder
+				End If
+
+				If fbdLogOut.ShowDialog() <> DialogResult.OK OrElse String.IsNullOrWhiteSpace(fbdLogOut.SelectedPath) Then
+					MessageBox.Show("Log output is enabled, but no folder was selected.")
+					Return
+				End If
+
+				currentFolder = fbdLogOut.SelectedPath
+			End If
+
+			If Not IsFolderWritable(currentFolder) Then
+				MessageBox.Show("Selected log folder is not writable.", "Log output error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Return
+			End If
+
+			World.vMain.logOutputFolder = currentFolder
+		Else
+			World.vMain.logOutputFolder = txtLogFolder.Text.Trim()
+		End If
+
 		My.Settings.cfgSkipSound = World.vMain.skipSound
 		My.Settings.cfgShowCountdownNumbers = World.vMain.showCountdownNumbers
 		My.Settings.cfgAlwaysFullPreroll = World.vMain.alwaysFullPreroll
 		My.Settings.cfgMetadataFlashFpsEnabled = World.vMain.metadataFlashFpsEnabled
 		My.Settings.cfgMetadataFlashDateEnabled = World.vMain.metadataFlashDateEnabled
+		My.Settings.cfgLogOutToFile = World.vMain.logOutToFile
+		My.Settings.cfgLogOutputFolder = World.vMain.logOutputFolder
+		My.Settings.cfgMarkerAppendDaily = World.vMain.markerAppendDaily
+		My.Settings.cfgSessionId = World.vMain.sessionId
+		My.Settings.cfgUnitName = World.vMain.unitName
+		My.Settings.cfgOperatorName = World.vMain.operatorName
 		My.Settings.Save()
 
 		refreshSlate()
@@ -70,6 +123,12 @@ Public Class frmSettings
 		World.vMain.alwaysFullPreroll = My.Settings.cfgAlwaysFullPreroll
 		World.vMain.metadataFlashFpsEnabled = My.Settings.cfgMetadataFlashFpsEnabled
 		World.vMain.metadataFlashDateEnabled = My.Settings.cfgMetadataFlashDateEnabled
+		World.vMain.logOutToFile = My.Settings.cfgLogOutToFile
+		World.vMain.logOutputFolder = My.Settings.cfgLogOutputFolder
+		World.vMain.markerAppendDaily = My.Settings.cfgMarkerAppendDaily
+		World.vMain.sessionId = My.Settings.cfgSessionId
+		World.vMain.unitName = My.Settings.cfgUnitName
+		World.vMain.operatorName = My.Settings.cfgOperatorName
 
 		cbLtcEnabled.Checked = (World.vMain.ltcEnabled = 1)
 		cbLtcUnmute.Checked = (World.vMain.ltcUnmute = 1)
@@ -78,6 +137,12 @@ Public Class frmSettings
 		cbAlwaysFullPreroll.Checked = (World.vMain.alwaysFullPreroll = 1)
 		cbMetadataFps.Checked = (World.vMain.metadataFlashFpsEnabled = 1)
 		cbMetadataDate.Checked = (World.vMain.metadataFlashDateEnabled = 1)
+		cbLogOut2File.Checked = (World.vMain.logOutToFile = 1)
+		cbAppendDailyMarkers.Checked = (World.vMain.markerAppendDaily = 1)
+		txtSessionId.Text = World.vMain.sessionId
+		txtUnitName.Text = World.vMain.unitName
+		txtOperatorName.Text = World.vMain.operatorName
+		txtLogFolder.Text = World.vMain.logOutputFolder
 		Dim idx As Integer = World.vMain.ltcFpsMode
 		If idx < 0 OrElse idx > 3 Then idx = 1
 		cmbLtcFps.SelectedIndex = idx
@@ -141,5 +206,26 @@ Public Class frmSettings
 		Next
 		Return Nothing
 	End Function
+
+	Private Sub butBrowseLogFolder_Click(sender As Object, e As EventArgs) Handles butBrowseLogFolder.Click
+		fbdLogOut.Description = "Choose folder for Resolve marker log output"
+		fbdLogOut.ShowNewFolderButton = True
+		If Not String.IsNullOrWhiteSpace(txtLogFolder.Text) AndAlso Directory.Exists(txtLogFolder.Text) Then
+			fbdLogOut.SelectedPath = txtLogFolder.Text
+		End If
+
+		If fbdLogOut.ShowDialog() = DialogResult.OK Then
+			txtLogFolder.Text = fbdLogOut.SelectedPath
+		End If
+	End Sub
+
+	Private Sub butTestLogFolder_Click(sender As Object, e As EventArgs) Handles butTestLogFolder.Click
+		Dim folder As String = txtLogFolder.Text.Trim()
+		If IsFolderWritable(folder) Then
+			MessageBox.Show("Log folder is writable.", "Log output", MessageBoxButtons.OK, MessageBoxIcon.Information)
+		Else
+			MessageBox.Show("Log folder is not writable.", "Log output", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End If
+	End Sub
 
 End Class

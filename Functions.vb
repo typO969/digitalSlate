@@ -42,6 +42,12 @@ Namespace World
               World.vMain.alwaysFullPreroll = My.Settings.cfgAlwaysFullPreroll
               World.vMain.metadataFlashFpsEnabled = My.Settings.cfgMetadataFlashFpsEnabled
 				World.vMain.metadataFlashDateEnabled = My.Settings.cfgMetadataFlashDateEnabled
+            World.vMain.logOutToFile = My.Settings.cfgLogOutToFile
+				World.vMain.logOutputFolder = My.Settings.cfgLogOutputFolder
+            World.vMain.markerAppendDaily = My.Settings.cfgMarkerAppendDaily
+				World.vMain.sessionId = My.Settings.cfgSessionId
+				World.vMain.unitName = My.Settings.cfgUnitName
+				World.vMain.operatorName = My.Settings.cfgOperatorName
 			Catch ex As Exception
 				MessageBox.Show("Error loading settings: " & ex.Message)
 			End Try
@@ -78,6 +84,12 @@ Namespace World
               My.Settings.cfgAlwaysFullPreroll = World.vMain.alwaysFullPreroll
               My.Settings.cfgMetadataFlashFpsEnabled = World.vMain.metadataFlashFpsEnabled
 				My.Settings.cfgMetadataFlashDateEnabled = World.vMain.metadataFlashDateEnabled
+            My.Settings.cfgLogOutToFile = World.vMain.logOutToFile
+				My.Settings.cfgLogOutputFolder = World.vMain.logOutputFolder
+            My.Settings.cfgMarkerAppendDaily = World.vMain.markerAppendDaily
+				My.Settings.cfgSessionId = World.vMain.sessionId
+				My.Settings.cfgUnitName = World.vMain.unitName
+				My.Settings.cfgOperatorName = World.vMain.operatorName
 				My.Settings.Save()
 			Catch ex As Exception
 				MessageBox.Show("Error saving settings: " & ex.Message)
@@ -104,6 +116,9 @@ Namespace World
 					.txtProduction.Text = World.vMain.production
 					.txtDirector.Text = World.vMain.director
 					.txtDOP.Text = World.vMain.dop
+               .txtSessionId.Text = World.vMain.sessionId
+					.txtUnitName.Text = World.vMain.unitName
+					.txtOperatorName.Text = World.vMain.operatorName
 					.txtFPS.Text = CStr(World.vMain.fps)
 
 					myParse.parseScene()
@@ -263,7 +278,22 @@ Namespace World
 							.CurrentDate = World.vMain.currentDate,
 							.Int = World.vMain.int,
 							.Day = World.vMain.day,
-							.Sync = World.vMain.sync
+                     .Sync = World.vMain.sync,
+							.LtcEnabled = World.vMain.ltcEnabled,
+							.LtcFpsMode = World.vMain.ltcFpsMode,
+							.LtcOutputDeviceId = World.vMain.ltcOutputDeviceId,
+							.LtcUnmute = World.vMain.ltcUnmute,
+							.SkipSound = World.vMain.skipSound,
+							.ShowCountdownNumbers = World.vMain.showCountdownNumbers,
+							.AlwaysFullPreroll = World.vMain.alwaysFullPreroll,
+							.MetadataFlashFpsEnabled = World.vMain.metadataFlashFpsEnabled,
+							.MetadataFlashDateEnabled = World.vMain.metadataFlashDateEnabled,
+							.LogOutToFile = World.vMain.logOutToFile,
+							.LogOutputFolder = World.vMain.logOutputFolder,
+							.MarkerAppendDaily = World.vMain.markerAppendDaily,
+							.SessionId = World.vMain.sessionId,
+							.UnitName = World.vMain.unitName,
+							.OperatorName = World.vMain.operatorName
 						}
 
 						Try
@@ -325,6 +355,21 @@ Namespace World
 							World.vMain.int = settings.Int
 							World.vMain.day = settings.Day
 							World.vMain.sync = settings.Sync
+							World.vMain.ltcEnabled = settings.LtcEnabled
+							World.vMain.ltcFpsMode = settings.LtcFpsMode
+							World.vMain.ltcOutputDeviceId = settings.LtcOutputDeviceId
+							World.vMain.ltcUnmute = settings.LtcUnmute
+							World.vMain.skipSound = settings.SkipSound
+							World.vMain.showCountdownNumbers = settings.ShowCountdownNumbers
+							World.vMain.alwaysFullPreroll = settings.AlwaysFullPreroll
+							World.vMain.metadataFlashFpsEnabled = settings.MetadataFlashFpsEnabled
+							World.vMain.metadataFlashDateEnabled = settings.MetadataFlashDateEnabled
+							World.vMain.logOutToFile = settings.LogOutToFile
+							World.vMain.logOutputFolder = settings.LogOutputFolder
+							World.vMain.markerAppendDaily = settings.MarkerAppendDaily
+							World.vMain.sessionId = settings.SessionId
+							World.vMain.unitName = settings.UnitName
+							World.vMain.operatorName = settings.OperatorName
 
 							' Update UI
 							refreshSlate()

@@ -425,7 +425,79 @@ Namespace My
                 Me("cfgMetadataFlashDateEnabled") = Value
             End Set
         End Property
-    End Class
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        Public Property cfgLogOutToFile() As Integer
+            Get
+                Return CType(Me("cfgLogOutToFile"), Integer)
+            End Get
+            Set
+                Me("cfgLogOutToFile") = Value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        Public Property cfgLogOutputFolder() As String
+            Get
+                Return CType(Me("cfgLogOutputFolder"), String)
+            End Get
+            Set
+                Me("cfgLogOutputFolder") = Value
+            End Set
+        End Property
+
+      <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+      Public Property cfgMarkerAppendDaily() As Integer
+         Get
+            Return CType(Me("cfgMarkerAppendDaily"), Integer)
+         End Get
+         Set
+            Me("cfgMarkerAppendDaily") = Value
+         End Set
+      End Property
+
+      <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("")>
+      Public Property cfgSessionId() As String
+         Get
+            Return CType(Me("cfgSessionId"), String)
+         End Get
+         Set
+            Me("cfgSessionId") = Value
+         End Set
+      End Property
+
+      <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("")>
+      Public Property cfgUnitName() As String
+         Get
+            Return CType(Me("cfgUnitName"), String)
+         End Get
+         Set
+            Me("cfgUnitName") = Value
+         End Set
+      End Property
+
+      <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("")>
+      Public Property cfgOperatorName() As String
+         Get
+            Return CType(Me("cfgOperatorName"), String)
+         End Get
+         Set
+            Me("cfgOperatorName") = Value
+         End Set
+      End Property
+   End Class
 End Namespace
 
 Namespace My

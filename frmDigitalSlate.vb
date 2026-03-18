@@ -4,6 +4,7 @@ Imports System.Media
 Imports System.Reflection.Emit
 Imports System.Windows.Forms
 Imports System.Collections.Generic
+Imports System.Linq
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Text
 Imports System.Drawing.Imaging
@@ -11,7 +12,7 @@ Imports digitalSlate.World.Functions
 Imports digitalSlate.World.mainClass
 Imports digitalSlate.World.Vars.vDefaults
 
-Public Class frmDigitalSlate
+Partial Public Class frmDigitalSlate
 	Private ReadOnly _ltcOut As New LtcAudioOutputService()
 	Private _targetValue As Integer = 1
 	Private _timecodeFreezeUntilUtc As DateTime = DateTime.MinValue
@@ -21,9 +22,17 @@ Public Class frmDigitalSlate
 	Private _timecodeLabelBaseFont As Font
 	Private _logoOverlay As PictureBox
 	Private _currentLogoImage As Image
+	Private _ltcCurrentDeviceId As Integer = Integer.MinValue
+	Private _ltcCurrentFpsMode As LtcFpsMode = CType(-1, LtcFpsMode)
+   Private _ltcLastError As String = String.Empty
+	Private _isPlayingCalibrationTone As Boolean = False
+	Private WithEvents _ltcHealthTimer As New Windows.Forms.Timer With {.Interval = 1500}
+	Private _resolveLogFilePathCache As String = String.Empty
+	Private ReadOnly _resolveSessionToken As String = Date.Now.ToString("yyyyMMdd_HHmmss")
 
 	Private Const LogoMaxWidthPx As Integer = 430
 	Private Const LogoMaxHeightPx As Integer = 115
+	Private Const ShowLogoDiagnostics As Boolean = False
 	Private Shared ReadOnly DefaultLogoBounds As New Rectangle(16, 126, 88, 96)
 
 	Private Shared Function GetCustomLogoPersistPath() As String
@@ -34,11 +43,15 @@ Public Class frmDigitalSlate
 	Private Sub EnsureLogoOverlayControl()
 		If _logoOverlay IsNot Nothing Then Return
 		Dim logoBounds As Rectangle = If(pbLogoSlot IsNot Nothing, pbLogoSlot.Bounds, DefaultLogoBounds)
-		Dim overlayParent As Control = If(pbSlateBody IsNot Nothing, CType(pbSlateBody, Control), CType(plPrimary, Control))
+		Dim overlayParent As Control = plPrimary
 		Dim overlayLocation As Point = logoBounds.Location
 
-		If pbSlateBody IsNot Nothing Then
+		If pbSlateBody IsNot Nothing AndAlso pbSlateBody.Bounds.Contains(logoBounds) Then
+			overlayParent = pbSlateBody
 			overlayLocation = New Point(logoBounds.X - pbSlateBody.Left, logoBounds.Y - pbSlateBody.Top)
+		ElseIf pbClapper IsNot Nothing AndAlso pbClapper.Bounds.Contains(logoBounds) Then
+			overlayParent = pbClapper
+			overlayLocation = New Point(logoBounds.X - pbClapper.Left, logoBounds.Y - pbClapper.Top)
 		End If
 
 		_logoOverlay = New PictureBox With {
@@ -46,13 +59,72 @@ Public Class frmDigitalSlate
 			.Location = overlayLocation,
 			.Size = New Size(logoBounds.Width, logoBounds.Height),
 			.SizeMode = PictureBoxSizeMode.Zoom,
-		   .BackColor = Color.Transparent,
+			.BackColor = Color.Transparent,
 			.Visible = False,
 			.TabStop = False
 		}
 
 		overlayParent.Controls.Add(_logoOverlay)
 		_logoOverlay.BringToFront()
+	End Sub
+
+
+
+
+	Private Function GetDesiredLtcFpsMode() As LtcFpsMode
+		Return CType(Math.Max(0, Math.Min(3, World.vMain.ltcFpsMode)), LtcFpsMode)
+	End Function
+
+	Private Function GetLtcDeviceName(deviceId As Integer) As String
+		If deviceId < 0 Then Return "Default"
+		Try
+			For Each d In LtcAudioOutputService.GetOutputDevices()
+				If d.Item1 = deviceId Then Return d.Item2
+			Next
+		Catch
+		End Try
+		Return $"Device {deviceId}"
+	End Function
+
+	Private Sub EnsureSessionMetadataDefaults()
+		If String.IsNullOrWhiteSpace(World.vMain.sessionId) Then
+			World.vMain.sessionId = Date.Now.ToString("yyyyMMdd_HHmm")
+		End If
+	End Sub
+
+	Private Sub SyncLtcOutputState()
+    If _isPlayingCalibrationTone Then Return
+
+		If World.vMain.ltcEnabled <> 1 Then
+			_ltcOut.Stop()
+			_ltcCurrentDeviceId = Integer.MinValue
+			_ltcCurrentFpsMode = CType(-1, LtcFpsMode)
+       _ltcLastError = String.Empty
+			UpdateLtcIndicator()
+			Return
+		End If
+
+    Try
+			Dim desiredDeviceId As Integer = World.vMain.ltcOutputDeviceId
+			Dim desiredFpsMode As LtcFpsMode = GetDesiredLtcFpsMode()
+
+			If (Not _ltcOut.IsRunning) OrElse _ltcCurrentDeviceId <> desiredDeviceId OrElse _ltcCurrentFpsMode <> desiredFpsMode Then
+				_ltcOut.Stop()
+				_ltcOut.Start(desiredDeviceId, desiredFpsMode)
+				_ltcCurrentDeviceId = desiredDeviceId
+				_ltcCurrentFpsMode = desiredFpsMode
+			End If
+
+			_ltcOut.SetMuted(World.vMain.ltcUnmute <> 1)
+			_ltcLastError = String.Empty
+		Catch ex As Exception
+			_ltcOut.Stop()
+			_ltcCurrentDeviceId = Integer.MinValue
+			_ltcCurrentFpsMode = CType(-1, LtcFpsMode)
+			_ltcLastError = ex.Message
+		End Try
+
+		UpdateLtcIndicator()
 	End Sub
 
 	Private Sub SetLogoImage(image As Image)
@@ -86,18 +158,38 @@ Public Class frmDigitalSlate
 		Try
 			EnsureLogoOverlayControl()
 			Dim logoPath As String = GetCustomLogoPersistPath()
-			If Not File.Exists(logoPath) Then
-				SetLogoImage(Nothing)
+			If File.Exists(logoPath) Then
+				Using loaded As Image = LoadImageUnlocked(logoPath)
+					SetLogoImage(loaded)
+					If ShowLogoDiagnostics Then
+						MessageBox.Show($"Logo loaded from saved file: {loaded.Width}x{loaded.Height}", "Logo Diagnostic", MessageBoxButtons.OK, MessageBoxIcon.Information)
+					End If
+				End Using
 				Return
 			End If
 
-			Using loaded As Image = LoadImageUnlocked(logoPath)
-				SetLogoImage(loaded)
-			End Using
-		Catch
+			If pbLogoSlot IsNot Nothing AndAlso pbLogoSlot.Image IsNot Nothing Then
+				Using fallback As Image = CType(pbLogoSlot.Image.Clone(), Image)
+					SetLogoImage(fallback)
+					If ShowLogoDiagnostics Then
+						MessageBox.Show($"Logo loaded from designer fallback: {fallback.Width}x{fallback.Height}", "Logo Diagnostic", MessageBoxButtons.OK, MessageBoxIcon.Information)
+					End If
+				End Using
+			Else
+				SetLogoImage(Nothing)
+				If ShowLogoDiagnostics Then
+					MessageBox.Show("No persisted logo and no designer fallback image found.", "Logo Diagnostic", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				End If
+			End If
+		Catch ex As Exception
 			SetLogoImage(Nothing)
+			If ShowLogoDiagnostics Then
+				MessageBox.Show("Logo load failed: " & ex.Message, "Logo Diagnostic", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End If
 		End Try
 	End Sub
+
+
 
 	Private Function ValidateLogoDimensions(candidate As Image) As Boolean
 		Return candidate.Width <= LogoMaxWidthPx AndAlso candidate.Height <= LogoMaxHeightPx
@@ -116,8 +208,15 @@ Public Class frmDigitalSlate
 				Return
 			End If
 
+			If File.Exists(persistPath) Then
+				File.Delete(persistPath)
+			End If
+
 			img.Save(persistPath, ImageFormat.Png)
 			SetLogoImage(img)
+			If ShowLogoDiagnostics Then
+				MessageBox.Show($"Logo saved and applied: {img.Width}x{img.Height}", "Logo Diagnostic", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			End If
 		End Using
 	End Sub
 
@@ -131,30 +230,44 @@ Public Class frmDigitalSlate
 			Return
 		End If
 
+		Dim fpsLabel As String = GetDesiredLtcFpsMode().ToString()
+		Dim deviceLabel As String = GetLtcDeviceName(World.vMain.ltcOutputDeviceId)
+		Dim muteLabel As String = If(World.vMain.ltcUnmute = 1, "AUD", "MUT")
+		Dim baseText As String = $"LTC {fpsLabel} | {deviceLabel} | {muteLabel}"
+
 		If Timer1 IsNot Nothing AndAlso Timer1.Enabled Then
 			If World.vMain.ltcUnmute = 1 Then
-				lblLtcStatus.Text = "LTC: LIVE"
+           lblLtcStatus.Text = "LTC: LIVE | " & baseText
 				lblLtcStatus.ForeColor = Color.Lime
 			Else
-				lblLtcStatus.Text = "LTC: MUTED"
+          lblLtcStatus.Text = "LTC: MUTED | " & baseText
 				lblLtcStatus.ForeColor = Color.Gold
 			End If
-		Else
-			' Enabled but not currently running
-			lblLtcStatus.Text = "LTC: READY"
+     ElseIf _ltcOut IsNot Nothing AndAlso _ltcOut.IsRunning Then
+			lblLtcStatus.Text = "LTC: READY | " & baseText
 			lblLtcStatus.ForeColor = Color.Green
+		Else
+       lblLtcStatus.Text = "LTC: RECOVERING | " & baseText
+			lblLtcStatus.ForeColor = Color.Orange
+		End If
+
+		If Not String.IsNullOrWhiteSpace(_ltcLastError) Then
+			lblLtcStatus.Text &= " | ERR"
+			lblLtcStatus.ForeColor = Color.OrangeRed
 		End If
 	End Sub
 
 
 	Private Sub frmDigitalSlate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		loadFromSettings()
+     EnsureSessionMetadataDefaults()
 		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
 		If pbLogoSlot IsNot Nothing Then pbLogoSlot.Visible = False
 		TryLoadPersistedLogo()
 		_timecodeLabelBaseFont = New Font(lblTimecode.Font.FontFamily, lblTimecode.Font.Size, lblTimecode.Font.Style)
-		UpdateLtcIndicator()
+		SyncLtcOutputState()
+		_ltcHealthTimer.Start()
 
 		' Ensure save/load menu items reflect current timer state
 		Try
@@ -178,11 +291,13 @@ Public Class frmDigitalSlate
 
 	Private Sub frmDigitalSlate_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 		loadFromSettings()
+     EnsureSessionMetadataDefaults()
 		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
 		If pbLogoSlot IsNot Nothing Then pbLogoSlot.Visible = False
 		TryLoadPersistedLogo()
-		UpdateLtcIndicator()
+		SyncLtcOutputState()
+		If Not _ltcHealthTimer.Enabled Then _ltcHealthTimer.Start()
 
 		Try
 			tsiSaveProfile.Enabled = Not Timer1.Enabled
@@ -242,6 +357,158 @@ Public Class frmDigitalSlate
 	Private Sub SaveClapTimecodeToSessionLog()
 		Dim clapTc As String = TimecodeGenerator.GenerateTimecode(Date.Now, framesPerSecond).ToString()
 		World.vMain.clapTimecodeLog.Add(clapTc)
+		WriteResolveInMarkerLog(clapTc)
+	End Sub
+
+	Private Shared Function SanitizeFilePart(value As String) As String
+		If String.IsNullOrWhiteSpace(value) Then Return "UNTITLED"
+		Dim cleaned As String = value.Trim()
+		For Each ch In Path.GetInvalidFileNameChars()
+			cleaned = cleaned.Replace(ch, "_"c)
+		Next
+		Return cleaned
+	End Function
+
+	Private Shared Function EscapeCsv(value As String) As String
+		If value Is Nothing Then Return """"""
+		Return """" & value.Replace("""", """""") & """"
+	End Function
+
+	Private Function NormalizeTimecode(tc As String) As String
+		If String.IsNullOrWhiteSpace(tc) Then Return "00:00:00:00"
+		Return tc.Replace(" ", String.Empty)
+	End Function
+
+	Private Function GetResolveLogFilePath() As String
+		If Not String.IsNullOrWhiteSpace(_resolveLogFilePathCache) Then Return _resolveLogFilePathCache
+		If String.IsNullOrWhiteSpace(World.vMain.logOutputFolder) Then Return String.Empty
+
+		Dim productionPart As String = SanitizeFilePart(World.vMain.production)
+		Dim scenePart As String = SanitizeFilePart(World.vMain.scene)
+		Dim rollPart As String = SanitizeFilePart(World.vMain.roll)
+     Dim sessionPart As String = SanitizeFilePart(World.vMain.sessionId)
+		Dim baseName As String
+
+		If World.vMain.markerAppendDaily = 1 Then
+			Dim dayPart As String = Date.Now.ToString("yyyyMMdd")
+			baseName = $"{productionPart}_{dayPart}_SlateMarkers"
+		Else
+			baseName = $"{productionPart}_{scenePart}_{rollPart}_{sessionPart}_SlateMarkers_{_resolveSessionToken}"
+		End If
+
+		Dim candidatePath As String = Path.Combine(World.vMain.logOutputFolder, baseName & ".csv")
+		Dim suffix As Integer = 1
+    Do While World.vMain.markerAppendDaily <> 1 AndAlso File.Exists(candidatePath)
+			candidatePath = Path.Combine(World.vMain.logOutputFolder, $"{baseName}_{suffix:00}.csv")
+			suffix += 1
+		Loop
+
+		_resolveLogFilePathCache = candidatePath
+		Return _resolveLogFilePathCache
+	End Function
+
+	Private Sub ResetResolveLogFilePathCache()
+		_resolveLogFilePathCache = String.Empty
+	End Sub
+
+	Private Function EnsureLogFolderWritable() As Boolean
+		Try
+			If String.IsNullOrWhiteSpace(World.vMain.logOutputFolder) Then Return False
+			If Not Directory.Exists(World.vMain.logOutputFolder) Then
+				Directory.CreateDirectory(World.vMain.logOutputFolder)
+			End If
+
+			Dim probePath As String = Path.Combine(World.vMain.logOutputFolder, ".write-test.tmp")
+			File.WriteAllText(probePath, Date.Now.ToString("O"))
+			File.Delete(probePath)
+			Return True
+		Catch
+			Return False
+		End Try
+	End Function
+
+	Private Sub ExportResolveMarkerLogFromSession()
+		If World.vMain.logOutToFile <> 1 Then
+			MessageBox.Show("Marker log export is disabled in Settings.", "Export markers", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			Return
+		End If
+
+		If Not EnsureLogFolderWritable() Then
+			MessageBox.Show("Marker log folder is not writable. Check Settings.", "Export markers", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Return
+		End If
+
+		Try
+			Dim filePath As String = GetResolveLogFilePath()
+			If String.IsNullOrWhiteSpace(filePath) Then
+				MessageBox.Show("No marker log output path is configured.", "Export markers", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Return
+			End If
+
+			Dim lines As New List(Of String) From {
+				"Marker Name,Description,In,Out,Duration,Marker Color,Marker Type"
+			}
+
+			For i As Integer = 0 To World.vMain.clapTimecodeLog.Count - 1
+				Dim inTc As String = NormalizeTimecode(World.vMain.clapTimecodeLog(i))
+				Dim markerName As String = $"{World.vMain.scene}_T{i + 1}"
+				Dim description As String = $"Roll {World.vMain.roll}; FPS {framesPerSecond:0.###}"
+				Dim row As String = String.Join(",", New String() {
+					EscapeCsv(markerName),
+					EscapeCsv(description),
+					EscapeCsv(inTc),
+					EscapeCsv(inTc),
+					EscapeCsv("00:00:00:01"),
+					EscapeCsv("Blue"),
+					EscapeCsv("Comment")
+				})
+				lines.Add(row)
+			Next
+
+			File.WriteAllLines(filePath, lines)
+			MessageBox.Show($"Exported {World.vMain.clapTimecodeLog.Count} marker(s) to:`n{filePath}", "Export markers", MessageBoxButtons.OK, MessageBoxIcon.Information)
+		Catch ex As Exception
+			MessageBox.Show("Error exporting Resolve marker log: " & ex.Message, "Export markers", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End Try
+	End Sub
+
+	Private Sub WriteResolveInMarkerLog(inTcRaw As String)
+		If World.vMain.logOutToFile <> 1 Then Return
+		If Not EnsureLogFolderWritable() Then Return
+
+		Try
+			Dim filePath As String = GetResolveLogFilePath()
+			If String.IsNullOrWhiteSpace(filePath) Then Return
+
+			Dim folder As String = Path.GetDirectoryName(filePath)
+			If String.IsNullOrWhiteSpace(folder) Then Return
+			If Not Directory.Exists(folder) Then
+				Directory.CreateDirectory(folder)
+			End If
+
+			Dim inTc As String = NormalizeTimecode(inTcRaw)
+			Dim markerName As String = $"{World.vMain.scene}_T{World.vMain.take}"
+       Dim description As String = $"Roll {World.vMain.roll}; FPS {framesPerSecond:0.###}; Unit {World.vMain.unitName}; Op {World.vMain.operatorName}; Session {World.vMain.sessionId}"
+
+			If Not File.Exists(filePath) Then
+				Dim header As String = "Marker Name,Description,In,Out,Duration,Marker Color,Marker Type"
+				File.WriteAllLines(filePath, New String() {header})
+			End If
+
+			Dim row As String = String.Join(",", New String() {
+				EscapeCsv(markerName),
+				EscapeCsv(description),
+				EscapeCsv(inTc),
+				EscapeCsv(inTc),
+				EscapeCsv("00:00:00:01"),
+				EscapeCsv("Blue"),
+				EscapeCsv("Comment")
+			})
+
+			File.AppendAllLines(filePath, New String() {row})
+		Catch ex As Exception
+			MessageBox.Show("Error writing Resolve log: " & ex.Message, "Log output error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End Try
 	End Sub
 
 	Private Async Sub StartClapPulse()
@@ -251,15 +518,10 @@ Public Class frmDigitalSlate
 		End Try
 	End Sub
 
-	Private Sub StartTakeAtSyncPoint(showMetadataFallback As Boolean)
+	Private Sub StartTakeAtSyncPoint()
 		If Timer1.Enabled Then Return
 
-		If World.vMain.ltcEnabled = 1 Then
-			Dim deviceId As Integer = World.vMain.ltcOutputDeviceId
-			Dim fpsMode As LtcFpsMode = CType(Math.Max(0, Math.Min(3, World.vMain.ltcFpsMode)), LtcFpsMode)
-			_ltcOut.Start(deviceId, fpsMode)
-			_ltcOut.SetMuted(World.vMain.ltcUnmute <> 1)
-		End If
+		SyncLtcOutputState()
 
 		SaveClapTimecodeToSessionLog()
 		BeginTimecodeFreeze(5)
@@ -268,9 +530,6 @@ Public Class frmDigitalSlate
 		Timer1.Start()
 		tsiZeroTC.Enabled = False
 		UpdateLtcIndicator()
-		If showMetadataFallback Then
-			StartMetadataFlashSequence()
-		End If
 
 		Try
 			tsiSaveProfile.Enabled = False
@@ -426,6 +685,7 @@ Public Class frmDigitalSlate
 	End Function
 
 	Private Async Function runCountDown(count As Integer) As Task
+     If Timer1.Enabled Then Return
 		If count <= 0 Then Return
 
 		Dim filePath = GetAudioPath("countdown.wav")
@@ -473,6 +733,7 @@ Public Class frmDigitalSlate
 	End Function
 
 	Private Async Function playSyncBeep(count As Integer, Optional onFinalBeepStart As Action = Nothing, Optional preloadedPlayer As SoundPlayer = Nothing) As Task
+     If Timer1.Enabled Then Return
 		If preloadedPlayer IsNot Nothing Then
 			Try
 				For i As Integer = 1 To count
@@ -526,6 +787,10 @@ Public Class frmDigitalSlate
 		updateTimecodeDisplay()
 	End Sub
 
+	Private Sub _ltcHealthTimer_Tick(sender As Object, e As EventArgs) Handles _ltcHealthTimer.Tick
+		SyncLtcOutputState()
+	End Sub
+
 	Private Async Sub pbClapper_Click(sender As Object, e As EventArgs) Handles pbClapper.Click
 		' Will need to change this to all the clapper action calls
 		World.vMain.tcTimerGo = 1 - World.vMain.tcTimerGo
@@ -533,25 +798,22 @@ Public Class frmDigitalSlate
 
 		If World.vMain.tcTimerGo = 1 Then
 			Dim startedAtSyncPoint As Boolean = False
-			Dim showMetadataFallback As Boolean = True
 			Dim preloadedSyncPlayer As SoundPlayer = Nothing
 			Dim startAtSync As Action =
 				Sub()
 					If startedAtSyncPoint Then Return
 					startedAtSyncPoint = True
-					StartTakeAtSyncPoint(showMetadataFallback)
+					StartTakeAtSyncPoint()
 				End Sub
 
 			Try
 				If World.vMain.skipSound = 1 Then
-					' no pre-roll beeps
-					showMetadataFallback = True
+					Await ShowMetadataFlashSequenceAsync()
 					startAtSync()
 				Else
 					Dim useFullPreroll As Boolean = (World.vMain.alwaysFullPreroll = 1)
 					Dim shouldRunCountdown As Boolean = useFullPreroll OrElse (lblTimecode.Text = zeroTC)
 					metadataCountdownEligible = (shouldRunCountdown AndAlso World.vMain.showCountdownNumbers <> 1 AndAlso World.vMain.countdownCount >= GetMetadataItems().Count)
-					showMetadataFallback = Not metadataCountdownEligible
 
 					If World.vMain.beepCount > 0 Then
 						preloadedSyncPlayer = Await TryCreateLoadedPlayer("syncBeep.wav", "Missing audio file: ", "Error loading sync beep: ")
@@ -563,6 +825,10 @@ Public Class frmDigitalSlate
 
 					If shouldRunCountdown Then
 						Await runCountDown(World.vMain.countdownCount)
+					End If
+
+					If Not metadataCountdownEligible Then
+						Await ShowMetadataFlashSequenceAsync()
 					End If
 
 					If World.vMain.beepCount > 0 Then
@@ -585,7 +851,7 @@ Public Class frmDigitalSlate
 
 		Else
 			Timer1.Stop()
-			_ltcOut.Stop()
+			SyncLtcOutputState()
 			addTake()
 			tsiZeroTC.Enabled = True
 			UpdateLtcIndicator()
@@ -602,6 +868,11 @@ Public Class frmDigitalSlate
 	End Sub
 
 	Protected Overrides Sub OnFormClosing(e As FormClosingEventArgs)
+		Try
+       _ltcHealthTimer.Stop()
+		Catch
+		End Try
+
 		Try
 			_ltcOut.Stop()
 		Catch
@@ -692,7 +963,106 @@ Public Class frmDigitalSlate
 
 	Private Sub tsiOptions_Click(sender As Object, e As EventArgs) Handles tsiOptions.Click
 		frmSettings.ShowDialog()
-		UpdateLtcIndicator()
+		ResetResolveLogFilePathCache()
+		SyncLtcOutputState()
+	End Sub
+
+	Private Sub tsiOpenLogFolder_Click(sender As Object, e As EventArgs) Handles tsiOpenLogFolder.Click
+		If String.IsNullOrWhiteSpace(World.vMain.logOutputFolder) OrElse Not Directory.Exists(World.vMain.logOutputFolder) Then
+			MessageBox.Show("No marker log folder is configured.", "Open marker log folder", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			Return
+		End If
+
+		Try
+			Process.Start("explorer.exe", World.vMain.logOutputFolder)
+		Catch ex As Exception
+			MessageBox.Show("Unable to open marker log folder: " & ex.Message, "Open marker log folder", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End Try
+	End Sub
+
+	Private Sub tsiRevealCurrentMarkerFile_Click(sender As Object, e As EventArgs) Handles tsiRevealCurrentMarkerFile.Click
+		Dim filePath As String = GetResolveLogFilePath()
+		If String.IsNullOrWhiteSpace(filePath) OrElse Not File.Exists(filePath) Then
+			MessageBox.Show("No current marker file exists yet.", "Reveal marker file", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			Return
+		End If
+
+		Try
+			Process.Start("explorer.exe", "/select,""" & filePath & """")
+		Catch ex As Exception
+			MessageBox.Show("Unable to reveal marker file: " & ex.Message, "Reveal marker file", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End Try
+	End Sub
+
+	Private Sub tsiValidateMarkerCsv_Click(sender As Object, e As EventArgs) Handles tsiValidateMarkerCsv.Click
+		Dim filePath As String = GetResolveLogFilePath()
+		If String.IsNullOrWhiteSpace(filePath) OrElse Not File.Exists(filePath) Then
+			MessageBox.Show("No marker CSV file exists yet.", "Validate marker CSV", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			Return
+		End If
+
+		Try
+			Dim lines As String() = File.ReadAllLines(filePath)
+			If lines.Length = 0 Then Throw New InvalidDataException("CSV file is empty.")
+			If Not lines(0).StartsWith("Marker Name,Description,In,Out,Duration,Marker Color,Marker Type", StringComparison.OrdinalIgnoreCase) Then
+				Throw New InvalidDataException("Header row does not match expected Resolve marker schema.")
+			End If
+
+			For i As Integer = 1 To lines.Length - 1
+				If String.IsNullOrWhiteSpace(lines(i)) Then Continue For
+				Dim quoteCount As Integer = lines(i).Count(Function(c) c = """"c)
+				If quoteCount Mod 2 <> 0 Then
+					Throw New InvalidDataException($"Row {i + 1} has unbalanced quotes.")
+				End If
+			Next
+
+			MessageBox.Show($"CSV valid: {Path.GetFileName(filePath)}", "Validate marker CSV", MessageBoxButtons.OK, MessageBoxIcon.Information)
+		Catch ex As Exception
+			MessageBox.Show("CSV validation failed: " & ex.Message, "Validate marker CSV", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End Try
+	End Sub
+
+	Private Async Sub tsiLtcCalibrationTone_Click(sender As Object, e As EventArgs) Handles tsiLtcCalibrationTone.Click
+		If World.vMain.ltcEnabled <> 1 Then
+			MessageBox.Show("Enable LTC first to calibrate output path.", "LTC calibration", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			Return
+		End If
+
+		Dim deviceId As Integer = World.vMain.ltcOutputDeviceId
+		Dim resumeAfter As Boolean = _ltcOut IsNot Nothing AndAlso _ltcOut.IsRunning
+		Dim resumeMuted As Boolean = (World.vMain.ltcUnmute <> 1)
+		Dim resumeFpsMode As LtcFpsMode = GetDesiredLtcFpsMode()
+
+		Try
+			_isPlayingCalibrationTone = True
+			_ltcOut.Stop()
+
+			Using waveOut As New NAudio.Wave.WaveOutEvent()
+				waveOut.DeviceNumber = deviceId
+				waveOut.Init(New RightChannelToneProvider(48000, 1000.0, 0.2F))
+				waveOut.Play()
+				Await Task.Delay(2000)
+				waveOut.Stop()
+			End Using
+
+			MessageBox.Show("Played 1 kHz reference tone on RIGHT channel for 2 seconds.", "LTC calibration", MessageBoxButtons.OK, MessageBoxIcon.Information)
+		Catch ex As Exception
+			MessageBox.Show("Calibration tone failed: " & ex.Message, "LTC calibration", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		Finally
+			If resumeAfter Then
+				Try
+					_ltcOut.Start(deviceId, resumeFpsMode)
+					_ltcOut.SetMuted(resumeMuted)
+				Catch
+				End Try
+			End If
+			_isPlayingCalibrationTone = False
+			SyncLtcOutputState()
+		End Try
+	End Sub
+
+	Private Sub tsiExportMarkersNow_Click(sender As Object, e As EventArgs) Handles tsiExportMarkersNow.Click
+		ExportResolveMarkerLogFromSession()
 	End Sub
 
 	Private Sub tsiReset_Click(sender As Object, e As EventArgs) Handles tsiReset.Click
@@ -764,6 +1134,47 @@ Public Class frmDigitalSlate
 			End Try
 		End Using
 	End Sub
+
+	Private Class RightChannelToneProvider
+		Implements NAudio.Wave.IWaveProvider
+
+		Private ReadOnly _sampleRate As Integer
+		Private ReadOnly _frequency As Double
+		Private ReadOnly _amplitude As Single
+		Private _sampleIndex As Integer
+
+		Public Sub New(sampleRate As Integer, frequency As Double, amplitude As Single)
+			_sampleRate = sampleRate
+			_frequency = frequency
+			_amplitude = Math.Max(0.0F, Math.Min(0.9F, amplitude))
+		End Sub
+
+		Public ReadOnly Property WaveFormat As NAudio.Wave.WaveFormat Implements NAudio.Wave.IWaveProvider.WaveFormat
+			Get
+				Return New NAudio.Wave.WaveFormat(_sampleRate, 16, 2)
+			End Get
+		End Property
+
+		Public Function Read(buffer As Byte(), offset As Integer, count As Integer) As Integer Implements NAudio.Wave.IWaveProvider.Read
+			Dim bytesPerFrame As Integer = 4
+			Dim frames As Integer = count \ bytesPerFrame
+			Dim o As Integer = offset
+
+			For i As Integer = 0 To frames - 1
+				Dim t As Double = _sampleIndex / CDbl(_sampleRate)
+				Dim sampleVal As Integer = CInt(Math.Sin(2.0 * Math.PI * _frequency * t) * _amplitude * Short.MaxValue)
+				_sampleIndex += 1
+
+				buffer(o) = 0
+				buffer(o + 1) = 0
+				buffer(o + 2) = CByte(sampleVal And &HFF)
+				buffer(o + 3) = CByte((sampleVal >> 8) And &HFF)
+				o += 4
+			Next
+
+			Return frames * bytesPerFrame
+		End Function
+	End Class
 
 End Class
 

@@ -7,9 +7,9 @@ Imports System.Windows.Forms
 Imports System.Diagnostics
 
 Public Class SettingsProfile
+ Public Property SchemaVersion As Integer = 2
 	' NOTE: This profile is intentionally limited to slate content/state (scene, roll, etc.).
-	' App/user preferences (e.g. beepCount, countdownCount, displayCaps) are stored in My.Settings
-	' and MUST NOT be exported/imported via slate profile files.
+  ' Includes slate content plus portability-critical runtime prefs for LTC/logging/UI behavior.
 	Public Property Scene As String
 	Public Property ScenePre As String
 	Public Property SceneNum As Integer
@@ -28,6 +28,21 @@ Public Class SettingsProfile
 	Public Property [Int] As Integer
 	Public Property [Day] As Integer
 	Public Property [Sync] As Integer
+   Public Property LtcEnabled As Integer
+	Public Property LtcFpsMode As Integer
+	Public Property LtcOutputDeviceId As Integer
+	Public Property LtcUnmute As Integer
+	Public Property SkipSound As Integer
+	Public Property ShowCountdownNumbers As Integer
+	Public Property AlwaysFullPreroll As Integer
+	Public Property MetadataFlashFpsEnabled As Integer
+	Public Property MetadataFlashDateEnabled As Integer
+	Public Property LogOutToFile As Integer
+	Public Property LogOutputFolder As String
+	Public Property MarkerAppendDaily As Integer
+	Public Property SessionId As String
+	Public Property UnitName As String
+	Public Property OperatorName As String
 End Class
 
 Public Class JsonSettingsManager
@@ -94,7 +109,22 @@ Public Class JsonSettingsManager
 				.CurrentDate = World.vMain.currentDate,
 				.Int = World.vMain.int,
 				.Day = World.vMain.day,
-				.Sync = World.vMain.sync
+            .Sync = World.vMain.sync,
+				.LtcEnabled = World.vMain.ltcEnabled,
+				.LtcFpsMode = World.vMain.ltcFpsMode,
+				.LtcOutputDeviceId = World.vMain.ltcOutputDeviceId,
+				.LtcUnmute = World.vMain.ltcUnmute,
+				.SkipSound = World.vMain.skipSound,
+				.ShowCountdownNumbers = World.vMain.showCountdownNumbers,
+				.AlwaysFullPreroll = World.vMain.alwaysFullPreroll,
+				.MetadataFlashFpsEnabled = World.vMain.metadataFlashFpsEnabled,
+				.MetadataFlashDateEnabled = World.vMain.metadataFlashDateEnabled,
+				.LogOutToFile = World.vMain.logOutToFile,
+				.LogOutputFolder = World.vMain.logOutputFolder,
+				.MarkerAppendDaily = World.vMain.markerAppendDaily,
+				.SessionId = World.vMain.sessionId,
+				.UnitName = World.vMain.unitName,
+				.OperatorName = World.vMain.operatorName
 			}
 
 			profilesWrapper.Profiles(profileNumber) = settings
@@ -129,6 +159,21 @@ Public Class JsonSettingsManager
 				World.vMain.int = settings.Int
 				World.vMain.day = settings.Day
 				World.vMain.sync = settings.Sync
+				World.vMain.ltcEnabled = settings.LtcEnabled
+				World.vMain.ltcFpsMode = settings.LtcFpsMode
+				World.vMain.ltcOutputDeviceId = settings.LtcOutputDeviceId
+				World.vMain.ltcUnmute = settings.LtcUnmute
+				World.vMain.skipSound = settings.SkipSound
+				World.vMain.showCountdownNumbers = settings.ShowCountdownNumbers
+				World.vMain.alwaysFullPreroll = settings.AlwaysFullPreroll
+				World.vMain.metadataFlashFpsEnabled = settings.MetadataFlashFpsEnabled
+				World.vMain.metadataFlashDateEnabled = settings.MetadataFlashDateEnabled
+				World.vMain.logOutToFile = settings.LogOutToFile
+				World.vMain.logOutputFolder = settings.LogOutputFolder
+				World.vMain.markerAppendDaily = settings.MarkerAppendDaily
+				World.vMain.sessionId = settings.SessionId
+				World.vMain.unitName = settings.UnitName
+				World.vMain.operatorName = settings.OperatorName
 
 				Return True
 			Else
@@ -259,7 +304,22 @@ Public Class JsonSettingsManager
 				.CurrentDate = String.Empty,
 				.Int = 0,
 				.Day = 0,
-				.Sync = 0
+            .Sync = 0,
+				.LtcEnabled = 0,
+				.LtcFpsMode = 1,
+				.LtcOutputDeviceId = -1,
+				.LtcUnmute = 0,
+				.SkipSound = 0,
+				.ShowCountdownNumbers = 0,
+				.AlwaysFullPreroll = 1,
+				.MetadataFlashFpsEnabled = 1,
+				.MetadataFlashDateEnabled = 1,
+				.LogOutToFile = 0,
+				.LogOutputFolder = "",
+				.MarkerAppendDaily = 0,
+				.SessionId = "",
+				.UnitName = "",
+				.OperatorName = ""
 			}
 		Catch ex As Exception
 			System.Diagnostics.Debug.WriteLine($"CreateDefaultSettingsProfile: failed: {ex.Message}")

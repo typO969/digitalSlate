@@ -92,6 +92,9 @@ Public Class frmEdit
 		txtCardNum.Text = txtCardNum.Text.Trim()
 		txtFPS.Text = txtFPS.Text.Trim()
 		txtCustDate.Text = txtCustDate.Text.Trim()
+		txtSessionId.Text = txtSessionId.Text.Trim()
+		txtUnitName.Text = txtUnitName.Text.Trim()
+		txtOperatorName.Text = txtOperatorName.Text.Trim()
 
 		' Set tmpScPre based on checked checkboxes
 		tmpScPre = ""
@@ -108,6 +111,7 @@ Public Class frmEdit
 		If String.IsNullOrEmpty(txtProduction.Text) Then txtProduction.Text = World.vDefaults.production
 		If String.IsNullOrEmpty(txtDirector.Text) Then txtDirector.Text = World.vDefaults.director
 		If String.IsNullOrEmpty(txtFPS.Text) Or txtFPS.Text = "0" Then txtFPS.Text = World.vDefaults.fps.ToString()
+		If String.IsNullOrEmpty(txtSessionId.Text) Then txtSessionId.Text = Date.Now.ToString("yyyyMMdd_HHmm")
 
 		' Handle custom date logic
 		If Not cbTodaysDate.Checked Then
@@ -138,6 +142,9 @@ Public Class frmEdit
 			World.vMain.production = txtProduction.Text
 			World.vMain.director = txtDirector.Text
 			World.vMain.dop = txtDOP.Text
+			World.vMain.sessionId = txtSessionId.Text
+			World.vMain.unitName = txtUnitName.Text
+			World.vMain.operatorName = txtOperatorName.Text
 
 			' Numeric fields using TryParse to avoid exceptions
 			Dim tmpInt As Integer
@@ -186,9 +193,9 @@ Public Class frmEdit
 
 	Private Sub butOK_Click(sender As Object, e As EventArgs) Handles butOK.Click
 		'Dim mySlate As New frmDigitalSlate()
-		checkSettings()
+		CheckSettings()
 		getSettings()
-		saveToSettings()
+		SaveToSettings()
 		My.Settings.Save()
 		refreshSlate()
 		Hide()
@@ -260,10 +267,20 @@ Public Class frmEdit
 	End Sub
 
 	Private Sub txtFPS_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtFPS.KeyPress
-		' Allow only digits and control keys
-		If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-			e.Handled = True
+		Dim tb = DirectCast(sender, TextBox)
+		Dim decimalSeparator As Char = Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator(0)
+
+		If Char.IsControl(e.KeyChar) Then Return
+		If Char.IsDigit(e.KeyChar) Then Return
+
+		If (e.KeyChar = "."c OrElse e.KeyChar = ","c OrElse e.KeyChar = decimalSeparator) Then
+			If tb.Text.Contains(".") OrElse tb.Text.Contains(",") Then
+				e.Handled = True
+			End If
+			Return
 		End If
+
+		e.Handled = True
 	End Sub
 
 	Private Sub txtTake_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTake.KeyPress

@@ -29,6 +29,9 @@ Namespace World
 			Public Property production As String = ""
 			Public Property director As String = ""
 			Public Property dop As String = ""
+       Public Property sessionId As String = ""
+			Public Property unitName As String = ""
+			Public Property operatorName As String = ""
 			Public Property fps As Double
 			Public Property int As Integer
 			Public Property day As Integer
@@ -51,6 +54,9 @@ Namespace World
          Public Property alwaysFullPreroll As Integer = 1
          Public Property metadataFlashFpsEnabled As Integer = 1
 			Public Property metadataFlashDateEnabled As Integer = 1
+         Public Property logOutToFile As Integer = 0
+			Public Property logOutputFolder As String = String.Empty
+         Public Property markerAppendDaily As Integer = 0
 			Public ReadOnly Property clapTimecodeLog As New List(Of String)
 
 		End Class
@@ -70,6 +76,9 @@ Namespace World
 			Public Const production As String = "Your Film Name"
 			Public Const director As String = "Ian Knight"
 			Public Const dop As String = "Steve Perry"
+        Public Const sessionId As String = ""
+			Public Const unitName As String = ""
+			Public Const operatorName As String = ""
 			Public Const fps As Double = 24
 			Public Const int As Integer = 1
 			Public Const day As Integer = 1
@@ -89,6 +98,9 @@ Namespace World
             Public Const alwaysFullPreroll As Integer = 1
             Public Const metadataFlashFpsEnabled As Integer = 1
 			Public Const metadataFlashDateEnabled As Integer = 1
+			Public Const logOutToFile As Integer = 0
+			Public Const logOutputFolder As String = ""
+			Public Const markerAppendDaily As Integer = 0
 
 			Public Const zeroTC As String = "00 : 00 : 00 : 00"
 		End Class
