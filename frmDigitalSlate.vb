@@ -6,6 +6,7 @@ Imports System.Windows.Forms
 Imports System.Collections.Generic
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Text
+Imports System.Drawing.Imaging
 Imports digitalSlate.World.Functions
 Imports digitalSlate.World.mainClass
 Imports digitalSlate.World.Vars.vDefaults
@@ -18,6 +19,107 @@ Public Class frmDigitalSlate
 	Private _timecodeOverlayUntilUtc As DateTime = DateTime.MinValue
 	Private _timecodeOverlayText As String = String.Empty
 	Private _timecodeLabelBaseFont As Font
+	Private _logoOverlay As PictureBox
+	Private _currentLogoImage As Image
+
+	Private Const LogoMaxWidthPx As Integer = 430
+	Private Const LogoMaxHeightPx As Integer = 115
+	Private Shared ReadOnly DefaultLogoBounds As New Rectangle(16, 126, 88, 96)
+
+	Private Shared Function GetCustomLogoPersistPath() As String
+		Dim baseFolder As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "digitalSlate")
+		Return Path.Combine(baseFolder, "custom-logo.png")
+	End Function
+
+	Private Sub EnsureLogoOverlayControl()
+		If _logoOverlay IsNot Nothing Then Return
+		Dim logoBounds As Rectangle = If(pbLogoSlot IsNot Nothing, pbLogoSlot.Bounds, DefaultLogoBounds)
+		Dim overlayParent As Control = If(pbSlateBody IsNot Nothing, CType(pbSlateBody, Control), CType(plPrimary, Control))
+		Dim overlayLocation As Point = logoBounds.Location
+
+		If pbSlateBody IsNot Nothing Then
+			overlayLocation = New Point(logoBounds.X - pbSlateBody.Left, logoBounds.Y - pbSlateBody.Top)
+		End If
+
+		_logoOverlay = New PictureBox With {
+			.Name = "pbCustomLogoOverlay",
+			.Location = overlayLocation,
+			.Size = New Size(logoBounds.Width, logoBounds.Height),
+			.SizeMode = PictureBoxSizeMode.Zoom,
+		   .BackColor = Color.Transparent,
+			.Visible = False,
+			.TabStop = False
+		}
+
+		overlayParent.Controls.Add(_logoOverlay)
+		_logoOverlay.BringToFront()
+	End Sub
+
+	Private Sub SetLogoImage(image As Image)
+		If _currentLogoImage IsNot Nothing Then
+			_currentLogoImage.Dispose()
+			_currentLogoImage = Nothing
+		End If
+
+		If image Is Nothing Then
+			If _logoOverlay IsNot Nothing Then
+				_logoOverlay.Image = Nothing
+				_logoOverlay.Visible = False
+			End If
+			Return
+		End If
+
+		_currentLogoImage = CType(image.Clone(), Image)
+		_logoOverlay.Image = _currentLogoImage
+		_logoOverlay.Visible = True
+	End Sub
+
+	Private Function LoadImageUnlocked(filePath As String) As Image
+		Using fs As New FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)
+			Using img As Image = Image.FromStream(fs)
+				Return CType(img.Clone(), Image)
+			End Using
+		End Using
+	End Function
+
+	Private Sub TryLoadPersistedLogo()
+		Try
+			EnsureLogoOverlayControl()
+			Dim logoPath As String = GetCustomLogoPersistPath()
+			If Not File.Exists(logoPath) Then
+				SetLogoImage(Nothing)
+				Return
+			End If
+
+			Using loaded As Image = LoadImageUnlocked(logoPath)
+				SetLogoImage(loaded)
+			End Using
+		Catch
+			SetLogoImage(Nothing)
+		End Try
+	End Sub
+
+	Private Function ValidateLogoDimensions(candidate As Image) As Boolean
+		Return candidate.Width <= LogoMaxWidthPx AndAlso candidate.Height <= LogoMaxHeightPx
+	End Function
+
+	Private Sub SaveSelectedLogo(selectedPath As String)
+		Dim persistPath As String = GetCustomLogoPersistPath()
+		Dim persistDirectory As String = Path.GetDirectoryName(persistPath)
+		If Not Directory.Exists(persistDirectory) Then
+			Directory.CreateDirectory(persistDirectory)
+		End If
+
+		Using img As Image = LoadImageUnlocked(selectedPath)
+			If Not ValidateLogoDimensions(img) Then
+				MessageBox.Show($"Logo is too large ({img.Width}x{img.Height}). Max allowed is {LogoMaxWidthPx}x{LogoMaxHeightPx}.", "Invalid logo size", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Return
+			End If
+
+			img.Save(persistPath, ImageFormat.Png)
+			SetLogoImage(img)
+		End Using
+	End Sub
 
 
 	Private Sub UpdateLtcIndicator()
@@ -49,6 +151,8 @@ Public Class frmDigitalSlate
 		loadFromSettings()
 		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
+		If pbLogoSlot IsNot Nothing Then pbLogoSlot.Visible = False
+		TryLoadPersistedLogo()
 		_timecodeLabelBaseFont = New Font(lblTimecode.Font.FontFamily, lblTimecode.Font.Size, lblTimecode.Font.Style)
 		UpdateLtcIndicator()
 
@@ -76,6 +180,8 @@ Public Class frmDigitalSlate
 		loadFromSettings()
 		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
+		If pbLogoSlot IsNot Nothing Then pbLogoSlot.Visible = False
+		TryLoadPersistedLogo()
 		UpdateLtcIndicator()
 
 		Try
@@ -320,7 +426,7 @@ Public Class frmDigitalSlate
 	End Function
 
 	Private Async Function runCountDown(count As Integer) As Task
-    If count <= 0 Then Return
+		If count <= 0 Then Return
 
 		Dim filePath = GetAudioPath("countdown.wav")
 		If Not File.Exists(filePath) Then
@@ -331,14 +437,14 @@ Public Class frmDigitalSlate
 		Using cdPlayer As New SoundPlayer(filePath)
 			Try
 				Await Task.Run(Sub() cdPlayer.Load())
-          Dim cadenceClock As Stopwatch = Stopwatch.StartNew()
+				Dim cadenceClock As Stopwatch = Stopwatch.StartNew()
 				Const CountdownCadenceMs As Integer = 1000
 
 				For i As Integer = 1 To count
-             Await WaitUntilElapsedMsAsync(cadenceClock, (i - 1) * CountdownCadenceMs)
+					Await WaitUntilElapsedMsAsync(cadenceClock, (i - 1) * CountdownCadenceMs)
 					Dim visualsTask As Task = HandleBeepVisualsAsync(i, count, True)
 					Await Task.Run(Sub() cdPlayer.PlaySync())
-              Await visualsTask
+					Await visualsTask
 				Next
 
 				Await WaitUntilElapsedMsAsync(cadenceClock, count * CountdownCadenceMs)
@@ -500,6 +606,12 @@ Public Class frmDigitalSlate
 			_ltcOut.Stop()
 		Catch
 		End Try
+
+		If _currentLogoImage IsNot Nothing Then
+			_currentLogoImage.Dispose()
+			_currentLogoImage = Nothing
+		End If
+
 		MyBase.OnFormClosing(e)
 	End Sub
 
@@ -635,6 +747,24 @@ Public Class frmDigitalSlate
 		_targetValue = CInt(nudTakes.Value)
 		RefreshTargetLabel()
 	End Sub
+
+	Private Sub tsiChangeLogo_Click(sender As Object, e As EventArgs) Handles tsiChangeLogo.Click
+		Using ofd As New OpenFileDialog()
+			ofd.Filter = "PNG files (*.png)|*.png"
+			ofd.Title = "Select logo image"
+			ofd.CheckFileExists = True
+			ofd.Multiselect = False
+
+			If ofd.ShowDialog() <> DialogResult.OK Then Return
+
+			Try
+				SaveSelectedLogo(ofd.FileName)
+			Catch ex As Exception
+				MessageBox.Show("Unable to apply logo: " & ex.Message, "Logo error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+		End Using
+	End Sub
+
 End Class
 
 

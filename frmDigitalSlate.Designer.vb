@@ -26,14 +26,19 @@ Partial Class frmDigitalSlate
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.cmsPrimary = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.tsiEdit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.tsiLoadProfile = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsiSaveProfile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.tsiOptions = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiChangeLogo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.tsiZeroTC = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsiReset = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.tsiExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.plPrimary = New System.Windows.Forms.Panel()
+        Me.nudTakes = New System.Windows.Forms.NumericUpDown()
         Me.butSwAudio = New System.Windows.Forms.Button()
         Me.butSwDayNit = New System.Windows.Forms.Button()
         Me.butSwIntExt = New System.Windows.Forms.Button()
@@ -56,14 +61,15 @@ Partial Class frmDigitalSlate
         Me.lblScene = New System.Windows.Forms.Label()
         Me.lblTimecode = New System.Windows.Forms.Label()
         Me.lblLtcStatus = New System.Windows.Forms.Label()
+        Me.pbLogoSlot = New System.Windows.Forms.PictureBox()
         Me.pbClapper = New System.Windows.Forms.PictureBox()
         Me.pbSlateBody = New System.Windows.Forms.PictureBox()
-        Me.nudTakes = New System.Windows.Forms.NumericUpDown()
         Me.cmsPrimary.SuspendLayout()
         Me.plPrimary.SuspendLayout()
+        CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbLogoSlot, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbClapper, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbSlateBody, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Timer1
@@ -72,9 +78,9 @@ Partial Class frmDigitalSlate
         'cmsPrimary
         '
         Me.cmsPrimary.ImageScalingSize = New System.Drawing.Size(28, 28)
-        Me.cmsPrimary.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiEdit, Me.tsiLoadProfile, Me.tsiSaveProfile, Me.tsiOptions, Me.tsiZeroTC, Me.tsiReset, Me.ToolStripSeparator1, Me.tsiExit})
+        Me.cmsPrimary.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiEdit, Me.ToolStripSeparator3, Me.tsiLoadProfile, Me.tsiSaveProfile, Me.ToolStripSeparator4, Me.tsiOptions, Me.tsiChangeLogo, Me.ToolStripSeparator2, Me.tsiZeroTC, Me.tsiReset, Me.ToolStripSeparator1, Me.tsiExit})
         Me.cmsPrimary.Name = "cmsPrimary"
-        Me.cmsPrimary.Size = New System.Drawing.Size(238, 178)
+        Me.cmsPrimary.Size = New System.Drawing.Size(238, 220)
         '
         'tsiEdit
         '
@@ -84,6 +90,11 @@ Partial Class frmDigitalSlate
             Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
         Me.tsiEdit.Size = New System.Drawing.Size(237, 24)
         Me.tsiEdit.Text = "&Edit Slate"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(234, 6)
         '
         'tsiLoadProfile
         '
@@ -101,12 +112,30 @@ Partial Class frmDigitalSlate
         Me.tsiSaveProfile.Size = New System.Drawing.Size(237, 24)
         Me.tsiSaveProfile.Text = "Save Slate"
         '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(234, 6)
+        '
         'tsiOptions
         '
         Me.tsiOptions.AutoToolTip = True
         Me.tsiOptions.Name = "tsiOptions"
         Me.tsiOptions.Size = New System.Drawing.Size(237, 24)
         Me.tsiOptions.Text = "&Settings..."
+        '
+        'tsiChangeLogo
+        '
+        Me.tsiChangeLogo.AutoToolTip = True
+        Me.tsiChangeLogo.Name = "tsiChangeLogo"
+        Me.tsiChangeLogo.Size = New System.Drawing.Size(237, 24)
+        Me.tsiChangeLogo.Text = "Change Logo..."
+        Me.tsiChangeLogo.ToolTipText = "Change Company Logo"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(234, 6)
         '
         'tsiZeroTC
         '
@@ -160,6 +189,7 @@ Partial Class frmDigitalSlate
         Me.plPrimary.Controls.Add(Me.lblScene)
         Me.plPrimary.Controls.Add(Me.lblTimecode)
         Me.plPrimary.Controls.Add(Me.lblLtcStatus)
+        Me.plPrimary.Controls.Add(Me.pbLogoSlot)
         Me.plPrimary.Controls.Add(Me.pbClapper)
         Me.plPrimary.Controls.Add(Me.pbSlateBody)
         Me.plPrimary.Location = New System.Drawing.Point(0, 0)
@@ -169,6 +199,18 @@ Partial Class frmDigitalSlate
         Me.plPrimary.Name = "plPrimary"
         Me.plPrimary.Size = New System.Drawing.Size(1357, 857)
         Me.plPrimary.TabIndex = 20
+        '
+        'nudTakes
+        '
+        Me.nudTakes.Cursor = System.Windows.Forms.Cursors.HSplit
+        Me.nudTakes.Font = New System.Drawing.Font("Helvetica Neue", 19.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudTakes.ForeColor = System.Drawing.Color.White
+        Me.nudTakes.Location = New System.Drawing.Point(588, 180)
+        Me.nudTakes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudTakes.Name = "nudTakes"
+        Me.nudTakes.Size = New System.Drawing.Size(30, 46)
+        Me.nudTakes.TabIndex = 44
+        Me.nudTakes.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'butSwAudio
         '
@@ -501,6 +543,18 @@ Partial Class frmDigitalSlate
         Me.lblLtcStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLtcStatus.UseCompatibleTextRendering = True
         '
+        'pbLogoSlot
+        '
+        Me.pbLogoSlot.BackColor = System.Drawing.Color.White
+        Me.pbLogoSlot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbLogoSlot.Location = New System.Drawing.Point(56, 13)
+        Me.pbLogoSlot.Margin = New System.Windows.Forms.Padding(0)
+        Me.pbLogoSlot.Name = "pbLogoSlot"
+        Me.pbLogoSlot.Size = New System.Drawing.Size(303, 87)
+        Me.pbLogoSlot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.pbLogoSlot.TabIndex = 45
+        Me.pbLogoSlot.TabStop = False
+        '
         'pbClapper
         '
         Me.pbClapper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
@@ -529,18 +583,6 @@ Partial Class frmDigitalSlate
         Me.pbSlateBody.TabIndex = 22
         Me.pbSlateBody.TabStop = False
         '
-        'nudTakes
-        '
-        Me.nudTakes.Cursor = System.Windows.Forms.Cursors.HSplit
-        Me.nudTakes.Font = New System.Drawing.Font("Helvetica Neue", 19.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nudTakes.ForeColor = System.Drawing.Color.White
-        Me.nudTakes.Location = New System.Drawing.Point(588, 180)
-        Me.nudTakes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.nudTakes.Name = "nudTakes"
-        Me.nudTakes.Size = New System.Drawing.Size(30, 46)
-        Me.nudTakes.TabIndex = 44
-        Me.nudTakes.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
         'frmDigitalSlate
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(120.0!, 120.0!)
@@ -563,9 +605,10 @@ Partial Class frmDigitalSlate
         Me.cmsPrimary.ResumeLayout(False)
         Me.plPrimary.ResumeLayout(False)
         Me.plPrimary.PerformLayout()
+        CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbLogoSlot, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbClapper, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbSlateBody, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -595,6 +638,7 @@ Partial Class frmDigitalSlate
     Friend WithEvents lblScene As Label
     Friend WithEvents lblTimecode As Label
     Friend WithEvents lblLtcStatus As Label
+    Friend WithEvents pbLogoSlot As PictureBox
     Friend WithEvents pbClapper As PictureBox
     Friend WithEvents pbSlateBody As PictureBox
     Friend WithEvents tsiZeroTC As ToolStripMenuItem
@@ -606,4 +650,8 @@ Partial Class frmDigitalSlate
     Friend WithEvents tsiLoadProfile As ToolStripMenuItem
     Friend WithEvents tsiSaveProfile As ToolStripMenuItem
     Friend WithEvents nudTakes As NumericUpDown
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents tsiChangeLogo As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
 End Class
