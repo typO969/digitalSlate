@@ -31,12 +31,17 @@ Namespace World
 				World.vMain.day = My.Settings.cfgDay
 				World.vMain.sync = My.Settings.cfgSync
 				World.vMain.beepCount = My.Settings.cfgBeepCount
+              World.vMain.skipSound = My.Settings.cfgSkipSound
 				World.vMain.countdownCount = My.Settings.cfgCountdownCount
 				World.vMain.displayCaps = My.Settings.cfgDisplayCaps
 				World.vMain.ltcEnabled = My.Settings.cfgLtcEnabled
 				World.vMain.ltcFpsMode = My.Settings.cfgLtcFpsMode
 				World.vMain.ltcOutputDeviceId = My.Settings.cfgLtcOutputDeviceId
-				World.vMain.ltcUnmute = My.Settings.cfgLtcUnmute
+                World.vMain.ltcUnmute = My.Settings.cfgLtcUnmute
+				World.vMain.showCountdownNumbers = My.Settings.cfgShowCountdownNumbers
+              World.vMain.alwaysFullPreroll = My.Settings.cfgAlwaysFullPreroll
+              World.vMain.metadataFlashFpsEnabled = My.Settings.cfgMetadataFlashFpsEnabled
+				World.vMain.metadataFlashDateEnabled = My.Settings.cfgMetadataFlashDateEnabled
 			Catch ex As Exception
 				MessageBox.Show("Error loading settings: " & ex.Message)
 			End Try
@@ -62,12 +67,17 @@ Namespace World
 				My.Settings.cfgDay = World.vMain.day
 				My.Settings.cfgSync = World.vMain.sync
 				My.Settings.cfgBeepCount = World.vMain.beepCount
+              My.Settings.cfgSkipSound = World.vMain.skipSound
 				My.Settings.cfgCountdownCount = World.vMain.countdownCount
 				My.Settings.cfgDisplayCaps = World.vMain.displayCaps
 				My.Settings.cfgLtcEnabled = World.vMain.ltcEnabled
 				My.Settings.cfgLtcFpsMode = World.vMain.ltcFpsMode
 				My.Settings.cfgLtcOutputDeviceId = World.vMain.ltcOutputDeviceId
-				My.Settings.cfgLtcUnmute = World.vMain.ltcUnmute
+                My.Settings.cfgLtcUnmute = World.vMain.ltcUnmute
+				My.Settings.cfgShowCountdownNumbers = World.vMain.showCountdownNumbers
+              My.Settings.cfgAlwaysFullPreroll = World.vMain.alwaysFullPreroll
+              My.Settings.cfgMetadataFlashFpsEnabled = World.vMain.metadataFlashFpsEnabled
+				My.Settings.cfgMetadataFlashDateEnabled = World.vMain.metadataFlashDateEnabled
 				My.Settings.Save()
 			Catch ex As Exception
 				MessageBox.Show("Error saving settings: " & ex.Message)

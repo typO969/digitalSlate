@@ -353,6 +353,78 @@ Namespace My
                 Me("cfgLtcUnmute") = Value
             End Set
         End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        Public Property cfgSkipSound() As Integer
+            Get
+                Return CType(Me("cfgSkipSound"), Integer)
+            End Get
+            Set
+                Me("cfgSkipSound") = Value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        Public Property cfgShowCountdownNumbers() As Integer
+            Get
+                Return CType(Me("cfgShowCountdownNumbers"), Integer)
+            End Get
+            Set
+                Me("cfgShowCountdownNumbers") = Value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        Public Property cfgAlwaysFullPreroll() As Integer
+            Get
+                Return CType(Me("cfgAlwaysFullPreroll"), Integer)
+            End Get
+            Set
+                Me("cfgAlwaysFullPreroll") = Value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        Public Property cfgMetadataFlashEnabled() As Integer
+            Get
+                Return CType(Me("cfgMetadataFlashEnabled"), Integer)
+            End Get
+            Set
+                Me("cfgMetadataFlashEnabled") = Value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        Public Property cfgMetadataFlashFpsEnabled() As Integer
+            Get
+                Return CType(Me("cfgMetadataFlashFpsEnabled"), Integer)
+            End Get
+            Set
+                Me("cfgMetadataFlashFpsEnabled") = Value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        Public Property cfgMetadataFlashDateEnabled() As Integer
+            Get
+                Return CType(Me("cfgMetadataFlashDateEnabled"), Integer)
+            End Get
+            Set
+                Me("cfgMetadataFlashDateEnabled") = Value
+            End Set
+        End Property
     End Class
 End Namespace
 

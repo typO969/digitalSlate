@@ -1,6 +1,7 @@
 ﻿Imports digitalSlate.World.Functions
 Imports digitalSlate.World.mainClass
 Imports digitalSlate.World.Vars.vDefaults
+Imports System.Collections.Generic
 
 Namespace World
 
@@ -46,6 +47,12 @@ Namespace World
 			Public Property ltcOutputDeviceId As Integer = -1 ' -1 = default
 			Public Property ltcUnmute As Integer = 0
 
+			Public Property showCountdownNumbers As Integer = 0
+         Public Property alwaysFullPreroll As Integer = 1
+         Public Property metadataFlashFpsEnabled As Integer = 1
+			Public Property metadataFlashDateEnabled As Integer = 1
+			Public ReadOnly Property clapTimecodeLog As New List(Of String)
+
 		End Class
 
 		Public Class vDefaults
@@ -78,6 +85,10 @@ Namespace World
 			Public Const ltcFpsMode As Integer = 1
 			Public Const ltcOutputDeviceId As Integer = -1
 			Public Const ltcUnmute As Integer = 0
+			Public Const showCountdownNumbers As Integer = 0
+            Public Const alwaysFullPreroll As Integer = 1
+            Public Const metadataFlashFpsEnabled As Integer = 1
+			Public Const metadataFlashDateEnabled As Integer = 1
 
 			Public Const zeroTC As String = "00 : 00 : 00 : 00"
 		End Class

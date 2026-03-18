@@ -8,6 +8,9 @@
     <Setting Name="cfgBeepCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="cfgSkipSound" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
     <Setting Name="cfgDisplayCaps" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
@@ -77,5 +80,20 @@
 	<Setting Name="cfgLtcUnmute" Type="System.Int32" Scope="User">
 	  <Value Profile="(Default)">0</Value>
 	</Setting>
+    <Setting Name="cfgShowCountdownNumbers" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="cfgAlwaysFullPreroll" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgMetadataFlashEnabled" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgMetadataFlashFpsEnabled" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgMetadataFlashDateEnabled" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
