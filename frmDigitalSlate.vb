@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Diagnostics
 Imports System.Media
 Imports System.Reflection.Emit
 Imports System.Windows.Forms
@@ -242,12 +243,16 @@ Public Class frmDigitalSlate
 		End Using
 	End Function
 
+	Private Function GetMetadataFlashDurationMs() As Integer
+		Return GetFrameDurationMs(3)
+	End Function
+
 	Private Async Function ShowMetadataFlashSequenceAsync() As Task
 		Dim items As List(Of String) = GetMetadataItems()
 		If items.Count = 0 Then Return
 
 		For Each item In items
-			Await ShowTimecodeOverlayAsync(item, 1000)
+			Await ShowTimecodeOverlayAsync(item, GetMetadataFlashDurationMs())
 		Next
 	End Function
 
@@ -265,7 +270,7 @@ Public Class frmDigitalSlate
 			If total < items.Count Then Return
 			If index < 1 OrElse index > items.Count Then Return
 
-			Await ShowTimecodeOverlayAsync(items(index - 1), 900)
+			Await ShowTimecodeOverlayAsync(items(index - 1), GetMetadataFlashDurationMs())
 		Catch
 		End Try
 	End Sub
@@ -303,7 +308,20 @@ Public Class frmDigitalSlate
 		Await pulseTask
 	End Function
 
+	Private Async Function WaitUntilElapsedMsAsync(clock As Stopwatch, targetMs As Integer) As Task
+		Dim remainingMs As Integer = targetMs - CInt(clock.ElapsedMilliseconds)
+		If remainingMs > 1 Then
+			Await Task.Delay(remainingMs)
+		End If
+
+		Do While clock.ElapsedMilliseconds < targetMs
+			Await Task.Yield()
+		Loop
+	End Function
+
 	Private Async Function runCountDown(count As Integer) As Task
+    If count <= 0 Then Return
+
 		Dim filePath = GetAudioPath("countdown.wav")
 		If Not File.Exists(filePath) Then
 			MessageBox.Show("Missing audio file: " & filePath)
@@ -313,26 +331,61 @@ Public Class frmDigitalSlate
 		Using cdPlayer As New SoundPlayer(filePath)
 			Try
 				Await Task.Run(Sub() cdPlayer.Load())
+          Dim cadenceClock As Stopwatch = Stopwatch.StartNew()
+				Const CountdownCadenceMs As Integer = 1000
+
 				For i As Integer = 1 To count
-					Await HandleBeepVisualsAsync(i, count, True)
+             Await WaitUntilElapsedMsAsync(cadenceClock, (i - 1) * CountdownCadenceMs)
+					Dim visualsTask As Task = HandleBeepVisualsAsync(i, count, True)
 					Await Task.Run(Sub() cdPlayer.PlaySync())
+              Await visualsTask
 				Next
+
+				Await WaitUntilElapsedMsAsync(cadenceClock, count * CountdownCadenceMs)
 			Catch ex As Exception
 				MessageBox.Show("Error playing countdown: " & ex.Message)
 			End Try
 		End Using
 	End Function
 
-	Private Async Function playSyncBeep(count As Integer, Optional onFinalBeepStart As Action = Nothing) As Task
-		Dim filePath = GetAudioPath("syncBeep.wav")
+	Private Async Function TryCreateLoadedPlayer(relativeFile As String, missingFileMessagePrefix As String, loadErrorMessagePrefix As String) As Task(Of SoundPlayer)
+		Dim filePath = GetAudioPath(relativeFile)
 		If Not File.Exists(filePath) Then
-			MessageBox.Show("Missing audio file: " & filePath)
+			MessageBox.Show(missingFileMessagePrefix & filePath)
+			Return Nothing
+		End If
+
+		Dim player As New SoundPlayer(filePath)
+		Try
+			Await Task.Run(Sub() player.Load())
+			Return player
+		Catch ex As Exception
+			player.Dispose()
+			MessageBox.Show(loadErrorMessagePrefix & ex.Message)
+			Return Nothing
+		End Try
+	End Function
+
+	Private Async Function playSyncBeep(count As Integer, Optional onFinalBeepStart As Action = Nothing, Optional preloadedPlayer As SoundPlayer = Nothing) As Task
+		If preloadedPlayer IsNot Nothing Then
+			Try
+				For i As Integer = 1 To count
+					Await HandleBeepVisualsAsync(i, count, False)
+					If i = count AndAlso onFinalBeepStart IsNot Nothing Then
+						onFinalBeepStart()
+					End If
+					Await Task.Run(Sub() preloadedPlayer.PlaySync())
+				Next
+			Catch ex As Exception
+				MessageBox.Show("Error playing sync beep: " & ex.Message)
+			End Try
 			Return
 		End If
 
-		Using beepPlayer As New SoundPlayer(filePath)
+		Using beepPlayer As SoundPlayer = Await TryCreateLoadedPlayer("syncBeep.wav", "Missing audio file: ", "Error loading sync beep: ")
+			If beepPlayer Is Nothing Then Return
+
 			Try
-				Await Task.Run(Sub() beepPlayer.Load())
 				For i As Integer = 1 To count
 					Await HandleBeepVisualsAsync(i, count, False)
 					If i = count AndAlso onFinalBeepStart IsNot Nothing Then
@@ -375,6 +428,7 @@ Public Class frmDigitalSlate
 		If World.vMain.tcTimerGo = 1 Then
 			Dim startedAtSyncPoint As Boolean = False
 			Dim showMetadataFallback As Boolean = True
+			Dim preloadedSyncPlayer As SoundPlayer = Nothing
 			Dim startAtSync As Action =
 				Sub()
 					If startedAtSyncPoint Then Return
@@ -382,28 +436,42 @@ Public Class frmDigitalSlate
 					StartTakeAtSyncPoint(showMetadataFallback)
 				End Sub
 
-			If World.vMain.skipSound = 1 Then
-				' no pre-roll beeps
-				showMetadataFallback = True
-				startAtSync()
-			Else
-				Dim useFullPreroll As Boolean = (World.vMain.alwaysFullPreroll = 1)
-				Dim shouldRunCountdown As Boolean = useFullPreroll OrElse (lblTimecode.Text = zeroTC)
-				metadataCountdownEligible = (shouldRunCountdown AndAlso World.vMain.showCountdownNumbers <> 1 AndAlso World.vMain.countdownCount >= GetMetadataItems().Count)
-				showMetadataFallback = Not metadataCountdownEligible
-
-				If shouldRunCountdown Then
-					Await runCountDown(World.vMain.countdownCount)
-				End If
-
-				If World.vMain.beepCount > 0 Then
-					Await playSyncBeep(World.vMain.beepCount, startAtSync)
-				Else
+			Try
+				If World.vMain.skipSound = 1 Then
+					' no pre-roll beeps
+					showMetadataFallback = True
 					startAtSync()
-				End If
+				Else
+					Dim useFullPreroll As Boolean = (World.vMain.alwaysFullPreroll = 1)
+					Dim shouldRunCountdown As Boolean = useFullPreroll OrElse (lblTimecode.Text = zeroTC)
+					metadataCountdownEligible = (shouldRunCountdown AndAlso World.vMain.showCountdownNumbers <> 1 AndAlso World.vMain.countdownCount >= GetMetadataItems().Count)
+					showMetadataFallback = Not metadataCountdownEligible
 
-				tsiZeroTC.Enabled = False
-			End If
+					If World.vMain.beepCount > 0 Then
+						preloadedSyncPlayer = Await TryCreateLoadedPlayer("syncBeep.wav", "Missing audio file: ", "Error loading sync beep: ")
+						If preloadedSyncPlayer Is Nothing Then
+							World.vMain.tcTimerGo = 0
+							Return
+						End If
+					End If
+
+					If shouldRunCountdown Then
+						Await runCountDown(World.vMain.countdownCount)
+					End If
+
+					If World.vMain.beepCount > 0 Then
+						Await playSyncBeep(World.vMain.beepCount, startAtSync, preloadedSyncPlayer)
+					Else
+						startAtSync()
+					End If
+
+					tsiZeroTC.Enabled = False
+				End If
+			Finally
+				If preloadedSyncPlayer IsNot Nothing Then
+					preloadedSyncPlayer.Dispose()
+				End If
+			End Try
 
 			If Not startedAtSyncPoint Then
 				startAtSync()
