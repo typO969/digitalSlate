@@ -32,6 +32,7 @@ Namespace World
        Public Property sessionId As String = ""
 			Public Property unitName As String = ""
 			Public Property operatorName As String = ""
+           Public Property sessionMetadataEnabled As Integer = 1
 			Public Property fps As Double
 			Public Property int As Integer
 			Public Property day As Integer
@@ -79,6 +80,7 @@ Namespace World
         Public Const sessionId As String = ""
 			Public Const unitName As String = ""
 			Public Const operatorName As String = ""
+         Public Const sessionMetadataEnabled As Integer = 1
 			Public Const fps As Double = 24
 			Public Const int As Integer = 1
 			Public Const day As Integer = 1

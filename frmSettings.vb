@@ -60,9 +60,8 @@ Public Class frmSettings
 		World.vMain.metadataFlashDateEnabled = If(cbMetadataDate.Checked, 1, 0)
 		World.vMain.logOutToFile = If(cbLogOut2File.Checked, 1, 0)
 		World.vMain.markerAppendDaily = If(cbAppendDailyMarkers.Checked, 1, 0)
-		World.vMain.sessionId = txtSessionId.Text.Trim()
-		World.vMain.unitName = txtUnitName.Text.Trim()
-		World.vMain.operatorName = txtOperatorName.Text.Trim()
+		World.vMain.sessionMetadataEnabled = If(cbSessionMetadata.Checked, 1, 0)
+		ApplySessionMetadataPolicy()
 
 		If World.vMain.logOutToFile = 1 Then
 			Dim currentFolder As String = txtLogFolder.Text.Trim()
@@ -99,6 +98,7 @@ Public Class frmSettings
 		My.Settings.cfgLogOutToFile = World.vMain.logOutToFile
 		My.Settings.cfgLogOutputFolder = World.vMain.logOutputFolder
 		My.Settings.cfgMarkerAppendDaily = World.vMain.markerAppendDaily
+		My.Settings.cfgSessionMetadataEnabled = World.vMain.sessionMetadataEnabled
 		My.Settings.cfgSessionId = World.vMain.sessionId
 		My.Settings.cfgUnitName = World.vMain.unitName
 		My.Settings.cfgOperatorName = World.vMain.operatorName
@@ -126,9 +126,11 @@ Public Class frmSettings
 		World.vMain.logOutToFile = My.Settings.cfgLogOutToFile
 		World.vMain.logOutputFolder = My.Settings.cfgLogOutputFolder
 		World.vMain.markerAppendDaily = My.Settings.cfgMarkerAppendDaily
+		World.vMain.sessionMetadataEnabled = My.Settings.cfgSessionMetadataEnabled
 		World.vMain.sessionId = My.Settings.cfgSessionId
 		World.vMain.unitName = My.Settings.cfgUnitName
 		World.vMain.operatorName = My.Settings.cfgOperatorName
+		ApplySessionMetadataPolicy()
 
 		cbLtcEnabled.Checked = (World.vMain.ltcEnabled = 1)
 		cbLtcUnmute.Checked = (World.vMain.ltcUnmute = 1)
@@ -139,9 +141,7 @@ Public Class frmSettings
 		cbMetadataDate.Checked = (World.vMain.metadataFlashDateEnabled = 1)
 		cbLogOut2File.Checked = (World.vMain.logOutToFile = 1)
 		cbAppendDailyMarkers.Checked = (World.vMain.markerAppendDaily = 1)
-		txtSessionId.Text = World.vMain.sessionId
-		txtUnitName.Text = World.vMain.unitName
-		txtOperatorName.Text = World.vMain.operatorName
+		cbSessionMetadata.Checked = (World.vMain.sessionMetadataEnabled = 1)
 		txtLogFolder.Text = World.vMain.logOutputFolder
 		Dim idx As Integer = World.vMain.ltcFpsMode
 		If idx < 0 OrElse idx > 3 Then idx = 1

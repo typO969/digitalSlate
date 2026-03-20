@@ -497,6 +497,18 @@ Namespace My
             Me("cfgOperatorName") = Value
          End Set
       End Property
+
+      <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+      Public Property cfgSessionMetadataEnabled() As Integer
+         Get
+            Return CType(Me("cfgSessionMetadataEnabled"), Integer)
+         End Get
+         Set
+            Me("cfgSessionMetadataEnabled") = Value
+         End Set
+      End Property
    End Class
 End Namespace
 

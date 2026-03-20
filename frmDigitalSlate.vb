@@ -87,9 +87,7 @@ Partial Public Class frmDigitalSlate
 	End Function
 
 	Private Sub EnsureSessionMetadataDefaults()
-		If String.IsNullOrWhiteSpace(World.vMain.sessionId) Then
-			World.vMain.sessionId = Date.Now.ToString("yyyyMMdd_HHmm")
-		End If
+        ApplySessionMetadataPolicy()
 	End Sub
 
 	Private Sub SyncLtcOutputState()
@@ -386,7 +384,7 @@ Partial Public Class frmDigitalSlate
 		Dim productionPart As String = SanitizeFilePart(World.vMain.production)
 		Dim scenePart As String = SanitizeFilePart(World.vMain.scene)
 		Dim rollPart As String = SanitizeFilePart(World.vMain.roll)
-     Dim sessionPart As String = SanitizeFilePart(World.vMain.sessionId)
+        Dim sessionPart As String = If(IsSessionMetadataEnabled(), SanitizeFilePart(World.vMain.sessionId), "NOSESSION")
 		Dim baseName As String
 
 		If World.vMain.markerAppendDaily = 1 Then
@@ -487,8 +485,11 @@ Partial Public Class frmDigitalSlate
 			End If
 
 			Dim inTc As String = NormalizeTimecode(inTcRaw)
-			Dim markerName As String = $"{World.vMain.scene}_T{World.vMain.take}"
-       Dim description As String = $"Roll {World.vMain.roll}; FPS {framesPerSecond:0.###}; Unit {World.vMain.unitName}; Op {World.vMain.operatorName}; Session {World.vMain.sessionId}"
+       Dim markerName As String = $"{World.vMain.scene}_T{World.vMain.take}"
+		Dim description As String = $"Roll {World.vMain.roll}; FPS {framesPerSecond:0.###}"
+		If IsSessionMetadataEnabled() Then
+			description &= $"; Unit {World.vMain.unitName}; Op {World.vMain.operatorName}; Session {World.vMain.sessionId}"
+		End If
 
 			If Not File.Exists(filePath) Then
 				Dim header As String = "Marker Name,Description,In,Out,Duration,Marker Color,Marker Type"

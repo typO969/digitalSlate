@@ -11,6 +11,26 @@ Namespace World
 
 	Public Class Functions
 
+		Public Shared Function IsSessionMetadataEnabled() As Boolean
+			Return World.vMain.sessionMetadataEnabled = 1
+		End Function
+
+		Public Shared Function GenerateNewSessionId() As String
+			Return Guid.NewGuid().ToString("N")
+		End Function
+
+		Public Shared Sub ApplySessionMetadataPolicy()
+			If IsSessionMetadataEnabled() Then
+				If String.IsNullOrWhiteSpace(World.vMain.sessionId) Then
+					World.vMain.sessionId = GenerateNewSessionId()
+				End If
+			Else
+				World.vMain.sessionId = String.Empty
+				World.vMain.unitName = String.Empty
+				World.vMain.operatorName = String.Empty
+			End If
+		End Sub
+
 		Public Shared Sub loadFromSettings()
 			Try
 				World.vMain.scene = My.Settings.cfgScene
@@ -48,6 +68,8 @@ Namespace World
 				World.vMain.sessionId = My.Settings.cfgSessionId
 				World.vMain.unitName = My.Settings.cfgUnitName
 				World.vMain.operatorName = My.Settings.cfgOperatorName
+               World.vMain.sessionMetadataEnabled = My.Settings.cfgSessionMetadataEnabled
+				ApplySessionMetadataPolicy()
 			Catch ex As Exception
 				MessageBox.Show("Error loading settings: " & ex.Message)
 			End Try
@@ -87,9 +109,16 @@ Namespace World
             My.Settings.cfgLogOutToFile = World.vMain.logOutToFile
 				My.Settings.cfgLogOutputFolder = World.vMain.logOutputFolder
             My.Settings.cfgMarkerAppendDaily = World.vMain.markerAppendDaily
-				My.Settings.cfgSessionId = World.vMain.sessionId
-				My.Settings.cfgUnitName = World.vMain.unitName
-				My.Settings.cfgOperatorName = World.vMain.operatorName
+                My.Settings.cfgSessionMetadataEnabled = World.vMain.sessionMetadataEnabled
+				If IsSessionMetadataEnabled() Then
+					My.Settings.cfgSessionId = World.vMain.sessionId
+					My.Settings.cfgUnitName = World.vMain.unitName
+					My.Settings.cfgOperatorName = World.vMain.operatorName
+				Else
+					My.Settings.cfgSessionId = String.Empty
+					My.Settings.cfgUnitName = String.Empty
+					My.Settings.cfgOperatorName = String.Empty
+				End If
 				My.Settings.Save()
 			Catch ex As Exception
 				MessageBox.Show("Error saving settings: " & ex.Message)
@@ -160,6 +189,13 @@ Namespace World
 			World.vMain.day = World.vDefaults.day
 			World.vMain.sync = World.vDefaults.sync
 			World.vMain.tcTimerGo = 0
+			If IsSessionMetadataEnabled() Then
+				World.vMain.sessionId = GenerateNewSessionId()
+			Else
+				World.vMain.sessionId = String.Empty
+				World.vMain.unitName = String.Empty
+				World.vMain.operatorName = String.Empty
+			End If
 
 			updateScene()
 			updateRoll()
@@ -291,9 +327,9 @@ Namespace World
 							.LogOutToFile = World.vMain.logOutToFile,
 							.LogOutputFolder = World.vMain.logOutputFolder,
 							.MarkerAppendDaily = World.vMain.markerAppendDaily,
-							.SessionId = World.vMain.sessionId,
-							.UnitName = World.vMain.unitName,
-							.OperatorName = World.vMain.operatorName
+                         .SessionId = If(IsSessionMetadataEnabled(), World.vMain.sessionId, String.Empty),
+							.UnitName = If(IsSessionMetadataEnabled(), World.vMain.unitName, String.Empty),
+							.OperatorName = If(IsSessionMetadataEnabled(), World.vMain.operatorName, String.Empty)
 						}
 
 						Try
@@ -367,9 +403,18 @@ Namespace World
 							World.vMain.logOutToFile = settings.LogOutToFile
 							World.vMain.logOutputFolder = settings.LogOutputFolder
 							World.vMain.markerAppendDaily = settings.MarkerAppendDaily
-							World.vMain.sessionId = settings.SessionId
-							World.vMain.unitName = settings.UnitName
-							World.vMain.operatorName = settings.OperatorName
+                          If IsSessionMetadataEnabled() Then
+								World.vMain.sessionId = settings.SessionId
+								World.vMain.unitName = settings.UnitName
+								World.vMain.operatorName = settings.OperatorName
+								If String.IsNullOrWhiteSpace(World.vMain.sessionId) Then
+									World.vMain.sessionId = GenerateNewSessionId()
+								End If
+							Else
+								World.vMain.sessionId = String.Empty
+								World.vMain.unitName = String.Empty
+								World.vMain.operatorName = String.Empty
+							End If
 
 							' Update UI
 							refreshSlate()

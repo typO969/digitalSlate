@@ -91,6 +91,7 @@ Public Class JsonSettingsManager
 	' Return Boolean; UI layer should handle user messaging.
 	Public Shared Function SaveProfile(profileNumber As Integer) As Boolean
 		Try
+         Dim includeMetadata As Boolean = World.Functions.IsSessionMetadataEnabled()
 			Dim profilesWrapper = LoadAllProfilesFromFile(ProfilesFileName)
 			Dim settings As New SettingsProfile With {
 				.Scene = World.vMain.scene,
@@ -122,9 +123,9 @@ Public Class JsonSettingsManager
 				.LogOutToFile = World.vMain.logOutToFile,
 				.LogOutputFolder = World.vMain.logOutputFolder,
 				.MarkerAppendDaily = World.vMain.markerAppendDaily,
-				.SessionId = World.vMain.sessionId,
-				.UnitName = World.vMain.unitName,
-				.OperatorName = World.vMain.operatorName
+             .SessionId = If(includeMetadata, World.vMain.sessionId, String.Empty),
+				.UnitName = If(includeMetadata, World.vMain.unitName, String.Empty),
+				.OperatorName = If(includeMetadata, World.vMain.operatorName, String.Empty)
 			}
 
 			profilesWrapper.Profiles(profileNumber) = settings
@@ -171,9 +172,18 @@ Public Class JsonSettingsManager
 				World.vMain.logOutToFile = settings.LogOutToFile
 				World.vMain.logOutputFolder = settings.LogOutputFolder
 				World.vMain.markerAppendDaily = settings.MarkerAppendDaily
-				World.vMain.sessionId = settings.SessionId
-				World.vMain.unitName = settings.UnitName
-				World.vMain.operatorName = settings.OperatorName
+              If World.Functions.IsSessionMetadataEnabled() Then
+					World.vMain.sessionId = settings.SessionId
+					World.vMain.unitName = settings.UnitName
+					World.vMain.operatorName = settings.OperatorName
+					If String.IsNullOrWhiteSpace(World.vMain.sessionId) Then
+						World.vMain.sessionId = World.Functions.GenerateNewSessionId()
+					End If
+				Else
+					World.vMain.sessionId = String.Empty
+					World.vMain.unitName = String.Empty
+					World.vMain.operatorName = String.Empty
+				End If
 
 				Return True
 			Else

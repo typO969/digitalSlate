@@ -17,6 +17,18 @@ Public Class frmEdit
 	Private tmpIsInt As Integer
 	Private tmpIsSync As Integer
 
+	Private Sub UpdateSessionMetadataUiState()
+		Dim enabled As Boolean = IsSessionMetadataEnabled()
+		GroupBox10.Visible = enabled
+		GroupBox10.Enabled = enabled
+
+		If Not enabled Then
+			txtSessionId.Text = String.Empty
+			txtUnitName.Text = String.Empty
+			txtOperatorName.Text = String.Empty
+		End If
+	End Sub
+
 	Private Sub frmEdit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		'Initialize the TextBox state based on the CheckBox state
 		UpdateTextBoxState()
@@ -30,6 +42,8 @@ Public Class frmEdit
 	Private Sub UpdateTextBoxState()
 		' Enable or disable the TextBox based on the CheckBox state
 		txtCustDate.Enabled = Not cbTodaysDate.Checked
+		txtCustDate.Visible = Not cbTodaysDate.Checked
+		Label13.Visible = Not cbTodaysDate.Checked
 	End Sub
 
 	Private Sub updateDisplay(source As String)
@@ -111,7 +125,13 @@ Public Class frmEdit
 		If String.IsNullOrEmpty(txtProduction.Text) Then txtProduction.Text = World.vDefaults.production
 		If String.IsNullOrEmpty(txtDirector.Text) Then txtDirector.Text = World.vDefaults.director
 		If String.IsNullOrEmpty(txtFPS.Text) Or txtFPS.Text = "0" Then txtFPS.Text = World.vDefaults.fps.ToString()
-		If String.IsNullOrEmpty(txtSessionId.Text) Then txtSessionId.Text = Date.Now.ToString("yyyyMMdd_HHmm")
+		If IsSessionMetadataEnabled() Then
+			If String.IsNullOrEmpty(txtSessionId.Text) Then txtSessionId.Text = GenerateNewSessionId()
+		Else
+			txtSessionId.Text = String.Empty
+			txtUnitName.Text = String.Empty
+			txtOperatorName.Text = String.Empty
+		End If
 
 		' Handle custom date logic
 		If Not cbTodaysDate.Checked Then
@@ -142,9 +162,15 @@ Public Class frmEdit
 			World.vMain.production = txtProduction.Text
 			World.vMain.director = txtDirector.Text
 			World.vMain.dop = txtDOP.Text
-			World.vMain.sessionId = txtSessionId.Text
-			World.vMain.unitName = txtUnitName.Text
-			World.vMain.operatorName = txtOperatorName.Text
+			If IsSessionMetadataEnabled() Then
+				World.vMain.sessionId = txtSessionId.Text
+				World.vMain.unitName = txtUnitName.Text
+				World.vMain.operatorName = txtOperatorName.Text
+			Else
+				World.vMain.sessionId = String.Empty
+				World.vMain.unitName = String.Empty
+				World.vMain.operatorName = String.Empty
+			End If
 
 			' Numeric fields using TryParse to avoid exceptions
 			Dim tmpInt As Integer
@@ -235,7 +261,9 @@ Public Class frmEdit
 	Private Sub frmEdit_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 		'Get Data from App Settings
 		loadFromSettings()
+		UpdateSessionMetadataUiState()
 		loadToForm(Me)
+		UpdateSessionMetadataUiState()
 	End Sub
 
 	Private Sub txtSceneNum_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSceneNum.KeyPress

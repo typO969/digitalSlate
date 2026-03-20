@@ -3,6 +3,7 @@
 ## General Guidelines
 - First general instruction
 - Second general instruction
+- Prefer highly automated session management with only three user actions: New/Reset, Load, and Save. Include an optional toggle to enable/disable session metadata features.
 
 ## Audio Configuration
 - When LTC is enabled, sync beeps/countdown must only play before timecode starts (never during).
