@@ -29,6 +29,10 @@ Partial Public Class frmDigitalSlate
 	Private WithEvents _ltcHealthTimer As New Windows.Forms.Timer With {.Interval = 1500}
 	Private _resolveLogFilePathCache As String = String.Empty
 	Private ReadOnly _resolveSessionToken As String = Date.Now.ToString("yyyyMMdd_HHmmss")
+	Private _slateScaleInitialized As Boolean = False
+	Private _slateDesignSize As Size = Size.Empty
+	Private ReadOnly _slateControlBounds As New Dictionary(Of Control, Rectangle)
+	Private ReadOnly _slateControlFonts As New Dictionary(Of Control, Font)
 
 	Private Const LogoMaxWidthPx As Integer = 430
 	Private Const LogoMaxHeightPx As Integer = 115
@@ -87,22 +91,22 @@ Partial Public Class frmDigitalSlate
 	End Function
 
 	Private Sub EnsureSessionMetadataDefaults()
-        ApplySessionMetadataPolicy()
+		ApplySessionMetadataPolicy()
 	End Sub
 
 	Private Sub SyncLtcOutputState()
-    If _isPlayingCalibrationTone Then Return
+		If _isPlayingCalibrationTone Then Return
 
 		If World.vMain.ltcEnabled <> 1 Then
 			_ltcOut.Stop()
 			_ltcCurrentDeviceId = Integer.MinValue
 			_ltcCurrentFpsMode = CType(-1, LtcFpsMode)
-       _ltcLastError = String.Empty
+			_ltcLastError = String.Empty
 			UpdateLtcIndicator()
 			Return
 		End If
 
-    Try
+		Try
 			Dim desiredDeviceId As Integer = World.vMain.ltcOutputDeviceId
 			Dim desiredFpsMode As LtcFpsMode = GetDesiredLtcFpsMode()
 
@@ -235,17 +239,17 @@ Partial Public Class frmDigitalSlate
 
 		If Timer1 IsNot Nothing AndAlso Timer1.Enabled Then
 			If World.vMain.ltcUnmute = 1 Then
-           lblLtcStatus.Text = "LTC: LIVE | " & baseText
+				lblLtcStatus.Text = "LTC: LIVE | " & baseText
 				lblLtcStatus.ForeColor = Color.Lime
 			Else
-          lblLtcStatus.Text = "LTC: MUTED | " & baseText
+				lblLtcStatus.Text = "LTC: MUTED | " & baseText
 				lblLtcStatus.ForeColor = Color.Gold
 			End If
-     ElseIf _ltcOut IsNot Nothing AndAlso _ltcOut.IsRunning Then
+		ElseIf _ltcOut IsNot Nothing AndAlso _ltcOut.IsRunning Then
 			lblLtcStatus.Text = "LTC: READY | " & baseText
 			lblLtcStatus.ForeColor = Color.Green
 		Else
-       lblLtcStatus.Text = "LTC: RECOVERING | " & baseText
+			lblLtcStatus.Text = "LTC: RECOVERING | " & baseText
 			lblLtcStatus.ForeColor = Color.Orange
 		End If
 
@@ -258,11 +262,12 @@ Partial Public Class frmDigitalSlate
 
 	Private Sub frmDigitalSlate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		loadFromSettings()
-     EnsureSessionMetadataDefaults()
+		EnsureSessionMetadataDefaults()
 		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
 		If pbLogoSlot IsNot Nothing Then pbLogoSlot.Visible = False
 		TryLoadPersistedLogo()
+		InitializeSlateScaling()
 		_timecodeLabelBaseFont = New Font(lblTimecode.Font.FontFamily, lblTimecode.Font.Size, lblTimecode.Font.Style)
 		SyncLtcOutputState()
 		_ltcHealthTimer.Start()
@@ -289,11 +294,12 @@ Partial Public Class frmDigitalSlate
 
 	Private Sub frmDigitalSlate_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 		loadFromSettings()
-     EnsureSessionMetadataDefaults()
+		EnsureSessionMetadataDefaults()
 		framesPerSecond = If(World.vMain.fps > 0, World.vMain.fps, World.vDefaults.fps)
 		loadToForm(Me)
 		If pbLogoSlot IsNot Nothing Then pbLogoSlot.Visible = False
 		TryLoadPersistedLogo()
+		ApplySlateScaleLayout()
 		SyncLtcOutputState()
 		If Not _ltcHealthTimer.Enabled Then _ltcHealthTimer.Start()
 
@@ -311,6 +317,117 @@ Partial Public Class frmDigitalSlate
 			plPrimary.Top = (Me.ClientSize.Height - plPrimary.Height) \ 2
 		End If
 	End Sub
+
+	Private Sub InitializeSlateScaling()
+		If _slateScaleInitialized Then Return
+		If plPrimary Is Nothing Then Return
+
+     ClearControlSizeConstraintsRecursive(plPrimary)
+
+		_slateDesignSize = plPrimary.Size
+		_slateControlBounds.Clear()
+		_slateControlFonts.Clear()
+		CaptureSlateControlMetrics(plPrimary)
+
+		_slateScaleInitialized = True
+		ApplySlateScaleLayout()
+	End Sub
+
+	Private Sub ClearControlSizeConstraintsRecursive(parent As Control)
+		parent.MinimumSize = Size.Empty
+		parent.MaximumSize = Size.Empty
+
+		For Each child As Control In parent.Controls
+			ClearControlSizeConstraintsRecursive(child)
+		Next
+	End Sub
+
+	Private Sub CaptureSlateControlMetrics(parent As Control)
+		For Each child As Control In parent.Controls
+			_slateControlBounds(child) = child.Bounds
+			If child.Font IsNot Nothing Then
+				_slateControlFonts(child) = CType(child.Font.Clone(), Font)
+			End If
+
+			If child.HasChildren Then
+				CaptureSlateControlMetrics(child)
+			End If
+		Next
+	End Sub
+
+	Private Sub ApplySlateScaleLayout()
+		If Not _slateScaleInitialized Then Return
+		If _slateDesignSize.Width <= 0 OrElse _slateDesignSize.Height <= 0 Then Return
+		If Me.ClientSize.Width <= 0 OrElse Me.ClientSize.Height <= 0 Then Return
+
+		Dim fitScaleX As Double = Me.ClientSize.Width / CDbl(_slateDesignSize.Width)
+		Dim fitScaleY As Double = Me.ClientSize.Height / CDbl(_slateDesignSize.Height)
+		Dim fitScale As Double = Math.Min(fitScaleX, fitScaleY)
+
+		Dim userScale As Double = If(World.vMain.slateScaleMultiplier > 0, World.vMain.slateScaleMultiplier, 1.0)
+		Dim finalScale As Single = CSng(Math.Max(0.1, Math.Min(fitScale, fitScale * userScale)))
+
+		Dim scaledWidth As Integer = Math.Max(1, CInt(Math.Round(_slateDesignSize.Width * finalScale)))
+		Dim scaledHeight As Integer = Math.Max(1, CInt(Math.Round(_slateDesignSize.Height * finalScale)))
+
+		plPrimary.SuspendLayout()
+		plPrimary.Size = New Size(scaledWidth, scaledHeight)
+
+		For Each kvp In _slateControlBounds
+			Dim ctl As Control = kvp.Key
+			Dim baseBounds As Rectangle = kvp.Value
+			ctl.Bounds = New Rectangle(
+				CInt(Math.Round(baseBounds.X * finalScale)),
+				CInt(Math.Round(baseBounds.Y * finalScale)),
+				Math.Max(1, CInt(Math.Round(baseBounds.Width * finalScale))),
+				Math.Max(1, CInt(Math.Round(baseBounds.Height * finalScale))))
+
+			Dim baseFont As Font = Nothing
+			If _slateControlFonts.TryGetValue(ctl, baseFont) AndAlso baseFont IsNot Nothing Then
+				Dim scaledFontSize As Single = Math.Max(1.0F, CSng(baseFont.Size * finalScale))
+				ctl.Font = New Font(baseFont.FontFamily, scaledFontSize, baseFont.Style, baseFont.Unit)
+			End If
+		Next
+
+		plPrimary.ResumeLayout()
+		CenterPanel()
+
+		If lblTimecode IsNot Nothing AndAlso DateTime.UtcNow >= _timecodeOverlayUntilUtc Then
+			_timecodeLabelBaseFont = New Font(lblTimecode.Font.FontFamily, lblTimecode.Font.Size, lblTimecode.Font.Style)
+		End If
+	End Sub
+
+	Private Sub frmDigitalSlate_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+		ApplySlateScaleLayout()
+	End Sub
+
+	Public Sub ApplyCurrentSlateScale()
+		ApplySlateScaleLayout()
+	End Sub
+
+	Public Function GetLtcDiagnosticsSummary() As String
+		Dim enabled As Boolean = (World.vMain.ltcEnabled = 1)
+		Dim running As Boolean = (_ltcOut IsNot Nothing AndAlso _ltcOut.IsRunning)
+		Dim deviceLabel As String = GetLtcDeviceName(World.vMain.ltcOutputDeviceId)
+		Dim fpsLabel As String = GetDesiredLtcFpsMode().ToString()
+		Dim muteLabel As String = If(World.vMain.ltcUnmute = 1, "Unmuted", "Muted")
+
+		Dim stateLabel As String
+		If Not enabled Then
+			stateLabel = "OFF"
+		ElseIf running Then
+			stateLabel = "RUNNING"
+		Else
+			stateLabel = "RECOVERING"
+		End If
+
+		Dim summary As String = $"State: {stateLabel} | FPS: {fpsLabel} | Device: {deviceLabel} | Audio: {muteLabel}"
+		If Not String.IsNullOrWhiteSpace(_ltcLastError) Then
+			summary &= $" | Last error: {_ltcLastError}"
+		End If
+
+		Return summary
+	End Function
 
 	Private Shared Function GetAudioPath(relativeFile As String) As String
 		Return Path.Combine(Application.StartupPath, "audio", relativeFile)

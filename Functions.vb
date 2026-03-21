@@ -54,6 +54,7 @@ Namespace World
               World.vMain.skipSound = My.Settings.cfgSkipSound
 				World.vMain.countdownCount = My.Settings.cfgCountdownCount
 				World.vMain.displayCaps = My.Settings.cfgDisplayCaps
+          World.vMain.slateScaleMultiplier = If(My.Settings.cfgSlateScaleMultiplier > 0, My.Settings.cfgSlateScaleMultiplier, World.vDefaults.slateScaleMultiplier)
 				World.vMain.ltcEnabled = My.Settings.cfgLtcEnabled
 				World.vMain.ltcFpsMode = My.Settings.cfgLtcFpsMode
 				World.vMain.ltcOutputDeviceId = My.Settings.cfgLtcOutputDeviceId
@@ -98,6 +99,7 @@ Namespace World
               My.Settings.cfgSkipSound = World.vMain.skipSound
 				My.Settings.cfgCountdownCount = World.vMain.countdownCount
 				My.Settings.cfgDisplayCaps = World.vMain.displayCaps
+          My.Settings.cfgSlateScaleMultiplier = World.vMain.slateScaleMultiplier
 				My.Settings.cfgLtcEnabled = World.vMain.ltcEnabled
 				My.Settings.cfgLtcFpsMode = World.vMain.ltcFpsMode
 				My.Settings.cfgLtcOutputDeviceId = World.vMain.ltcOutputDeviceId

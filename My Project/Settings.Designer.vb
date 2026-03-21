@@ -509,6 +509,18 @@ Namespace My
             Me("cfgSessionMetadataEnabled") = Value
          End Set
       End Property
+
+      <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+      Public Property cfgSlateScaleMultiplier() As Double
+         Get
+            Return CType(Me("cfgSlateScaleMultiplier"), Double)
+         End Get
+         Set
+            Me("cfgSlateScaleMultiplier") = Value
+         End Set
+      End Property
    End Class
 End Namespace
 

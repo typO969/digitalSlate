@@ -46,6 +46,8 @@ Namespace World
 
 			Public Property autoUpTake As Integer = 0
 
+			Public Property slateScaleMultiplier As Double = 1.0
+
 			Public Property ltcEnabled As Integer = 0
 			Public Property ltcFpsMode As Integer = 1 ' default 24
 			Public Property ltcOutputDeviceId As Integer = -1 ' -1 = default
@@ -91,6 +93,8 @@ Namespace World
 			Public Const displayCaps As Integer = 0
 
 			Public Const autoUpTake As Integer = 0
+
+			Public Const slateScaleMultiplier As Double = 1.0
 
 			Public Const ltcEnabled As Integer = 0
 			Public Const ltcFpsMode As Integer = 1

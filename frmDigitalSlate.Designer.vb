@@ -71,593 +71,583 @@ Partial Class frmDigitalSlate
       Me.pbLogoSlot = New System.Windows.Forms.PictureBox()
       Me.pbClapper = New System.Windows.Forms.PictureBox()
       Me.pbSlateBody = New System.Windows.Forms.PictureBox()
-      Me.cmsPrimary.SuspendLayout()
-      Me.plPrimary.SuspendLayout()
-      CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.pbLogoSlot, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.pbClapper, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.pbSlateBody, System.ComponentModel.ISupportInitialize).BeginInit()
-      Me.SuspendLayout()
-      '
-      'Timer1
-      '
-      '
-      'cmsPrimary
-      '
-      Me.cmsPrimary.ImageScalingSize = New System.Drawing.Size(28, 28)
-      Me.cmsPrimary.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiEdit, Me.ToolStripSeparator3, Me.tsiLoadProfile, Me.tsiSaveProfile, Me.ToolStripSeparator5, Me.tsiExportMarkersNow, Me.tsiOpenLogFolder, Me.tsiRevealCurrentMarkerFile, Me.tsiValidateMarkerCsv, Me.ToolStripSeparator4, Me.tsiOptions, Me.tsiLtcCalibrationTone, Me.tsiChangeLogo, Me.ToolStripSeparator2, Me.tsiZeroTC, Me.tsiReset, Me.ToolStripSeparator1, Me.tsiExit})
-      Me.cmsPrimary.Name = "cmsPrimary"
-      Me.cmsPrimary.Size = New System.Drawing.Size(311, 354)
-      '
-      'tsiEdit
-      '
-      Me.tsiEdit.AutoToolTip = True
-      Me.tsiEdit.Name = "tsiEdit"
-      Me.tsiEdit.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
+        Me.cmsPrimary.SuspendLayout()
+        Me.plPrimary.SuspendLayout()
+        CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbLogoSlot, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbClapper, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbSlateBody, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'Timer1
+        '
+        '
+        'cmsPrimary
+        '
+        Me.cmsPrimary.ImageScalingSize = New System.Drawing.Size(28, 28)
+        Me.cmsPrimary.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiEdit, Me.ToolStripSeparator3, Me.tsiLoadProfile, Me.tsiSaveProfile, Me.ToolStripSeparator5, Me.tsiExportMarkersNow, Me.tsiOpenLogFolder, Me.tsiRevealCurrentMarkerFile, Me.tsiValidateMarkerCsv, Me.ToolStripSeparator4, Me.tsiOptions, Me.tsiLtcCalibrationTone, Me.tsiChangeLogo, Me.ToolStripSeparator2, Me.tsiZeroTC, Me.tsiReset, Me.ToolStripSeparator1, Me.tsiExit})
+        Me.cmsPrimary.Name = "cmsPrimary"
+        Me.cmsPrimary.Size = New System.Drawing.Size(311, 450)
+        '
+        'tsiEdit
+        '
+        Me.tsiEdit.AutoToolTip = True
+        Me.tsiEdit.Name = "tsiEdit"
+        Me.tsiEdit.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
-      Me.tsiEdit.Size = New System.Drawing.Size(310, 32)
-      Me.tsiEdit.Text = "&Edit Slate"
-      '
-      'ToolStripSeparator3
-      '
-      Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-      Me.ToolStripSeparator3.Size = New System.Drawing.Size(307, 6)
-      '
-      'tsiLoadProfile
-      '
-      Me.tsiLoadProfile.Name = "tsiLoadProfile"
-      Me.tsiLoadProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
+        Me.tsiEdit.Size = New System.Drawing.Size(310, 32)
+        Me.tsiEdit.Text = "&Edit Slate"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(307, 6)
+        '
+        'tsiLoadProfile
+        '
+        Me.tsiLoadProfile.Name = "tsiLoadProfile"
+        Me.tsiLoadProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-      Me.tsiLoadProfile.Size = New System.Drawing.Size(310, 32)
-      Me.tsiLoadProfile.Text = "Load Slate"
-      '
-      'tsiSaveProfile
-      '
-      Me.tsiSaveProfile.Name = "tsiSaveProfile"
-      Me.tsiSaveProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
+        Me.tsiLoadProfile.Size = New System.Drawing.Size(310, 32)
+        Me.tsiLoadProfile.Text = "Load Slate"
+        '
+        'tsiSaveProfile
+        '
+        Me.tsiSaveProfile.Name = "tsiSaveProfile"
+        Me.tsiSaveProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-      Me.tsiSaveProfile.Size = New System.Drawing.Size(310, 32)
-      Me.tsiSaveProfile.Text = "Save Slate"
-      '
-      'ToolStripSeparator5
-      '
-      Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-      Me.ToolStripSeparator5.Size = New System.Drawing.Size(307, 6)
-      '
-      'tsiExportMarkersNow
-      '
-      Me.tsiExportMarkersNow.Name = "tsiExportMarkersNow"
-      Me.tsiExportMarkersNow.Size = New System.Drawing.Size(310, 32)
-      Me.tsiExportMarkersNow.Text = "Export Session Markers Now"
-      '
-      'tsiOpenLogFolder
-      '
-      Me.tsiOpenLogFolder.Name = "tsiOpenLogFolder"
-      Me.tsiOpenLogFolder.Size = New System.Drawing.Size(310, 32)
-      Me.tsiOpenLogFolder.Text = "Open Marker Log Folder"
-      '
-      'tsiRevealCurrentMarkerFile
-      '
-      Me.tsiRevealCurrentMarkerFile.Name = "tsiRevealCurrentMarkerFile"
-      Me.tsiRevealCurrentMarkerFile.Size = New System.Drawing.Size(310, 32)
-      Me.tsiRevealCurrentMarkerFile.Text = "Reveal Current Marker File"
-      '
-      'tsiValidateMarkerCsv
-      '
-      Me.tsiValidateMarkerCsv.Name = "tsiValidateMarkerCsv"
-      Me.tsiValidateMarkerCsv.Size = New System.Drawing.Size(310, 32)
-      Me.tsiValidateMarkerCsv.Text = "Validate Marker CSV"
-      '
-      'ToolStripSeparator4
-      '
-      Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-      Me.ToolStripSeparator4.Size = New System.Drawing.Size(307, 6)
-      '
-      'tsiOptions
-      '
-      Me.tsiOptions.AutoToolTip = True
-      Me.tsiOptions.Name = "tsiOptions"
-      Me.tsiOptions.Size = New System.Drawing.Size(310, 32)
-      Me.tsiOptions.Text = "&Settings..."
-      '
-      'tsiLtcCalibrationTone
-      '
-      Me.tsiLtcCalibrationTone.Name = "tsiLtcCalibrationTone"
-      Me.tsiLtcCalibrationTone.Size = New System.Drawing.Size(310, 32)
-      Me.tsiLtcCalibrationTone.Text = "Play LTC Reference Tone"
-      '
-      'tsiChangeLogo
-      '
-      Me.tsiChangeLogo.AutoToolTip = True
-      Me.tsiChangeLogo.Name = "tsiChangeLogo"
-      Me.tsiChangeLogo.Size = New System.Drawing.Size(310, 32)
-      Me.tsiChangeLogo.Text = "Change Logo..."
-      Me.tsiChangeLogo.ToolTipText = "Change Company Logo"
-      '
-      'ToolStripSeparator2
-      '
-      Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-      Me.ToolStripSeparator2.Size = New System.Drawing.Size(307, 6)
-      '
-      'tsiZeroTC
-      '
-      Me.tsiZeroTC.Name = "tsiZeroTC"
-      Me.tsiZeroTC.Size = New System.Drawing.Size(310, 32)
-      Me.tsiZeroTC.Text = "Zero Timecode"
-      '
-      'tsiReset
-      '
-      Me.tsiReset.AutoToolTip = True
-      Me.tsiReset.Name = "tsiReset"
-      Me.tsiReset.Size = New System.Drawing.Size(310, 32)
-      Me.tsiReset.Text = "&Restore Defaults"
-      '
-      'ToolStripSeparator1
-      '
-      Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-      Me.ToolStripSeparator1.Size = New System.Drawing.Size(307, 6)
-      '
-      'tsiExit
-      '
-      Me.tsiExit.AutoToolTip = True
-      Me.tsiExit.Name = "tsiExit"
-      Me.tsiExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-      Me.tsiExit.Size = New System.Drawing.Size(310, 32)
-      Me.tsiExit.Text = "&Quit"
-      '
-      'plPrimary
-      '
-      Me.plPrimary.Anchor = System.Windows.Forms.AnchorStyles.None
-      Me.plPrimary.Controls.Add(Me.nudTakes)
-      Me.plPrimary.Controls.Add(Me.butSwAudio)
-      Me.plPrimary.Controls.Add(Me.butSwDayNit)
-      Me.plPrimary.Controls.Add(Me.butSwIntExt)
-      Me.plPrimary.Controls.Add(Me.butEdit)
-      Me.plPrimary.Controls.Add(Me.cbTakeInc)
-      Me.plPrimary.Controls.Add(Me.butQuit)
-      Me.plPrimary.Controls.Add(Me.lblHideMos)
-      Me.plPrimary.Controls.Add(Me.lblHideSync)
-      Me.plPrimary.Controls.Add(Me.lblHideNite)
-      Me.plPrimary.Controls.Add(Me.lblHideDay)
-      Me.plPrimary.Controls.Add(Me.lblHideExt)
-      Me.plPrimary.Controls.Add(Me.lblHideInt)
-      Me.plPrimary.Controls.Add(Me.lblDate)
-      Me.plPrimary.Controls.Add(Me.lblFPS)
-      Me.plPrimary.Controls.Add(Me.lblDOP)
-      Me.plPrimary.Controls.Add(Me.lblDirector)
-      Me.plPrimary.Controls.Add(Me.lblProduction)
-      Me.plPrimary.Controls.Add(Me.lblRoll)
-      Me.plPrimary.Controls.Add(Me.lblTake)
-      Me.plPrimary.Controls.Add(Me.lblScene)
-      Me.plPrimary.Controls.Add(Me.lblTimecode)
-      Me.plPrimary.Controls.Add(Me.lblLtcStatus)
-      Me.plPrimary.Controls.Add(Me.pbLogoSlot)
-      Me.plPrimary.Controls.Add(Me.pbClapper)
-      Me.plPrimary.Controls.Add(Me.pbSlateBody)
-      Me.plPrimary.Location = New System.Drawing.Point(0, 0)
-      Me.plPrimary.Margin = New System.Windows.Forms.Padding(2)
-      Me.plPrimary.MaximumSize = New System.Drawing.Size(1628, 1028)
-      Me.plPrimary.MinimumSize = New System.Drawing.Size(1628, 1028)
-      Me.plPrimary.Name = "plPrimary"
-      Me.plPrimary.Size = New System.Drawing.Size(1628, 1028)
-      Me.plPrimary.TabIndex = 20
-      '
-      'nudTakes
-      '
-      Me.nudTakes.Cursor = System.Windows.Forms.Cursors.HSplit
-      Me.nudTakes.Font = New System.Drawing.Font("Helvetica Neue", 19.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.nudTakes.ForeColor = System.Drawing.Color.White
-      Me.nudTakes.Location = New System.Drawing.Point(706, 216)
-      Me.nudTakes.Margin = New System.Windows.Forms.Padding(4)
-      Me.nudTakes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-      Me.nudTakes.Name = "nudTakes"
-      Me.nudTakes.Size = New System.Drawing.Size(36, 54)
-      Me.nudTakes.TabIndex = 44
-      Me.nudTakes.Value = New Decimal(New Integer() {1, 0, 0, 0})
-      '
-      'butSwAudio
-      '
-      Me.butSwAudio.AutoSize = True
-      Me.butSwAudio.BackColor = System.Drawing.Color.Gainsboro
-      Me.butSwAudio.FlatAppearance.BorderSize = 0
-      Me.butSwAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.butSwAudio.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.butSwAudio.ForeColor = System.Drawing.Color.Red
-      Me.butSwAudio.Location = New System.Drawing.Point(1064, 803)
-      Me.butSwAudio.Margin = New System.Windows.Forms.Padding(0)
-      Me.butSwAudio.MaximumSize = New System.Drawing.Size(68, 68)
-      Me.butSwAudio.Name = "butSwAudio"
-      Me.butSwAudio.Size = New System.Drawing.Size(68, 68)
-      Me.butSwAudio.TabIndex = 42
-      Me.butSwAudio.Text = "🔄"
-      Me.butSwAudio.UseVisualStyleBackColor = False
-      '
-      'butSwDayNit
-      '
-      Me.butSwDayNit.AutoSize = True
-      Me.butSwDayNit.BackColor = System.Drawing.Color.Gainsboro
-      Me.butSwDayNit.FlatAppearance.BorderSize = 0
-      Me.butSwDayNit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.butSwDayNit.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.butSwDayNit.ForeColor = System.Drawing.Color.Red
-      Me.butSwDayNit.Location = New System.Drawing.Point(529, 803)
-      Me.butSwDayNit.Margin = New System.Windows.Forms.Padding(0)
-      Me.butSwDayNit.MaximumSize = New System.Drawing.Size(68, 68)
-      Me.butSwDayNit.Name = "butSwDayNit"
-      Me.butSwDayNit.Size = New System.Drawing.Size(68, 68)
-      Me.butSwDayNit.TabIndex = 41
-      Me.butSwDayNit.Text = "🔄"
-      Me.butSwDayNit.UseVisualStyleBackColor = False
-      '
-      'butSwIntExt
-      '
-      Me.butSwIntExt.AutoSize = True
-      Me.butSwIntExt.BackColor = System.Drawing.Color.Gainsboro
-      Me.butSwIntExt.FlatAppearance.BorderSize = 0
-      Me.butSwIntExt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.butSwIntExt.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.butSwIntExt.ForeColor = System.Drawing.Color.Red
-      Me.butSwIntExt.Location = New System.Drawing.Point(41, 803)
-      Me.butSwIntExt.Margin = New System.Windows.Forms.Padding(0)
-      Me.butSwIntExt.MaximumSize = New System.Drawing.Size(68, 68)
-      Me.butSwIntExt.Name = "butSwIntExt"
-      Me.butSwIntExt.Size = New System.Drawing.Size(68, 68)
-      Me.butSwIntExt.TabIndex = 40
-      Me.butSwIntExt.Text = "🔄"
-      Me.butSwIntExt.UseVisualStyleBackColor = False
-      '
-      'butEdit
-      '
-      Me.butEdit.BackColor = System.Drawing.Color.Gainsboro
-      Me.butEdit.FlatAppearance.BorderSize = 0
-      Me.butEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.butEdit.Font = New System.Drawing.Font("HelveticaNeueLT Std Cn", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.butEdit.ForeColor = System.Drawing.Color.Red
-      Me.butEdit.Location = New System.Drawing.Point(41, 216)
-      Me.butEdit.Margin = New System.Windows.Forms.Padding(0)
-      Me.butEdit.MaximumSize = New System.Drawing.Size(78, 78)
-      Me.butEdit.Name = "butEdit"
-      Me.butEdit.Size = New System.Drawing.Size(78, 78)
-      Me.butEdit.TabIndex = 39
-      Me.butEdit.Text = "EDIT"
-      Me.butEdit.UseVisualStyleBackColor = False
-      '
-      'cbTakeInc
-      '
-      Me.cbTakeInc.BackColor = System.Drawing.Color.White
-      Me.cbTakeInc.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray
-      Me.cbTakeInc.FlatAppearance.BorderSize = 2
-      Me.cbTakeInc.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.cbTakeInc.Font = New System.Drawing.Font("HelveticaNeueLT Std Ext", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.cbTakeInc.ForeColor = System.Drawing.Color.Red
-      Me.cbTakeInc.Location = New System.Drawing.Point(668, 293)
-      Me.cbTakeInc.Margin = New System.Windows.Forms.Padding(2)
-      Me.cbTakeInc.Name = "cbTakeInc"
-      Me.cbTakeInc.Size = New System.Drawing.Size(226, 29)
-      Me.cbTakeInc.TabIndex = 38
-      Me.cbTakeInc.Text = "Auto  Increment"
-      Me.cbTakeInc.TextAlign = System.Drawing.ContentAlignment.TopLeft
-      Me.cbTakeInc.UseCompatibleTextRendering = True
-      Me.cbTakeInc.UseVisualStyleBackColor = False
-      '
-      'butQuit
-      '
-      Me.butQuit.BackColor = System.Drawing.Color.DimGray
-      Me.butQuit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-      Me.butQuit.FlatAppearance.BorderSize = 0
-      Me.butQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
-      Me.butQuit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
-      Me.butQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.butQuit.Font = New System.Drawing.Font("Segoe MDL2 Assets", 16.0!, System.Drawing.FontStyle.Bold)
-      Me.butQuit.ForeColor = System.Drawing.Color.White
-      Me.butQuit.Location = New System.Drawing.Point(1535, 43)
-      Me.butQuit.Margin = New System.Windows.Forms.Padding(0)
-      Me.butQuit.Name = "butQuit"
-      Me.butQuit.Size = New System.Drawing.Size(38, 38)
-      Me.butQuit.TabIndex = 37
-      Me.butQuit.Text = ""
-      Me.butQuit.UseCompatibleTextRendering = True
-      Me.butQuit.UseVisualStyleBackColor = False
-      '
-      'lblHideMos
-      '
-      Me.lblHideMos.BackColor = System.Drawing.Color.White
-      Me.lblHideMos.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblHideMos.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
-      Me.lblHideMos.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-      Me.lblHideMos.Location = New System.Drawing.Point(1344, 788)
-      Me.lblHideMos.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblHideMos.Name = "lblHideMos"
-      Me.lblHideMos.Size = New System.Drawing.Size(169, 85)
-      Me.lblHideMos.TabIndex = 36
-      Me.lblHideMos.Visible = False
-      '
-      'lblHideSync
-      '
-      Me.lblHideSync.BackColor = System.Drawing.Color.White
-      Me.lblHideSync.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblHideSync.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
-      Me.lblHideSync.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-      Me.lblHideSync.Location = New System.Drawing.Point(1139, 788)
-      Me.lblHideSync.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblHideSync.Name = "lblHideSync"
-      Me.lblHideSync.Size = New System.Drawing.Size(185, 85)
-      Me.lblHideSync.TabIndex = 35
-      Me.lblHideSync.Visible = False
-      '
-      'lblHideNite
-      '
-      Me.lblHideNite.BackColor = System.Drawing.Color.White
-      Me.lblHideNite.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblHideNite.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
-      Me.lblHideNite.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-      Me.lblHideNite.Location = New System.Drawing.Point(788, 788)
-      Me.lblHideNite.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblHideNite.Name = "lblHideNite"
-      Me.lblHideNite.Size = New System.Drawing.Size(144, 85)
-      Me.lblHideNite.TabIndex = 34
-      Me.lblHideNite.Visible = False
-      '
-      'lblHideDay
-      '
-      Me.lblHideDay.BackColor = System.Drawing.Color.White
-      Me.lblHideDay.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblHideDay.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
-      Me.lblHideDay.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-      Me.lblHideDay.Location = New System.Drawing.Point(613, 788)
-      Me.lblHideDay.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblHideDay.Name = "lblHideDay"
-      Me.lblHideDay.Size = New System.Drawing.Size(139, 85)
-      Me.lblHideDay.TabIndex = 33
-      Me.lblHideDay.Visible = False
-      '
-      'lblHideExt
-      '
-      Me.lblHideExt.BackColor = System.Drawing.Color.White
-      Me.lblHideExt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblHideExt.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
-      Me.lblHideExt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-      Me.lblHideExt.Location = New System.Drawing.Point(275, 788)
-      Me.lblHideExt.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblHideExt.MaximumSize = New System.Drawing.Size(181, 101)
-      Me.lblHideExt.Name = "lblHideExt"
-      Me.lblHideExt.Size = New System.Drawing.Size(128, 85)
-      Me.lblHideExt.TabIndex = 32
-      Me.lblHideExt.Visible = False
-      '
-      'lblHideInt
-      '
-      Me.lblHideInt.BackColor = System.Drawing.Color.White
-      Me.lblHideInt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblHideInt.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
-      Me.lblHideInt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-      Me.lblHideInt.Location = New System.Drawing.Point(136, 788)
-      Me.lblHideInt.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblHideInt.MaximumSize = New System.Drawing.Size(154, 125)
-      Me.lblHideInt.Name = "lblHideInt"
-      Me.lblHideInt.Size = New System.Drawing.Size(108, 85)
-      Me.lblHideInt.TabIndex = 31
-      Me.lblHideInt.Visible = False
-      '
-      'lblDate
-      '
-      Me.lblDate.BackColor = System.Drawing.Color.White
-      Me.lblDate.Font = New System.Drawing.Font("Arial", 35.14286!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.lblDate.Location = New System.Drawing.Point(956, 675)
-      Me.lblDate.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblDate.MaximumSize = New System.Drawing.Size(612, 97)
-      Me.lblDate.Name = "lblDate"
-      Me.lblDate.Size = New System.Drawing.Size(612, 97)
-      Me.lblDate.TabIndex = 30
-      Me.lblDate.Text = "10 Jul 1780"
-      Me.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblDate.UseCompatibleTextRendering = True
-      '
-      'lblFPS
-      '
-      Me.lblFPS.BackColor = System.Drawing.Color.White
-      Me.lblFPS.Font = New System.Drawing.Font("Arial Black", 50.0!, System.Drawing.FontStyle.Bold)
-      Me.lblFPS.Location = New System.Drawing.Point(128, 679)
-      Me.lblFPS.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblFPS.MaximumSize = New System.Drawing.Size(679, 92)
-      Me.lblFPS.Name = "lblFPS"
-      Me.lblFPS.Size = New System.Drawing.Size(679, 92)
-      Me.lblFPS.TabIndex = 29
-      Me.lblFPS.Text = "23.967"
-      Me.lblFPS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblFPS.UseCompatibleTextRendering = True
-      '
-      'lblDOP
-      '
-      Me.lblDOP.BackColor = System.Drawing.Color.White
-      Me.lblDOP.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold)
-      Me.lblDOP.Location = New System.Drawing.Point(895, 576)
-      Me.lblDOP.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblDOP.MaximumSize = New System.Drawing.Size(695, 83)
-      Me.lblDOP.Name = "lblDOP"
-      Me.lblDOP.Size = New System.Drawing.Size(695, 83)
-      Me.lblDOP.TabIndex = 28
-      Me.lblDOP.Text = "lblDOP"
-      Me.lblDOP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblDOP.UseCompatibleTextRendering = True
-      '
-      'lblDirector
-      '
-      Me.lblDirector.BackColor = System.Drawing.Color.White
-      Me.lblDirector.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold)
-      Me.lblDirector.Location = New System.Drawing.Point(83, 576)
-      Me.lblDirector.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblDirector.MaximumSize = New System.Drawing.Size(725, 83)
-      Me.lblDirector.Name = "lblDirector"
-      Me.lblDirector.Size = New System.Drawing.Size(725, 83)
-      Me.lblDirector.TabIndex = 27
-      Me.lblDirector.Text = "lblDirector"
-      Me.lblDirector.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblDirector.UseCompatibleTextRendering = True
-      '
-      'lblProduction
-      '
-      Me.lblProduction.BackColor = System.Drawing.Color.White
-      Me.lblProduction.Font = New System.Drawing.Font("Arial Black", 55.0!, System.Drawing.FontStyle.Bold)
-      Me.lblProduction.Location = New System.Drawing.Point(119, 463)
-      Me.lblProduction.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblProduction.MaximumSize = New System.Drawing.Size(1471, 92)
-      Me.lblProduction.Name = "lblProduction"
-      Me.lblProduction.Size = New System.Drawing.Size(1471, 92)
-      Me.lblProduction.TabIndex = 26
-      Me.lblProduction.Text = "lblProduction"
-      Me.lblProduction.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      Me.lblProduction.UseCompatibleTextRendering = True
-      '
-      'lblRoll
-      '
-      Me.lblRoll.AutoEllipsis = True
-      Me.lblRoll.BackColor = System.Drawing.Color.White
-      Me.lblRoll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblRoll.Font = New System.Drawing.Font("Arial Black", 45.0!, System.Drawing.FontStyle.Bold)
-      Me.lblRoll.Location = New System.Drawing.Point(1280, 160)
-      Me.lblRoll.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblRoll.MaximumSize = New System.Drawing.Size(308, 164)
-      Me.lblRoll.Name = "lblRoll"
-      Me.lblRoll.Size = New System.Drawing.Size(308, 164)
-      Me.lblRoll.TabIndex = 25
-      Me.lblRoll.Text = "A001"
-      Me.lblRoll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      Me.lblRoll.UseCompatibleTextRendering = True
-      '
-      'lblTake
-      '
-      Me.lblTake.AutoEllipsis = True
-      Me.lblTake.BackColor = System.Drawing.Color.White
-      Me.lblTake.Font = New System.Drawing.Font("Arial Black", 60.0!, System.Drawing.FontStyle.Bold)
-      Me.lblTake.Location = New System.Drawing.Point(745, 144)
-      Me.lblTake.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblTake.MaximumSize = New System.Drawing.Size(421, 180)
-      Me.lblTake.Name = "lblTake"
-      Me.lblTake.Size = New System.Drawing.Size(421, 180)
-      Me.lblTake.TabIndex = 24
-      Me.lblTake.Text = "10"
-      Me.lblTake.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblTake.UseCompatibleTextRendering = True
-      '
-      'lblScene
-      '
-      Me.lblScene.AutoEllipsis = True
-      Me.lblScene.BackColor = System.Drawing.Color.White
-      Me.lblScene.Font = New System.Drawing.Font("Arial Black", 59.0!, System.Drawing.FontStyle.Bold)
-      Me.lblScene.Location = New System.Drawing.Point(139, 149)
-      Me.lblScene.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblScene.MaximumSize = New System.Drawing.Size(515, 180)
-      Me.lblScene.Name = "lblScene"
-      Me.lblScene.Size = New System.Drawing.Size(479, 169)
-      Me.lblScene.TabIndex = 23
-      Me.lblScene.Text = "01C"
-      Me.lblScene.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblScene.UseCompatibleTextRendering = True
-      '
-      'lblTimecode
-      '
-      Me.lblTimecode.BackColor = System.Drawing.Color.Black
-      Me.lblTimecode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-      Me.lblTimecode.Font = New System.Drawing.Font("Microsoft Sans Serif", 65.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.lblTimecode.ForeColor = System.Drawing.Color.Red
-      Me.lblTimecode.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-      Me.lblTimecode.Location = New System.Drawing.Point(20, 324)
-      Me.lblTimecode.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblTimecode.Name = "lblTimecode"
-      Me.lblTimecode.Padding = New System.Windows.Forms.Padding(0, 16, 0, 1)
-      Me.lblTimecode.Size = New System.Drawing.Size(1573, 137)
-      Me.lblTimecode.TabIndex = 20
-      Me.lblTimecode.Text = "00 : 00 : 00 : 00"
-      Me.lblTimecode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      Me.lblTimecode.UseCompatibleTextRendering = True
-      '
-      'lblLtcStatus
-      '
-      Me.lblLtcStatus.BackColor = System.Drawing.Color.White
-      Me.lblLtcStatus.Font = New System.Drawing.Font("HelveticaNeueLT Std Ext", 16.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-      Me.lblLtcStatus.ForeColor = System.Drawing.Color.Black
-      Me.lblLtcStatus.Location = New System.Drawing.Point(55, 948)
-      Me.lblLtcStatus.Margin = New System.Windows.Forms.Padding(0)
-      Me.lblLtcStatus.Name = "lblLtcStatus"
-      Me.lblLtcStatus.Size = New System.Drawing.Size(1482, 34)
-      Me.lblLtcStatus.TabIndex = 43
-      Me.lblLtcStatus.Text = "LTC: OFF"
-      Me.lblLtcStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.lblLtcStatus.UseCompatibleTextRendering = True
-      '
-      'pbLogoSlot
-      '
-      Me.pbLogoSlot.BackColor = System.Drawing.Color.White
-      Me.pbLogoSlot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.pbLogoSlot.InitialImage = CType(resources.GetObject("pbLogoSlot.InitialImage"), System.Drawing.Image)
-      Me.pbLogoSlot.Location = New System.Drawing.Point(67, 16)
-      Me.pbLogoSlot.Margin = New System.Windows.Forms.Padding(0)
-      Me.pbLogoSlot.Name = "pbLogoSlot"
-      Me.pbLogoSlot.Size = New System.Drawing.Size(363, 104)
-      Me.pbLogoSlot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-      Me.pbLogoSlot.TabIndex = 45
-      Me.pbLogoSlot.TabStop = False
-      '
-      'pbClapper
-      '
-      Me.pbClapper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-      Me.pbClapper.Image = Global.digitalSlate.My.Resources.Resources.clapper
-      Me.pbClapper.Location = New System.Drawing.Point(0, 0)
-      Me.pbClapper.Margin = New System.Windows.Forms.Padding(0)
-      Me.pbClapper.MaximumSize = New System.Drawing.Size(1628, 133)
-      Me.pbClapper.Name = "pbClapper"
-      Me.pbClapper.Size = New System.Drawing.Size(1612, 132)
-      Me.pbClapper.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-      Me.pbClapper.TabIndex = 21
-      Me.pbClapper.TabStop = False
-      '
-      'pbSlateBody
-      '
-      Me.pbSlateBody.BackColor = System.Drawing.Color.Black
-      Me.pbSlateBody.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-      Me.pbSlateBody.ContextMenuStrip = Me.cmsPrimary
-      Me.pbSlateBody.Image = Global.digitalSlate.My.Resources.Resources.slateBody
-      Me.pbSlateBody.Location = New System.Drawing.Point(0, 132)
-      Me.pbSlateBody.Margin = New System.Windows.Forms.Padding(0)
-      Me.pbSlateBody.MaximumSize = New System.Drawing.Size(1628, 896)
-      Me.pbSlateBody.Name = "pbSlateBody"
-      Me.pbSlateBody.Size = New System.Drawing.Size(1612, 880)
-      Me.pbSlateBody.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-      Me.pbSlateBody.TabIndex = 22
-      Me.pbSlateBody.TabStop = False
-      '
-      'frmDigitalSlate
-      '
-      Me.AutoScaleDimensions = New System.Drawing.SizeF(144.0!, 144.0!)
-      Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
-      Me.BackColor = System.Drawing.Color.Black
-      Me.ClientSize = New System.Drawing.Size(1660, 1042)
-      Me.ContextMenuStrip = Me.cmsPrimary
-      Me.ControlBox = False
-      Me.Controls.Add(Me.plPrimary)
-      Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-      Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-      Me.MaximizeBox = False
-      Me.MinimizeBox = False
-      Me.MinimumSize = New System.Drawing.Size(1620, 984)
-      Me.Name = "frmDigitalSlate"
-      Me.ShowIcon = False
-      Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-      Me.TransparencyKey = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(64, Byte), Integer))
-      Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
-      Me.cmsPrimary.ResumeLayout(False)
-      Me.plPrimary.ResumeLayout(False)
-      Me.plPrimary.PerformLayout()
-      CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.pbLogoSlot, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.pbClapper, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.pbSlateBody, System.ComponentModel.ISupportInitialize).EndInit()
-      Me.ResumeLayout(False)
+        Me.tsiSaveProfile.Size = New System.Drawing.Size(310, 32)
+        Me.tsiSaveProfile.Text = "Save Slate"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(307, 6)
+        '
+        'tsiExportMarkersNow
+        '
+        Me.tsiExportMarkersNow.Name = "tsiExportMarkersNow"
+        Me.tsiExportMarkersNow.Size = New System.Drawing.Size(310, 32)
+        Me.tsiExportMarkersNow.Text = "Export Session Markers Now"
+        '
+        'tsiOpenLogFolder
+        '
+        Me.tsiOpenLogFolder.Name = "tsiOpenLogFolder"
+        Me.tsiOpenLogFolder.Size = New System.Drawing.Size(310, 32)
+        Me.tsiOpenLogFolder.Text = "Open Marker Log Folder"
+        '
+        'tsiRevealCurrentMarkerFile
+        '
+        Me.tsiRevealCurrentMarkerFile.Name = "tsiRevealCurrentMarkerFile"
+        Me.tsiRevealCurrentMarkerFile.Size = New System.Drawing.Size(310, 32)
+        Me.tsiRevealCurrentMarkerFile.Text = "Reveal Current Marker File"
+        '
+        'tsiValidateMarkerCsv
+        '
+        Me.tsiValidateMarkerCsv.Name = "tsiValidateMarkerCsv"
+        Me.tsiValidateMarkerCsv.Size = New System.Drawing.Size(310, 32)
+        Me.tsiValidateMarkerCsv.Text = "Validate Marker CSV"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(307, 6)
+        '
+        'tsiOptions
+        '
+        Me.tsiOptions.AutoToolTip = True
+        Me.tsiOptions.Name = "tsiOptions"
+        Me.tsiOptions.Size = New System.Drawing.Size(310, 32)
+        Me.tsiOptions.Text = "&Settings..."
+        '
+        'tsiLtcCalibrationTone
+        '
+        Me.tsiLtcCalibrationTone.Name = "tsiLtcCalibrationTone"
+        Me.tsiLtcCalibrationTone.Size = New System.Drawing.Size(310, 32)
+        Me.tsiLtcCalibrationTone.Text = "Play LTC Reference Tone"
+        '
+        'tsiChangeLogo
+        '
+        Me.tsiChangeLogo.AutoToolTip = True
+        Me.tsiChangeLogo.Name = "tsiChangeLogo"
+        Me.tsiChangeLogo.Size = New System.Drawing.Size(310, 32)
+        Me.tsiChangeLogo.Text = "Change Logo..."
+        Me.tsiChangeLogo.ToolTipText = "Change Company Logo"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(307, 6)
+        '
+        'tsiZeroTC
+        '
+        Me.tsiZeroTC.Name = "tsiZeroTC"
+        Me.tsiZeroTC.Size = New System.Drawing.Size(310, 32)
+        Me.tsiZeroTC.Text = "Zero Timecode"
+        '
+        'tsiReset
+        '
+        Me.tsiReset.AutoToolTip = True
+        Me.tsiReset.Name = "tsiReset"
+        Me.tsiReset.Size = New System.Drawing.Size(310, 32)
+        Me.tsiReset.Text = "&Restore Defaults"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(307, 6)
+        '
+        'tsiExit
+        '
+        Me.tsiExit.AutoToolTip = True
+        Me.tsiExit.Name = "tsiExit"
+        Me.tsiExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
+        Me.tsiExit.Size = New System.Drawing.Size(310, 32)
+        Me.tsiExit.Text = "&Quit"
+        '
+        'plPrimary
+        '
+        Me.plPrimary.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.plPrimary.Controls.Add(Me.nudTakes)
+        Me.plPrimary.Controls.Add(Me.butSwAudio)
+        Me.plPrimary.Controls.Add(Me.butSwDayNit)
+        Me.plPrimary.Controls.Add(Me.butSwIntExt)
+        Me.plPrimary.Controls.Add(Me.butEdit)
+        Me.plPrimary.Controls.Add(Me.cbTakeInc)
+        Me.plPrimary.Controls.Add(Me.butQuit)
+        Me.plPrimary.Controls.Add(Me.lblHideMos)
+        Me.plPrimary.Controls.Add(Me.lblHideSync)
+        Me.plPrimary.Controls.Add(Me.lblHideNite)
+        Me.plPrimary.Controls.Add(Me.lblHideDay)
+        Me.plPrimary.Controls.Add(Me.lblHideExt)
+        Me.plPrimary.Controls.Add(Me.lblHideInt)
+        Me.plPrimary.Controls.Add(Me.lblDate)
+        Me.plPrimary.Controls.Add(Me.lblFPS)
+        Me.plPrimary.Controls.Add(Me.lblDOP)
+        Me.plPrimary.Controls.Add(Me.lblDirector)
+        Me.plPrimary.Controls.Add(Me.lblProduction)
+        Me.plPrimary.Controls.Add(Me.lblRoll)
+        Me.plPrimary.Controls.Add(Me.lblTake)
+        Me.plPrimary.Controls.Add(Me.lblScene)
+        Me.plPrimary.Controls.Add(Me.lblTimecode)
+        Me.plPrimary.Controls.Add(Me.lblLtcStatus)
+        Me.plPrimary.Controls.Add(Me.pbLogoSlot)
+        Me.plPrimary.Controls.Add(Me.pbClapper)
+        Me.plPrimary.Controls.Add(Me.pbSlateBody)
+        Me.plPrimary.Location = New System.Drawing.Point(55, 80)
+        Me.plPrimary.Margin = New System.Windows.Forms.Padding(2)
+        Me.plPrimary.MaximumSize = New System.Drawing.Size(1628, 1028)
+        Me.plPrimary.MinimumSize = New System.Drawing.Size(1628, 1028)
+        Me.plPrimary.Name = "plPrimary"
+        Me.plPrimary.Size = New System.Drawing.Size(1628, 1028)
+        Me.plPrimary.TabIndex = 20
+        '
+        'nudTakes
+        '
+        Me.nudTakes.Cursor = System.Windows.Forms.Cursors.HSplit
+        Me.nudTakes.Font = New System.Drawing.Font("Helvetica Neue", 19.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudTakes.ForeColor = System.Drawing.Color.White
+        Me.nudTakes.Location = New System.Drawing.Point(706, 216)
+        Me.nudTakes.Margin = New System.Windows.Forms.Padding(4)
+        Me.nudTakes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudTakes.Name = "nudTakes"
+        Me.nudTakes.Size = New System.Drawing.Size(36, 54)
+        Me.nudTakes.TabIndex = 44
+        Me.nudTakes.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'butSwAudio
+        '
+        Me.butSwAudio.AutoSize = True
+        Me.butSwAudio.BackColor = System.Drawing.Color.Gainsboro
+        Me.butSwAudio.FlatAppearance.BorderSize = 0
+        Me.butSwAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.butSwAudio.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butSwAudio.ForeColor = System.Drawing.Color.Red
+        Me.butSwAudio.Location = New System.Drawing.Point(1064, 803)
+        Me.butSwAudio.Margin = New System.Windows.Forms.Padding(0)
+        Me.butSwAudio.MaximumSize = New System.Drawing.Size(68, 68)
+        Me.butSwAudio.Name = "butSwAudio"
+        Me.butSwAudio.Size = New System.Drawing.Size(68, 68)
+        Me.butSwAudio.TabIndex = 42
+        Me.butSwAudio.Text = "🔄"
+        Me.butSwAudio.UseVisualStyleBackColor = False
+        '
+        'butSwDayNit
+        '
+        Me.butSwDayNit.AutoSize = True
+        Me.butSwDayNit.BackColor = System.Drawing.Color.Gainsboro
+        Me.butSwDayNit.FlatAppearance.BorderSize = 0
+        Me.butSwDayNit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.butSwDayNit.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butSwDayNit.ForeColor = System.Drawing.Color.Red
+        Me.butSwDayNit.Location = New System.Drawing.Point(529, 803)
+        Me.butSwDayNit.Margin = New System.Windows.Forms.Padding(0)
+        Me.butSwDayNit.MaximumSize = New System.Drawing.Size(68, 68)
+        Me.butSwDayNit.Name = "butSwDayNit"
+        Me.butSwDayNit.Size = New System.Drawing.Size(68, 68)
+        Me.butSwDayNit.TabIndex = 41
+        Me.butSwDayNit.Text = "🔄"
+        Me.butSwDayNit.UseVisualStyleBackColor = False
+        '
+        'butSwIntExt
+        '
+        Me.butSwIntExt.AutoSize = True
+        Me.butSwIntExt.BackColor = System.Drawing.Color.Gainsboro
+        Me.butSwIntExt.FlatAppearance.BorderSize = 0
+        Me.butSwIntExt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.butSwIntExt.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butSwIntExt.ForeColor = System.Drawing.Color.Red
+        Me.butSwIntExt.Location = New System.Drawing.Point(41, 803)
+        Me.butSwIntExt.Margin = New System.Windows.Forms.Padding(0)
+        Me.butSwIntExt.MaximumSize = New System.Drawing.Size(68, 68)
+        Me.butSwIntExt.Name = "butSwIntExt"
+        Me.butSwIntExt.Size = New System.Drawing.Size(68, 68)
+        Me.butSwIntExt.TabIndex = 40
+        Me.butSwIntExt.Text = "🔄"
+        Me.butSwIntExt.UseVisualStyleBackColor = False
+        '
+        'butEdit
+        '
+        Me.butEdit.BackColor = System.Drawing.Color.Gainsboro
+        Me.butEdit.FlatAppearance.BorderSize = 0
+        Me.butEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.butEdit.Font = New System.Drawing.Font("HelveticaNeueLT Std Cn", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butEdit.ForeColor = System.Drawing.Color.Red
+        Me.butEdit.Location = New System.Drawing.Point(41, 216)
+        Me.butEdit.Margin = New System.Windows.Forms.Padding(0)
+        Me.butEdit.MaximumSize = New System.Drawing.Size(78, 78)
+        Me.butEdit.Name = "butEdit"
+        Me.butEdit.Size = New System.Drawing.Size(78, 78)
+        Me.butEdit.TabIndex = 39
+        Me.butEdit.Text = "EDIT"
+        Me.butEdit.UseVisualStyleBackColor = False
+        '
+        'cbTakeInc
+        '
+        Me.cbTakeInc.BackColor = System.Drawing.Color.White
+        Me.cbTakeInc.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray
+        Me.cbTakeInc.FlatAppearance.BorderSize = 2
+        Me.cbTakeInc.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cbTakeInc.Font = New System.Drawing.Font("HelveticaNeueLT Std Ext", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbTakeInc.ForeColor = System.Drawing.Color.Red
+        Me.cbTakeInc.Location = New System.Drawing.Point(668, 293)
+        Me.cbTakeInc.Margin = New System.Windows.Forms.Padding(2)
+        Me.cbTakeInc.Name = "cbTakeInc"
+        Me.cbTakeInc.Size = New System.Drawing.Size(226, 29)
+        Me.cbTakeInc.TabIndex = 38
+        Me.cbTakeInc.Text = "Auto  Increment"
+        Me.cbTakeInc.TextAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.cbTakeInc.UseCompatibleTextRendering = True
+        Me.cbTakeInc.UseVisualStyleBackColor = False
+        '
+        'butQuit
+        '
+        Me.butQuit.BackColor = System.Drawing.Color.DimGray
+        Me.butQuit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.butQuit.FlatAppearance.BorderSize = 0
+        Me.butQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray
+        Me.butQuit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver
+        Me.butQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.butQuit.Font = New System.Drawing.Font("Segoe MDL2 Assets", 16.0!, System.Drawing.FontStyle.Bold)
+        Me.butQuit.ForeColor = System.Drawing.Color.White
+        Me.butQuit.Location = New System.Drawing.Point(1535, 43)
+        Me.butQuit.Margin = New System.Windows.Forms.Padding(0)
+        Me.butQuit.Name = "butQuit"
+        Me.butQuit.Size = New System.Drawing.Size(38, 38)
+        Me.butQuit.TabIndex = 37
+        Me.butQuit.Text = ""
+        Me.butQuit.UseCompatibleTextRendering = True
+        Me.butQuit.UseVisualStyleBackColor = False
+        '
+        'lblHideMos
+        '
+        Me.lblHideMos.BackColor = System.Drawing.Color.White
+        Me.lblHideMos.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblHideMos.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
+        Me.lblHideMos.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblHideMos.Location = New System.Drawing.Point(1344, 788)
+        Me.lblHideMos.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblHideMos.Name = "lblHideMos"
+        Me.lblHideMos.Size = New System.Drawing.Size(169, 85)
+        Me.lblHideMos.TabIndex = 36
+        Me.lblHideMos.Visible = False
+        '
+        'lblHideSync
+        '
+        Me.lblHideSync.BackColor = System.Drawing.Color.White
+        Me.lblHideSync.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblHideSync.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
+        Me.lblHideSync.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblHideSync.Location = New System.Drawing.Point(1139, 788)
+        Me.lblHideSync.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblHideSync.Name = "lblHideSync"
+        Me.lblHideSync.Size = New System.Drawing.Size(185, 85)
+        Me.lblHideSync.TabIndex = 35
+        Me.lblHideSync.Visible = False
+        '
+        'lblHideNite
+        '
+        Me.lblHideNite.BackColor = System.Drawing.Color.White
+        Me.lblHideNite.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblHideNite.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
+        Me.lblHideNite.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblHideNite.Location = New System.Drawing.Point(788, 788)
+        Me.lblHideNite.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblHideNite.Name = "lblHideNite"
+        Me.lblHideNite.Size = New System.Drawing.Size(144, 85)
+        Me.lblHideNite.TabIndex = 34
+        Me.lblHideNite.Visible = False
+        '
+        'lblHideDay
+        '
+        Me.lblHideDay.BackColor = System.Drawing.Color.White
+        Me.lblHideDay.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblHideDay.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
+        Me.lblHideDay.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblHideDay.Location = New System.Drawing.Point(613, 788)
+        Me.lblHideDay.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblHideDay.Name = "lblHideDay"
+        Me.lblHideDay.Size = New System.Drawing.Size(139, 85)
+        Me.lblHideDay.TabIndex = 33
+        Me.lblHideDay.Visible = False
+        '
+        'lblHideExt
+        '
+        Me.lblHideExt.BackColor = System.Drawing.Color.White
+        Me.lblHideExt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblHideExt.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
+        Me.lblHideExt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblHideExt.Location = New System.Drawing.Point(275, 788)
+        Me.lblHideExt.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblHideExt.Name = "lblHideExt"
+        Me.lblHideExt.Size = New System.Drawing.Size(128, 85)
+        Me.lblHideExt.TabIndex = 32
+        Me.lblHideExt.Visible = False
+        '
+        'lblHideInt
+        '
+        Me.lblHideInt.BackColor = System.Drawing.Color.White
+        Me.lblHideInt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblHideInt.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
+        Me.lblHideInt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblHideInt.Location = New System.Drawing.Point(136, 788)
+        Me.lblHideInt.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblHideInt.Name = "lblHideInt"
+        Me.lblHideInt.Size = New System.Drawing.Size(108, 85)
+        Me.lblHideInt.TabIndex = 31
+        Me.lblHideInt.Visible = False
+        '
+        'lblDate
+        '
+        Me.lblDate.BackColor = System.Drawing.Color.White
+        Me.lblDate.Font = New System.Drawing.Font("Arial", 35.14286!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate.Location = New System.Drawing.Point(956, 675)
+        Me.lblDate.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblDate.Name = "lblDate"
+        Me.lblDate.Size = New System.Drawing.Size(612, 97)
+        Me.lblDate.TabIndex = 30
+        Me.lblDate.Text = "10 Jul 1780"
+        Me.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblDate.UseCompatibleTextRendering = True
+        '
+        'lblFPS
+        '
+        Me.lblFPS.BackColor = System.Drawing.Color.White
+        Me.lblFPS.Font = New System.Drawing.Font("Arial Black", 50.0!, System.Drawing.FontStyle.Bold)
+        Me.lblFPS.Location = New System.Drawing.Point(128, 679)
+        Me.lblFPS.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblFPS.Name = "lblFPS"
+        Me.lblFPS.Size = New System.Drawing.Size(679, 92)
+        Me.lblFPS.TabIndex = 29
+        Me.lblFPS.Text = "23.967"
+        Me.lblFPS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblFPS.UseCompatibleTextRendering = True
+        '
+        'lblDOP
+        '
+        Me.lblDOP.BackColor = System.Drawing.Color.White
+        Me.lblDOP.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold)
+        Me.lblDOP.Location = New System.Drawing.Point(895, 576)
+        Me.lblDOP.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblDOP.Name = "lblDOP"
+        Me.lblDOP.Size = New System.Drawing.Size(695, 83)
+        Me.lblDOP.TabIndex = 28
+        Me.lblDOP.Text = "lblDOP"
+        Me.lblDOP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblDOP.UseCompatibleTextRendering = True
+        '
+        'lblDirector
+        '
+        Me.lblDirector.BackColor = System.Drawing.Color.White
+        Me.lblDirector.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold)
+        Me.lblDirector.Location = New System.Drawing.Point(83, 576)
+        Me.lblDirector.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblDirector.Name = "lblDirector"
+        Me.lblDirector.Size = New System.Drawing.Size(725, 83)
+        Me.lblDirector.TabIndex = 27
+        Me.lblDirector.Text = "lblDirector"
+        Me.lblDirector.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblDirector.UseCompatibleTextRendering = True
+        '
+        'lblProduction
+        '
+        Me.lblProduction.BackColor = System.Drawing.Color.White
+        Me.lblProduction.Font = New System.Drawing.Font("Arial Black", 55.0!, System.Drawing.FontStyle.Bold)
+        Me.lblProduction.Location = New System.Drawing.Point(119, 463)
+        Me.lblProduction.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblProduction.Name = "lblProduction"
+        Me.lblProduction.Size = New System.Drawing.Size(1471, 92)
+        Me.lblProduction.TabIndex = 26
+        Me.lblProduction.Text = "lblProduction"
+        Me.lblProduction.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblProduction.UseCompatibleTextRendering = True
+        '
+        'lblRoll
+        '
+        Me.lblRoll.AutoEllipsis = True
+        Me.lblRoll.BackColor = System.Drawing.Color.White
+        Me.lblRoll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblRoll.Font = New System.Drawing.Font("Arial Black", 45.0!, System.Drawing.FontStyle.Bold)
+        Me.lblRoll.Location = New System.Drawing.Point(1280, 160)
+        Me.lblRoll.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblRoll.Name = "lblRoll"
+        Me.lblRoll.Size = New System.Drawing.Size(308, 164)
+        Me.lblRoll.TabIndex = 25
+        Me.lblRoll.Text = "A001"
+        Me.lblRoll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblRoll.UseCompatibleTextRendering = True
+        '
+        'lblTake
+        '
+        Me.lblTake.AutoEllipsis = True
+        Me.lblTake.BackColor = System.Drawing.Color.White
+        Me.lblTake.Font = New System.Drawing.Font("Arial Black", 60.0!, System.Drawing.FontStyle.Bold)
+        Me.lblTake.Location = New System.Drawing.Point(745, 144)
+        Me.lblTake.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblTake.Name = "lblTake"
+        Me.lblTake.Size = New System.Drawing.Size(421, 180)
+        Me.lblTake.TabIndex = 24
+        Me.lblTake.Text = "10"
+        Me.lblTake.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblTake.UseCompatibleTextRendering = True
+        '
+        'lblScene
+        '
+        Me.lblScene.AutoEllipsis = True
+        Me.lblScene.BackColor = System.Drawing.Color.White
+        Me.lblScene.Font = New System.Drawing.Font("Arial Black", 59.0!, System.Drawing.FontStyle.Bold)
+        Me.lblScene.Location = New System.Drawing.Point(139, 149)
+        Me.lblScene.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblScene.Name = "lblScene"
+        Me.lblScene.Size = New System.Drawing.Size(479, 169)
+        Me.lblScene.TabIndex = 23
+        Me.lblScene.Text = "01C"
+        Me.lblScene.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblScene.UseCompatibleTextRendering = True
+        '
+        'lblTimecode
+        '
+        Me.lblTimecode.BackColor = System.Drawing.Color.Black
+        Me.lblTimecode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblTimecode.Font = New System.Drawing.Font("Microsoft Sans Serif", 65.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTimecode.ForeColor = System.Drawing.Color.Red
+        Me.lblTimecode.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.lblTimecode.Location = New System.Drawing.Point(20, 324)
+        Me.lblTimecode.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblTimecode.Name = "lblTimecode"
+        Me.lblTimecode.Padding = New System.Windows.Forms.Padding(0, 16, 0, 1)
+        Me.lblTimecode.Size = New System.Drawing.Size(1573, 137)
+        Me.lblTimecode.TabIndex = 20
+        Me.lblTimecode.Text = "00 : 00 : 00 : 00"
+        Me.lblTimecode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblTimecode.UseCompatibleTextRendering = True
+        '
+        'lblLtcStatus
+        '
+        Me.lblLtcStatus.BackColor = System.Drawing.Color.White
+        Me.lblLtcStatus.Font = New System.Drawing.Font("HelveticaNeueLT Std Ext", 16.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLtcStatus.ForeColor = System.Drawing.Color.Black
+        Me.lblLtcStatus.Location = New System.Drawing.Point(55, 948)
+        Me.lblLtcStatus.Margin = New System.Windows.Forms.Padding(0)
+        Me.lblLtcStatus.Name = "lblLtcStatus"
+        Me.lblLtcStatus.Size = New System.Drawing.Size(1482, 34)
+        Me.lblLtcStatus.TabIndex = 43
+        Me.lblLtcStatus.Text = "LTC: OFF"
+        Me.lblLtcStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblLtcStatus.UseCompatibleTextRendering = True
+        '
+        'pbLogoSlot
+        '
+        Me.pbLogoSlot.BackColor = System.Drawing.Color.White
+        Me.pbLogoSlot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbLogoSlot.InitialImage = CType(resources.GetObject("pbLogoSlot.InitialImage"), System.Drawing.Image)
+        Me.pbLogoSlot.Location = New System.Drawing.Point(67, 16)
+        Me.pbLogoSlot.Margin = New System.Windows.Forms.Padding(0)
+        Me.pbLogoSlot.Name = "pbLogoSlot"
+        Me.pbLogoSlot.Size = New System.Drawing.Size(363, 104)
+        Me.pbLogoSlot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.pbLogoSlot.TabIndex = 45
+        Me.pbLogoSlot.TabStop = False
+        '
+        'pbClapper
+        '
+        Me.pbClapper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.pbClapper.Image = Global.digitalSlate.My.Resources.Resources.clapper
+        Me.pbClapper.Location = New System.Drawing.Point(0, 0)
+        Me.pbClapper.Margin = New System.Windows.Forms.Padding(0)
+        Me.pbClapper.MaximumSize = New System.Drawing.Size(1628, 133)
+        Me.pbClapper.Name = "pbClapper"
+        Me.pbClapper.Size = New System.Drawing.Size(1612, 132)
+        Me.pbClapper.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbClapper.TabIndex = 21
+        Me.pbClapper.TabStop = False
+        '
+        'pbSlateBody
+        '
+        Me.pbSlateBody.BackColor = System.Drawing.Color.Black
+        Me.pbSlateBody.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.pbSlateBody.ContextMenuStrip = Me.cmsPrimary
+        Me.pbSlateBody.Image = Global.digitalSlate.My.Resources.Resources.slateBody
+        Me.pbSlateBody.Location = New System.Drawing.Point(0, 132)
+        Me.pbSlateBody.Margin = New System.Windows.Forms.Padding(0)
+        Me.pbSlateBody.MaximumSize = New System.Drawing.Size(1628, 896)
+        Me.pbSlateBody.Name = "pbSlateBody"
+        Me.pbSlateBody.Size = New System.Drawing.Size(1612, 880)
+        Me.pbSlateBody.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbSlateBody.TabIndex = 22
+        Me.pbSlateBody.TabStop = False
+        '
+        'frmDigitalSlate
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(144.0!, 144.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+        Me.BackColor = System.Drawing.Color.Black
+        Me.ClientSize = New System.Drawing.Size(1771, 1202)
+        Me.ContextMenuStrip = Me.cmsPrimary
+        Me.ControlBox = False
+        Me.Controls.Add(Me.plPrimary)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.MinimumSize = New System.Drawing.Size(1620, 984)
+        Me.Name = "frmDigitalSlate"
+        Me.ShowIcon = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.TransparencyKey = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+        Me.cmsPrimary.ResumeLayout(False)
+        Me.plPrimary.ResumeLayout(False)
+        Me.plPrimary.PerformLayout()
+        CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbLogoSlot, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbClapper, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbSlateBody, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
 
-   End Sub
+    End Sub
 
-   Friend WithEvents Timer1 As Timer
+    Friend WithEvents Timer1 As Timer
    Friend WithEvents cmsPrimary As ContextMenuStrip
    Friend WithEvents tsiReset As ToolStripMenuItem
    Friend WithEvents tsiOptions As ToolStripMenuItem

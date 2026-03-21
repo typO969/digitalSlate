@@ -9,6 +9,23 @@ Public Class frmSettings
 
 	Private _ltcDevices As List(Of Tuple(Of Integer, String))
 
+	Private Sub UpdateLtcDiagnosticsPanel()
+		Try
+			lblLtcDiagnostics.Text = frmDigitalSlate.GetLtcDiagnosticsSummary()
+		Catch ex As Exception
+			lblLtcDiagnostics.Text = "LTC diagnostics unavailable."
+		End Try
+	End Sub
+
+	Private Sub butCancel_Click(sender As Object, e As EventArgs) Handles butCancel.Click
+		Try
+			Hide()
+			frmDigitalSlate.Select()
+		Catch
+			Hide()
+		End Try
+	End Sub
+
 	Private Function IsFolderWritable(folderPath As String) As Boolean
 		Try
 			If String.IsNullOrWhiteSpace(folderPath) Then Return False
@@ -36,11 +53,13 @@ Public Class frmSettings
 		World.vMain.countdownCount = CInt(crbCountdown.Text) ' Countdown Beep Count
 		World.vMain.beepCount = CInt(crbSyncBeeps.Text)      ' Sync Beep Count
 		World.vMain.displayCaps = If(String.Equals(crbCaps.Text, "Yes", StringComparison.OrdinalIgnoreCase), 1, 0)
+		World.vMain.slateScaleMultiplier = CDbl(nudSlateScale.Value)
 
 		' Persist
 		My.Settings.cfgBeepCount = World.vMain.beepCount
 		My.Settings.cfgCountdownCount = World.vMain.countdownCount
 		My.Settings.cfgDisplayCaps = World.vMain.displayCaps
+		My.Settings.cfgSlateScaleMultiplier = World.vMain.slateScaleMultiplier
 
 		' LTC settings
 		World.vMain.ltcEnabled = If(cbLtcEnabled.Checked, 1, 0)
@@ -105,6 +124,7 @@ Public Class frmSettings
 		My.Settings.Save()
 
 		refreshSlate()
+		frmDigitalSlate.ApplyCurrentSlateScale()
 		Hide()
 		frmDigitalSlate.Select()
 	End Sub
@@ -114,6 +134,7 @@ Public Class frmSettings
 		World.vMain.beepCount = My.Settings.cfgBeepCount
 		World.vMain.countdownCount = My.Settings.cfgCountdownCount
 		World.vMain.displayCaps = My.Settings.cfgDisplayCaps
+		World.vMain.slateScaleMultiplier = If(My.Settings.cfgSlateScaleMultiplier > 0, My.Settings.cfgSlateScaleMultiplier, World.vDefaults.slateScaleMultiplier)
 		World.vMain.ltcEnabled = My.Settings.cfgLtcEnabled
 		World.vMain.ltcFpsMode = My.Settings.cfgLtcFpsMode
 		World.vMain.ltcOutputDeviceId = My.Settings.cfgLtcOutputDeviceId
@@ -142,6 +163,8 @@ Public Class frmSettings
 		cbLogOut2File.Checked = (World.vMain.logOutToFile = 1)
 		cbAppendDailyMarkers.Checked = (World.vMain.markerAppendDaily = 1)
 		cbSessionMetadata.Checked = (World.vMain.sessionMetadataEnabled = 1)
+		Dim safeScale As Decimal = CDec(Math.Max(0.5, Math.Min(1.0, World.vMain.slateScaleMultiplier)))
+		nudSlateScale.Value = safeScale
 		txtLogFolder.Text = World.vMain.logOutputFolder
 		Dim idx As Integer = World.vMain.ltcFpsMode
 		If idx < 0 OrElse idx > 3 Then idx = 1
@@ -193,6 +216,20 @@ Public Class frmSettings
 
 		rbYesCaps.Checked = (World.vMain.displayCaps = 1)
 		rbNoCaps.Checked = Not rbYesCaps.Checked
+		lblBuildVersion.Text = "Build: " & Application.ProductVersion
+		UpdateLtcDiagnosticsPanel()
+	End Sub
+
+	Private Sub butResetSlateScale_Click(sender As Object, e As EventArgs) Handles butResetSlateScale.Click
+		nudSlateScale.Value = 1D
+	End Sub
+
+	Private Sub butRefreshLtcDiagnostics_Click(sender As Object, e As EventArgs) Handles butRefreshLtcDiagnostics.Click
+		UpdateLtcDiagnosticsPanel()
+	End Sub
+
+	Private Sub LtcDiagnosticsSourceChanged(sender As Object, e As EventArgs) Handles cbLtcEnabled.CheckedChanged, cbLtcUnmute.CheckedChanged, cmbLtcFps.SelectedIndexChanged, cmbLtcDevice.SelectedIndexChanged
+		UpdateLtcDiagnosticsPanel()
 	End Sub
 
 	Private Function GetCheckedRadioButton(container As Control) As RadioButton
