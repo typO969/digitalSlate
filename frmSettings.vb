@@ -52,7 +52,7 @@ Public Class frmSettings
 		' Apply to the app's actual runtime state
 		World.vMain.countdownCount = CInt(crbCountdown.Text) ' Countdown Beep Count
 		World.vMain.beepCount = CInt(crbSyncBeeps.Text)      ' Sync Beep Count
-		World.vMain.displayCaps = If(String.Equals(crbCaps.Text, "Yes", StringComparison.OrdinalIgnoreCase), 1, 0)
+		World.vMain.displayCaps = If(rbYesCaps.Checked, 1, 0)
 		World.vMain.slateScaleMultiplier = CDbl(nudSlateScale.Value)
 
 		' Persist
@@ -265,4 +265,7 @@ Public Class frmSettings
 		End If
 	End Sub
 
+	Private Sub RbNoCaps_CheckedChanged(sender As Object, e As EventArgs) Handles rbNoCaps.CheckedChanged
+
+	End Sub
 End Class

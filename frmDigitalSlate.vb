@@ -444,15 +444,22 @@ Partial Public Class frmDigitalSlate
 	End Sub
 
 	Private Function GetSlateDateForOverlay() As String
+     Dim applyCaps As Func(Of String, String) = Function(value As String)
+			If World.vMain.displayCaps = 1 Then
+				Return If(value, String.Empty).ToUpperInvariant()
+			End If
+			Return If(value, String.Empty)
+		End Function
+
 		If Not String.IsNullOrWhiteSpace(World.vMain.custDate) Then
-			Return World.vMain.custDate
+         Return applyCaps(World.vMain.custDate)
 		End If
 
 		If Not String.IsNullOrWhiteSpace(World.vMain.currentDate) Then
-			Return World.vMain.currentDate
+          Return applyCaps(World.vMain.currentDate)
 		End If
 
-		Return Date.Now.ToString("dd MMM yyyy")
+     Return applyCaps(Date.Now.ToString("dd MMM yyyy"))
 	End Function
 
 	Private Function GetMetadataItems() As List(Of String)

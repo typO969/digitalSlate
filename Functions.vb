@@ -214,10 +214,13 @@ Namespace World
 		End Sub
 
 		Public Shared Sub refreshSlate()
+          Dim useCaps As Boolean = (World.vMain.displayCaps = 1)
+			Dim applyCaps As Func(Of String, String) = Function(value As String) If(useCaps, If(value, String.Empty).ToUpperInvariant(), If(value, String.Empty))
+
 			With frmDigitalSlate
-				.lblProduction.Text = World.vMain.production
-				.lblDirector.Text = World.vMain.director
-				.lblDOP.Text = World.vMain.dop
+                .lblProduction.Text = applyCaps(World.vMain.production)
+				.lblDirector.Text = applyCaps(World.vMain.director)
+				.lblDOP.Text = applyCaps(World.vMain.dop)
 				.lblFPS.Text = CStr(World.vMain.fps)
 				.lblTake.Text = World.vMain.take.ToString()
 				.lblHideInt.Visible = False
@@ -228,16 +231,16 @@ Namespace World
 				.lblHideMos.Visible = False
 
 				If World.vMain.custDate = "" Then
-					.lblDate.Text = World.vMain.currentDate
+                 .lblDate.Text = applyCaps(World.vMain.currentDate)
 				Else
-					.lblDate.Text = World.vMain.custDate
+                    .lblDate.Text = applyCaps(World.vMain.custDate)
 				End If
 
 				updateScene()
 				updateRoll()
 
-				.lblRoll.Text = World.vMain.roll
-				.lblScene.Text = World.vMain.scene
+                .lblRoll.Text = applyCaps(World.vMain.roll)
+				.lblScene.Text = applyCaps(World.vMain.scene)
 
 				If World.vMain.int = 0 Then .lblHideInt.Visible = True
 				If World.vMain.int = 1 Then .lblHideExt.Visible = True
