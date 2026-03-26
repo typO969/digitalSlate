@@ -22,55 +22,56 @@ Partial Class frmDigitalSlate
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDigitalSlate))
-      Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-      Me.cmsPrimary = New System.Windows.Forms.ContextMenuStrip(Me.components)
-      Me.tsiEdit = New System.Windows.Forms.ToolStripMenuItem()
-      Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-      Me.tsiLoadProfile = New System.Windows.Forms.ToolStripMenuItem()
-      Me.tsiSaveProfile = New System.Windows.Forms.ToolStripMenuItem()
-      Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-      Me.tsiExportMarkersNow = New System.Windows.Forms.ToolStripMenuItem()
-      Me.tsiOpenLogFolder = New System.Windows.Forms.ToolStripMenuItem()
-      Me.tsiRevealCurrentMarkerFile = New System.Windows.Forms.ToolStripMenuItem()
-      Me.tsiValidateMarkerCsv = New System.Windows.Forms.ToolStripMenuItem()
-      Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-      Me.tsiOptions = New System.Windows.Forms.ToolStripMenuItem()
-      Me.tsiLtcCalibrationTone = New System.Windows.Forms.ToolStripMenuItem()
-      Me.tsiChangeLogo = New System.Windows.Forms.ToolStripMenuItem()
-      Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-      Me.tsiZeroTC = New System.Windows.Forms.ToolStripMenuItem()
-      Me.tsiReset = New System.Windows.Forms.ToolStripMenuItem()
-      Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-      Me.tsiExit = New System.Windows.Forms.ToolStripMenuItem()
-      Me.plPrimary = New System.Windows.Forms.Panel()
-      Me.nudTakes = New System.Windows.Forms.NumericUpDown()
-      Me.butSwAudio = New System.Windows.Forms.Button()
-      Me.butSwDayNit = New System.Windows.Forms.Button()
-      Me.butSwIntExt = New System.Windows.Forms.Button()
-      Me.butEdit = New System.Windows.Forms.Button()
-      Me.cbTakeInc = New System.Windows.Forms.CheckBox()
-      Me.butQuit = New System.Windows.Forms.Button()
-      Me.lblHideMos = New System.Windows.Forms.Label()
-      Me.lblHideSync = New System.Windows.Forms.Label()
-      Me.lblHideNite = New System.Windows.Forms.Label()
-      Me.lblHideDay = New System.Windows.Forms.Label()
-      Me.lblHideExt = New System.Windows.Forms.Label()
-      Me.lblHideInt = New System.Windows.Forms.Label()
-      Me.lblDate = New System.Windows.Forms.Label()
-      Me.lblFPS = New System.Windows.Forms.Label()
-      Me.lblDOP = New System.Windows.Forms.Label()
-      Me.lblDirector = New System.Windows.Forms.Label()
-      Me.lblProduction = New System.Windows.Forms.Label()
-      Me.lblRoll = New System.Windows.Forms.Label()
-      Me.lblTake = New System.Windows.Forms.Label()
-      Me.lblScene = New System.Windows.Forms.Label()
-      Me.lblTimecode = New System.Windows.Forms.Label()
-      Me.lblLtcStatus = New System.Windows.Forms.Label()
-      Me.pbLogoSlot = New System.Windows.Forms.PictureBox()
-      Me.pbClapper = New System.Windows.Forms.PictureBox()
-      Me.pbSlateBody = New System.Windows.Forms.PictureBox()
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDigitalSlate))
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.cmsPrimary = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.tsiEdit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsiLoadProfile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiSaveProfile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsiExportMarkersNow = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiOpenLogFolder = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiRevealCurrentMarkerFile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiValidateMarkerCsv = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsiOptions = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiLtcCalibrationTone = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiChangeLogo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsiZeroTC = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsiReset = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsiExit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.plPrimary = New System.Windows.Forms.Panel()
+        Me.cbLock = New System.Windows.Forms.CheckBox()
+        Me.nudTakes = New System.Windows.Forms.NumericUpDown()
+        Me.butSwAudio = New System.Windows.Forms.Button()
+        Me.butSwDayNit = New System.Windows.Forms.Button()
+        Me.butSwIntExt = New System.Windows.Forms.Button()
+        Me.butEdit = New System.Windows.Forms.Button()
+        Me.cbTakeInc = New System.Windows.Forms.CheckBox()
+        Me.butQuit = New System.Windows.Forms.Button()
+        Me.lblHideMos = New System.Windows.Forms.Label()
+        Me.lblHideSync = New System.Windows.Forms.Label()
+        Me.lblHideNite = New System.Windows.Forms.Label()
+        Me.lblHideDay = New System.Windows.Forms.Label()
+        Me.lblHideExt = New System.Windows.Forms.Label()
+        Me.lblHideInt = New System.Windows.Forms.Label()
+        Me.lblDate = New System.Windows.Forms.Label()
+        Me.lblFPS = New System.Windows.Forms.Label()
+        Me.lblDOP = New System.Windows.Forms.Label()
+        Me.lblDirector = New System.Windows.Forms.Label()
+        Me.lblProduction = New System.Windows.Forms.Label()
+        Me.lblRoll = New System.Windows.Forms.Label()
+        Me.lblTake = New System.Windows.Forms.Label()
+        Me.lblScene = New System.Windows.Forms.Label()
+        Me.lblTimecode = New System.Windows.Forms.Label()
+        Me.lblLtcStatus = New System.Windows.Forms.Label()
+        Me.pbLogoSlot = New System.Windows.Forms.PictureBox()
+        Me.pbClapper = New System.Windows.Forms.PictureBox()
+        Me.pbSlateBody = New System.Windows.Forms.PictureBox()
         Me.cmsPrimary.SuspendLayout()
         Me.plPrimary.SuspendLayout()
         CType(Me.nudTakes, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -87,7 +88,7 @@ Partial Class frmDigitalSlate
         Me.cmsPrimary.ImageScalingSize = New System.Drawing.Size(28, 28)
         Me.cmsPrimary.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsiEdit, Me.ToolStripSeparator3, Me.tsiLoadProfile, Me.tsiSaveProfile, Me.ToolStripSeparator5, Me.tsiExportMarkersNow, Me.tsiOpenLogFolder, Me.tsiRevealCurrentMarkerFile, Me.tsiValidateMarkerCsv, Me.ToolStripSeparator4, Me.tsiOptions, Me.tsiLtcCalibrationTone, Me.tsiChangeLogo, Me.ToolStripSeparator2, Me.tsiZeroTC, Me.tsiReset, Me.ToolStripSeparator1, Me.tsiExit})
         Me.cmsPrimary.Name = "cmsPrimary"
-        Me.cmsPrimary.Size = New System.Drawing.Size(311, 450)
+        Me.cmsPrimary.Size = New System.Drawing.Size(266, 346)
         '
         'tsiEdit
         '
@@ -95,20 +96,20 @@ Partial Class frmDigitalSlate
         Me.tsiEdit.Name = "tsiEdit"
         Me.tsiEdit.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
-        Me.tsiEdit.Size = New System.Drawing.Size(310, 32)
+        Me.tsiEdit.Size = New System.Drawing.Size(265, 24)
         Me.tsiEdit.Text = "&Edit Slate"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(307, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(262, 6)
         '
         'tsiLoadProfile
         '
         Me.tsiLoadProfile.Name = "tsiLoadProfile"
         Me.tsiLoadProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.tsiLoadProfile.Size = New System.Drawing.Size(310, 32)
+        Me.tsiLoadProfile.Size = New System.Drawing.Size(265, 24)
         Me.tsiLoadProfile.Text = "Load Slate"
         '
         'tsiSaveProfile
@@ -116,98 +117,99 @@ Partial Class frmDigitalSlate
         Me.tsiSaveProfile.Name = "tsiSaveProfile"
         Me.tsiSaveProfile.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.tsiSaveProfile.Size = New System.Drawing.Size(310, 32)
+        Me.tsiSaveProfile.Size = New System.Drawing.Size(265, 24)
         Me.tsiSaveProfile.Text = "Save Slate"
         '
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(307, 6)
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(262, 6)
         '
         'tsiExportMarkersNow
         '
         Me.tsiExportMarkersNow.Name = "tsiExportMarkersNow"
-        Me.tsiExportMarkersNow.Size = New System.Drawing.Size(310, 32)
+        Me.tsiExportMarkersNow.Size = New System.Drawing.Size(265, 24)
         Me.tsiExportMarkersNow.Text = "Export Session Markers Now"
         '
         'tsiOpenLogFolder
         '
         Me.tsiOpenLogFolder.Name = "tsiOpenLogFolder"
-        Me.tsiOpenLogFolder.Size = New System.Drawing.Size(310, 32)
+        Me.tsiOpenLogFolder.Size = New System.Drawing.Size(265, 24)
         Me.tsiOpenLogFolder.Text = "Open Marker Log Folder"
         '
         'tsiRevealCurrentMarkerFile
         '
         Me.tsiRevealCurrentMarkerFile.Name = "tsiRevealCurrentMarkerFile"
-        Me.tsiRevealCurrentMarkerFile.Size = New System.Drawing.Size(310, 32)
+        Me.tsiRevealCurrentMarkerFile.Size = New System.Drawing.Size(265, 24)
         Me.tsiRevealCurrentMarkerFile.Text = "Reveal Current Marker File"
         '
         'tsiValidateMarkerCsv
         '
         Me.tsiValidateMarkerCsv.Name = "tsiValidateMarkerCsv"
-        Me.tsiValidateMarkerCsv.Size = New System.Drawing.Size(310, 32)
+        Me.tsiValidateMarkerCsv.Size = New System.Drawing.Size(265, 24)
         Me.tsiValidateMarkerCsv.Text = "Validate Marker CSV"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(307, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(262, 6)
         '
         'tsiOptions
         '
         Me.tsiOptions.AutoToolTip = True
         Me.tsiOptions.Name = "tsiOptions"
-        Me.tsiOptions.Size = New System.Drawing.Size(310, 32)
+        Me.tsiOptions.Size = New System.Drawing.Size(265, 24)
         Me.tsiOptions.Text = "&Settings..."
         '
         'tsiLtcCalibrationTone
         '
         Me.tsiLtcCalibrationTone.Name = "tsiLtcCalibrationTone"
-        Me.tsiLtcCalibrationTone.Size = New System.Drawing.Size(310, 32)
+        Me.tsiLtcCalibrationTone.Size = New System.Drawing.Size(265, 24)
         Me.tsiLtcCalibrationTone.Text = "Play LTC Reference Tone"
         '
         'tsiChangeLogo
         '
         Me.tsiChangeLogo.AutoToolTip = True
         Me.tsiChangeLogo.Name = "tsiChangeLogo"
-        Me.tsiChangeLogo.Size = New System.Drawing.Size(310, 32)
+        Me.tsiChangeLogo.Size = New System.Drawing.Size(265, 24)
         Me.tsiChangeLogo.Text = "Change Logo..."
         Me.tsiChangeLogo.ToolTipText = "Change Company Logo"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(307, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(262, 6)
         '
         'tsiZeroTC
         '
         Me.tsiZeroTC.Name = "tsiZeroTC"
-        Me.tsiZeroTC.Size = New System.Drawing.Size(310, 32)
+        Me.tsiZeroTC.Size = New System.Drawing.Size(265, 24)
         Me.tsiZeroTC.Text = "Zero Timecode"
         '
         'tsiReset
         '
         Me.tsiReset.AutoToolTip = True
         Me.tsiReset.Name = "tsiReset"
-        Me.tsiReset.Size = New System.Drawing.Size(310, 32)
+        Me.tsiReset.Size = New System.Drawing.Size(265, 24)
         Me.tsiReset.Text = "&Restore Defaults"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(307, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(262, 6)
         '
         'tsiExit
         '
         Me.tsiExit.AutoToolTip = True
         Me.tsiExit.Name = "tsiExit"
         Me.tsiExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.tsiExit.Size = New System.Drawing.Size(310, 32)
+        Me.tsiExit.Size = New System.Drawing.Size(265, 24)
         Me.tsiExit.Text = "&Quit"
         '
         'plPrimary
         '
         Me.plPrimary.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.plPrimary.Controls.Add(Me.cbLock)
         Me.plPrimary.Controls.Add(Me.nudTakes)
         Me.plPrimary.Controls.Add(Me.butSwAudio)
         Me.plPrimary.Controls.Add(Me.butSwDayNit)
@@ -234,24 +236,39 @@ Partial Class frmDigitalSlate
         Me.plPrimary.Controls.Add(Me.pbLogoSlot)
         Me.plPrimary.Controls.Add(Me.pbClapper)
         Me.plPrimary.Controls.Add(Me.pbSlateBody)
-        Me.plPrimary.Location = New System.Drawing.Point(55, 80)
+        Me.plPrimary.Location = New System.Drawing.Point(46, 67)
         Me.plPrimary.Margin = New System.Windows.Forms.Padding(2)
-        Me.plPrimary.MaximumSize = New System.Drawing.Size(1628, 1028)
-        Me.plPrimary.MinimumSize = New System.Drawing.Size(1628, 1028)
+        Me.plPrimary.MaximumSize = New System.Drawing.Size(1357, 857)
+        Me.plPrimary.MinimumSize = New System.Drawing.Size(1357, 857)
         Me.plPrimary.Name = "plPrimary"
-        Me.plPrimary.Size = New System.Drawing.Size(1628, 1028)
+        Me.plPrimary.Size = New System.Drawing.Size(1357, 857)
         Me.plPrimary.TabIndex = 20
+        '
+        'cbLock
+        '
+        Me.cbLock.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cbLock.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cbLock.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.cbLock.Font = New System.Drawing.Font("HelveticaNeueLT Std Lt", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbLock.ForeColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.cbLock.Location = New System.Drawing.Point(1126, 287)
+        Me.cbLock.Margin = New System.Windows.Forms.Padding(0)
+        Me.cbLock.Name = "cbLock"
+        Me.cbLock.Size = New System.Drawing.Size(185, 28)
+        Me.cbLock.TabIndex = 46
+        Me.cbLock.Text = "🔒LOCK SLATE"
+        Me.cbLock.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cbLock.UseVisualStyleBackColor = True
         '
         'nudTakes
         '
         Me.nudTakes.Cursor = System.Windows.Forms.Cursors.HSplit
         Me.nudTakes.Font = New System.Drawing.Font("Helvetica Neue", 19.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.nudTakes.ForeColor = System.Drawing.Color.White
-        Me.nudTakes.Location = New System.Drawing.Point(706, 216)
-        Me.nudTakes.Margin = New System.Windows.Forms.Padding(4)
+        Me.nudTakes.Location = New System.Drawing.Point(588, 180)
         Me.nudTakes.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudTakes.Name = "nudTakes"
-        Me.nudTakes.Size = New System.Drawing.Size(36, 54)
+        Me.nudTakes.Size = New System.Drawing.Size(30, 46)
         Me.nudTakes.TabIndex = 44
         Me.nudTakes.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
@@ -263,11 +280,11 @@ Partial Class frmDigitalSlate
         Me.butSwAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.butSwAudio.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.butSwAudio.ForeColor = System.Drawing.Color.Red
-        Me.butSwAudio.Location = New System.Drawing.Point(1064, 803)
+        Me.butSwAudio.Location = New System.Drawing.Point(887, 669)
         Me.butSwAudio.Margin = New System.Windows.Forms.Padding(0)
-        Me.butSwAudio.MaximumSize = New System.Drawing.Size(68, 68)
+        Me.butSwAudio.MaximumSize = New System.Drawing.Size(57, 57)
         Me.butSwAudio.Name = "butSwAudio"
-        Me.butSwAudio.Size = New System.Drawing.Size(68, 68)
+        Me.butSwAudio.Size = New System.Drawing.Size(57, 57)
         Me.butSwAudio.TabIndex = 42
         Me.butSwAudio.Text = "🔄"
         Me.butSwAudio.UseVisualStyleBackColor = False
@@ -280,11 +297,11 @@ Partial Class frmDigitalSlate
         Me.butSwDayNit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.butSwDayNit.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.butSwDayNit.ForeColor = System.Drawing.Color.Red
-        Me.butSwDayNit.Location = New System.Drawing.Point(529, 803)
+        Me.butSwDayNit.Location = New System.Drawing.Point(441, 669)
         Me.butSwDayNit.Margin = New System.Windows.Forms.Padding(0)
-        Me.butSwDayNit.MaximumSize = New System.Drawing.Size(68, 68)
+        Me.butSwDayNit.MaximumSize = New System.Drawing.Size(57, 57)
         Me.butSwDayNit.Name = "butSwDayNit"
-        Me.butSwDayNit.Size = New System.Drawing.Size(68, 68)
+        Me.butSwDayNit.Size = New System.Drawing.Size(57, 57)
         Me.butSwDayNit.TabIndex = 41
         Me.butSwDayNit.Text = "🔄"
         Me.butSwDayNit.UseVisualStyleBackColor = False
@@ -297,11 +314,11 @@ Partial Class frmDigitalSlate
         Me.butSwIntExt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.butSwIntExt.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.butSwIntExt.ForeColor = System.Drawing.Color.Red
-        Me.butSwIntExt.Location = New System.Drawing.Point(41, 803)
+        Me.butSwIntExt.Location = New System.Drawing.Point(34, 669)
         Me.butSwIntExt.Margin = New System.Windows.Forms.Padding(0)
-        Me.butSwIntExt.MaximumSize = New System.Drawing.Size(68, 68)
+        Me.butSwIntExt.MaximumSize = New System.Drawing.Size(57, 57)
         Me.butSwIntExt.Name = "butSwIntExt"
-        Me.butSwIntExt.Size = New System.Drawing.Size(68, 68)
+        Me.butSwIntExt.Size = New System.Drawing.Size(57, 57)
         Me.butSwIntExt.TabIndex = 40
         Me.butSwIntExt.Text = "🔄"
         Me.butSwIntExt.UseVisualStyleBackColor = False
@@ -313,11 +330,11 @@ Partial Class frmDigitalSlate
         Me.butEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.butEdit.Font = New System.Drawing.Font("HelveticaNeueLT Std Cn", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.butEdit.ForeColor = System.Drawing.Color.Red
-        Me.butEdit.Location = New System.Drawing.Point(41, 216)
+        Me.butEdit.Location = New System.Drawing.Point(34, 180)
         Me.butEdit.Margin = New System.Windows.Forms.Padding(0)
-        Me.butEdit.MaximumSize = New System.Drawing.Size(78, 78)
+        Me.butEdit.MaximumSize = New System.Drawing.Size(65, 65)
         Me.butEdit.Name = "butEdit"
-        Me.butEdit.Size = New System.Drawing.Size(78, 78)
+        Me.butEdit.Size = New System.Drawing.Size(65, 65)
         Me.butEdit.TabIndex = 39
         Me.butEdit.Text = "EDIT"
         Me.butEdit.UseVisualStyleBackColor = False
@@ -330,10 +347,10 @@ Partial Class frmDigitalSlate
         Me.cbTakeInc.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cbTakeInc.Font = New System.Drawing.Font("HelveticaNeueLT Std Ext", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbTakeInc.ForeColor = System.Drawing.Color.Red
-        Me.cbTakeInc.Location = New System.Drawing.Point(668, 293)
+        Me.cbTakeInc.Location = New System.Drawing.Point(557, 244)
         Me.cbTakeInc.Margin = New System.Windows.Forms.Padding(2)
         Me.cbTakeInc.Name = "cbTakeInc"
-        Me.cbTakeInc.Size = New System.Drawing.Size(226, 29)
+        Me.cbTakeInc.Size = New System.Drawing.Size(188, 24)
         Me.cbTakeInc.TabIndex = 38
         Me.cbTakeInc.Text = "Auto  Increment"
         Me.cbTakeInc.TextAlign = System.Drawing.ContentAlignment.TopLeft
@@ -350,10 +367,10 @@ Partial Class frmDigitalSlate
         Me.butQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.butQuit.Font = New System.Drawing.Font("Segoe MDL2 Assets", 16.0!, System.Drawing.FontStyle.Bold)
         Me.butQuit.ForeColor = System.Drawing.Color.White
-        Me.butQuit.Location = New System.Drawing.Point(1535, 43)
+        Me.butQuit.Location = New System.Drawing.Point(1279, 36)
         Me.butQuit.Margin = New System.Windows.Forms.Padding(0)
         Me.butQuit.Name = "butQuit"
-        Me.butQuit.Size = New System.Drawing.Size(38, 38)
+        Me.butQuit.Size = New System.Drawing.Size(32, 32)
         Me.butQuit.TabIndex = 37
         Me.butQuit.Text = ""
         Me.butQuit.UseCompatibleTextRendering = True
@@ -365,10 +382,10 @@ Partial Class frmDigitalSlate
         Me.lblHideMos.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblHideMos.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
         Me.lblHideMos.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblHideMos.Location = New System.Drawing.Point(1344, 788)
+        Me.lblHideMos.Location = New System.Drawing.Point(1120, 657)
         Me.lblHideMos.Margin = New System.Windows.Forms.Padding(0)
         Me.lblHideMos.Name = "lblHideMos"
-        Me.lblHideMos.Size = New System.Drawing.Size(169, 85)
+        Me.lblHideMos.Size = New System.Drawing.Size(141, 71)
         Me.lblHideMos.TabIndex = 36
         Me.lblHideMos.Visible = False
         '
@@ -378,10 +395,10 @@ Partial Class frmDigitalSlate
         Me.lblHideSync.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblHideSync.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
         Me.lblHideSync.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblHideSync.Location = New System.Drawing.Point(1139, 788)
+        Me.lblHideSync.Location = New System.Drawing.Point(949, 657)
         Me.lblHideSync.Margin = New System.Windows.Forms.Padding(0)
         Me.lblHideSync.Name = "lblHideSync"
-        Me.lblHideSync.Size = New System.Drawing.Size(185, 85)
+        Me.lblHideSync.Size = New System.Drawing.Size(154, 71)
         Me.lblHideSync.TabIndex = 35
         Me.lblHideSync.Visible = False
         '
@@ -391,10 +408,10 @@ Partial Class frmDigitalSlate
         Me.lblHideNite.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblHideNite.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
         Me.lblHideNite.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblHideNite.Location = New System.Drawing.Point(788, 788)
+        Me.lblHideNite.Location = New System.Drawing.Point(657, 657)
         Me.lblHideNite.Margin = New System.Windows.Forms.Padding(0)
         Me.lblHideNite.Name = "lblHideNite"
-        Me.lblHideNite.Size = New System.Drawing.Size(144, 85)
+        Me.lblHideNite.Size = New System.Drawing.Size(120, 71)
         Me.lblHideNite.TabIndex = 34
         Me.lblHideNite.Visible = False
         '
@@ -404,10 +421,10 @@ Partial Class frmDigitalSlate
         Me.lblHideDay.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblHideDay.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
         Me.lblHideDay.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblHideDay.Location = New System.Drawing.Point(613, 788)
+        Me.lblHideDay.Location = New System.Drawing.Point(511, 657)
         Me.lblHideDay.Margin = New System.Windows.Forms.Padding(0)
         Me.lblHideDay.Name = "lblHideDay"
-        Me.lblHideDay.Size = New System.Drawing.Size(139, 85)
+        Me.lblHideDay.Size = New System.Drawing.Size(116, 71)
         Me.lblHideDay.TabIndex = 33
         Me.lblHideDay.Visible = False
         '
@@ -417,10 +434,10 @@ Partial Class frmDigitalSlate
         Me.lblHideExt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblHideExt.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
         Me.lblHideExt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblHideExt.Location = New System.Drawing.Point(275, 788)
+        Me.lblHideExt.Location = New System.Drawing.Point(229, 657)
         Me.lblHideExt.Margin = New System.Windows.Forms.Padding(0)
         Me.lblHideExt.Name = "lblHideExt"
-        Me.lblHideExt.Size = New System.Drawing.Size(128, 85)
+        Me.lblHideExt.Size = New System.Drawing.Size(107, 71)
         Me.lblHideExt.TabIndex = 32
         Me.lblHideExt.Visible = False
         '
@@ -430,10 +447,10 @@ Partial Class frmDigitalSlate
         Me.lblHideInt.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblHideInt.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
         Me.lblHideInt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblHideInt.Location = New System.Drawing.Point(136, 788)
+        Me.lblHideInt.Location = New System.Drawing.Point(113, 657)
         Me.lblHideInt.Margin = New System.Windows.Forms.Padding(0)
         Me.lblHideInt.Name = "lblHideInt"
-        Me.lblHideInt.Size = New System.Drawing.Size(108, 85)
+        Me.lblHideInt.Size = New System.Drawing.Size(90, 71)
         Me.lblHideInt.TabIndex = 31
         Me.lblHideInt.Visible = False
         '
@@ -441,10 +458,10 @@ Partial Class frmDigitalSlate
         '
         Me.lblDate.BackColor = System.Drawing.Color.White
         Me.lblDate.Font = New System.Drawing.Font("Arial", 35.14286!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDate.Location = New System.Drawing.Point(956, 675)
+        Me.lblDate.Location = New System.Drawing.Point(797, 562)
         Me.lblDate.Margin = New System.Windows.Forms.Padding(0)
         Me.lblDate.Name = "lblDate"
-        Me.lblDate.Size = New System.Drawing.Size(612, 97)
+        Me.lblDate.Size = New System.Drawing.Size(510, 81)
         Me.lblDate.TabIndex = 30
         Me.lblDate.Text = "10 Jul 1780"
         Me.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -454,10 +471,10 @@ Partial Class frmDigitalSlate
         '
         Me.lblFPS.BackColor = System.Drawing.Color.White
         Me.lblFPS.Font = New System.Drawing.Font("Arial Black", 50.0!, System.Drawing.FontStyle.Bold)
-        Me.lblFPS.Location = New System.Drawing.Point(128, 679)
+        Me.lblFPS.Location = New System.Drawing.Point(107, 566)
         Me.lblFPS.Margin = New System.Windows.Forms.Padding(0)
         Me.lblFPS.Name = "lblFPS"
-        Me.lblFPS.Size = New System.Drawing.Size(679, 92)
+        Me.lblFPS.Size = New System.Drawing.Size(566, 77)
         Me.lblFPS.TabIndex = 29
         Me.lblFPS.Text = "23.967"
         Me.lblFPS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -467,10 +484,10 @@ Partial Class frmDigitalSlate
         '
         Me.lblDOP.BackColor = System.Drawing.Color.White
         Me.lblDOP.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold)
-        Me.lblDOP.Location = New System.Drawing.Point(895, 576)
+        Me.lblDOP.Location = New System.Drawing.Point(746, 480)
         Me.lblDOP.Margin = New System.Windows.Forms.Padding(0)
         Me.lblDOP.Name = "lblDOP"
-        Me.lblDOP.Size = New System.Drawing.Size(695, 83)
+        Me.lblDOP.Size = New System.Drawing.Size(579, 69)
         Me.lblDOP.TabIndex = 28
         Me.lblDOP.Text = "lblDOP"
         Me.lblDOP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -480,10 +497,10 @@ Partial Class frmDigitalSlate
         '
         Me.lblDirector.BackColor = System.Drawing.Color.White
         Me.lblDirector.Font = New System.Drawing.Font("Arial", 45.0!, System.Drawing.FontStyle.Bold)
-        Me.lblDirector.Location = New System.Drawing.Point(83, 576)
+        Me.lblDirector.Location = New System.Drawing.Point(69, 480)
         Me.lblDirector.Margin = New System.Windows.Forms.Padding(0)
         Me.lblDirector.Name = "lblDirector"
-        Me.lblDirector.Size = New System.Drawing.Size(725, 83)
+        Me.lblDirector.Size = New System.Drawing.Size(604, 69)
         Me.lblDirector.TabIndex = 27
         Me.lblDirector.Text = "lblDirector"
         Me.lblDirector.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -493,10 +510,10 @@ Partial Class frmDigitalSlate
         '
         Me.lblProduction.BackColor = System.Drawing.Color.White
         Me.lblProduction.Font = New System.Drawing.Font("Arial Black", 55.0!, System.Drawing.FontStyle.Bold)
-        Me.lblProduction.Location = New System.Drawing.Point(119, 463)
+        Me.lblProduction.Location = New System.Drawing.Point(99, 386)
         Me.lblProduction.Margin = New System.Windows.Forms.Padding(0)
         Me.lblProduction.Name = "lblProduction"
-        Me.lblProduction.Size = New System.Drawing.Size(1471, 92)
+        Me.lblProduction.Size = New System.Drawing.Size(1226, 77)
         Me.lblProduction.TabIndex = 26
         Me.lblProduction.Text = "lblProduction"
         Me.lblProduction.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -508,10 +525,10 @@ Partial Class frmDigitalSlate
         Me.lblRoll.BackColor = System.Drawing.Color.White
         Me.lblRoll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblRoll.Font = New System.Drawing.Font("Arial Black", 45.0!, System.Drawing.FontStyle.Bold)
-        Me.lblRoll.Location = New System.Drawing.Point(1280, 160)
+        Me.lblRoll.Location = New System.Drawing.Point(1067, 133)
         Me.lblRoll.Margin = New System.Windows.Forms.Padding(0)
         Me.lblRoll.Name = "lblRoll"
-        Me.lblRoll.Size = New System.Drawing.Size(308, 164)
+        Me.lblRoll.Size = New System.Drawing.Size(257, 137)
         Me.lblRoll.TabIndex = 25
         Me.lblRoll.Text = "A001"
         Me.lblRoll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -522,10 +539,10 @@ Partial Class frmDigitalSlate
         Me.lblTake.AutoEllipsis = True
         Me.lblTake.BackColor = System.Drawing.Color.White
         Me.lblTake.Font = New System.Drawing.Font("Arial Black", 60.0!, System.Drawing.FontStyle.Bold)
-        Me.lblTake.Location = New System.Drawing.Point(745, 144)
+        Me.lblTake.Location = New System.Drawing.Point(621, 120)
         Me.lblTake.Margin = New System.Windows.Forms.Padding(0)
         Me.lblTake.Name = "lblTake"
-        Me.lblTake.Size = New System.Drawing.Size(421, 180)
+        Me.lblTake.Size = New System.Drawing.Size(351, 150)
         Me.lblTake.TabIndex = 24
         Me.lblTake.Text = "10"
         Me.lblTake.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -536,10 +553,10 @@ Partial Class frmDigitalSlate
         Me.lblScene.AutoEllipsis = True
         Me.lblScene.BackColor = System.Drawing.Color.White
         Me.lblScene.Font = New System.Drawing.Font("Arial Black", 59.0!, System.Drawing.FontStyle.Bold)
-        Me.lblScene.Location = New System.Drawing.Point(139, 149)
+        Me.lblScene.Location = New System.Drawing.Point(116, 124)
         Me.lblScene.Margin = New System.Windows.Forms.Padding(0)
         Me.lblScene.Name = "lblScene"
-        Me.lblScene.Size = New System.Drawing.Size(479, 169)
+        Me.lblScene.Size = New System.Drawing.Size(399, 141)
         Me.lblScene.TabIndex = 23
         Me.lblScene.Text = "01C"
         Me.lblScene.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -552,11 +569,11 @@ Partial Class frmDigitalSlate
         Me.lblTimecode.Font = New System.Drawing.Font("Microsoft Sans Serif", 65.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTimecode.ForeColor = System.Drawing.Color.Red
         Me.lblTimecode.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.lblTimecode.Location = New System.Drawing.Point(20, 324)
+        Me.lblTimecode.Location = New System.Drawing.Point(17, 270)
         Me.lblTimecode.Margin = New System.Windows.Forms.Padding(0)
         Me.lblTimecode.Name = "lblTimecode"
-        Me.lblTimecode.Padding = New System.Windows.Forms.Padding(0, 16, 0, 1)
-        Me.lblTimecode.Size = New System.Drawing.Size(1573, 137)
+        Me.lblTimecode.Padding = New System.Windows.Forms.Padding(0, 13, 0, 1)
+        Me.lblTimecode.Size = New System.Drawing.Size(1311, 114)
         Me.lblTimecode.TabIndex = 20
         Me.lblTimecode.Text = "00 : 00 : 00 : 00"
         Me.lblTimecode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -567,10 +584,10 @@ Partial Class frmDigitalSlate
         Me.lblLtcStatus.BackColor = System.Drawing.Color.White
         Me.lblLtcStatus.Font = New System.Drawing.Font("HelveticaNeueLT Std Ext", 16.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLtcStatus.ForeColor = System.Drawing.Color.Black
-        Me.lblLtcStatus.Location = New System.Drawing.Point(55, 948)
+        Me.lblLtcStatus.Location = New System.Drawing.Point(46, 790)
         Me.lblLtcStatus.Margin = New System.Windows.Forms.Padding(0)
         Me.lblLtcStatus.Name = "lblLtcStatus"
-        Me.lblLtcStatus.Size = New System.Drawing.Size(1482, 34)
+        Me.lblLtcStatus.Size = New System.Drawing.Size(773, 28)
         Me.lblLtcStatus.TabIndex = 43
         Me.lblLtcStatus.Text = "LTC: OFF"
         Me.lblLtcStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -581,10 +598,10 @@ Partial Class frmDigitalSlate
         Me.pbLogoSlot.BackColor = System.Drawing.Color.White
         Me.pbLogoSlot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pbLogoSlot.InitialImage = CType(resources.GetObject("pbLogoSlot.InitialImage"), System.Drawing.Image)
-        Me.pbLogoSlot.Location = New System.Drawing.Point(67, 16)
+        Me.pbLogoSlot.Location = New System.Drawing.Point(56, 13)
         Me.pbLogoSlot.Margin = New System.Windows.Forms.Padding(0)
         Me.pbLogoSlot.Name = "pbLogoSlot"
-        Me.pbLogoSlot.Size = New System.Drawing.Size(363, 104)
+        Me.pbLogoSlot.Size = New System.Drawing.Size(303, 87)
         Me.pbLogoSlot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.pbLogoSlot.TabIndex = 45
         Me.pbLogoSlot.TabStop = False
@@ -595,9 +612,9 @@ Partial Class frmDigitalSlate
         Me.pbClapper.Image = Global.digitalSlate.My.Resources.Resources.clapper
         Me.pbClapper.Location = New System.Drawing.Point(0, 0)
         Me.pbClapper.Margin = New System.Windows.Forms.Padding(0)
-        Me.pbClapper.MaximumSize = New System.Drawing.Size(1628, 133)
+        Me.pbClapper.MaximumSize = New System.Drawing.Size(1357, 111)
         Me.pbClapper.Name = "pbClapper"
-        Me.pbClapper.Size = New System.Drawing.Size(1612, 132)
+        Me.pbClapper.Size = New System.Drawing.Size(1343, 110)
         Me.pbClapper.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.pbClapper.TabIndex = 21
         Me.pbClapper.TabStop = False
@@ -608,29 +625,29 @@ Partial Class frmDigitalSlate
         Me.pbSlateBody.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.pbSlateBody.ContextMenuStrip = Me.cmsPrimary
         Me.pbSlateBody.Image = Global.digitalSlate.My.Resources.Resources.slateBody
-        Me.pbSlateBody.Location = New System.Drawing.Point(0, 132)
+        Me.pbSlateBody.Location = New System.Drawing.Point(0, 110)
         Me.pbSlateBody.Margin = New System.Windows.Forms.Padding(0)
-        Me.pbSlateBody.MaximumSize = New System.Drawing.Size(1628, 896)
+        Me.pbSlateBody.MaximumSize = New System.Drawing.Size(1357, 747)
         Me.pbSlateBody.Name = "pbSlateBody"
-        Me.pbSlateBody.Size = New System.Drawing.Size(1612, 880)
+        Me.pbSlateBody.Size = New System.Drawing.Size(1343, 733)
         Me.pbSlateBody.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.pbSlateBody.TabIndex = 22
         Me.pbSlateBody.TabStop = False
         '
         'frmDigitalSlate
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(144.0!, 144.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(120.0!, 120.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.Black
-        Me.ClientSize = New System.Drawing.Size(1771, 1202)
+        Me.ClientSize = New System.Drawing.Size(1476, 1002)
         Me.ContextMenuStrip = Me.cmsPrimary
         Me.ControlBox = False
         Me.Controls.Add(Me.plPrimary)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(1620, 984)
+        Me.MinimumSize = New System.Drawing.Size(1350, 820)
         Me.Name = "frmDigitalSlate"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -648,50 +665,51 @@ Partial Class frmDigitalSlate
     End Sub
 
     Friend WithEvents Timer1 As Timer
-   Friend WithEvents cmsPrimary As ContextMenuStrip
-   Friend WithEvents tsiReset As ToolStripMenuItem
-   Friend WithEvents tsiOptions As ToolStripMenuItem
-   Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-   Friend WithEvents tsiExit As ToolStripMenuItem
-   Friend WithEvents tsiEdit As ToolStripMenuItem
-   Friend WithEvents plPrimary As Panel
-   Friend WithEvents butQuit As Button
-   Friend WithEvents lblHideMos As Label
-   Friend WithEvents lblHideSync As Label
-   Friend WithEvents lblHideNite As Label
-   Friend WithEvents lblHideDay As Label
-   Friend WithEvents lblHideExt As Label
-   Friend WithEvents lblHideInt As Label
-   Friend WithEvents lblDate As Label
-   Friend WithEvents lblFPS As Label
-   Friend WithEvents lblDOP As Label
-   Friend WithEvents lblDirector As Label
-   Friend WithEvents lblProduction As Label
-   Friend WithEvents lblRoll As Label
-   Friend WithEvents lblTake As Label
-   Friend WithEvents lblScene As Label
-   Friend WithEvents lblTimecode As Label
-   Friend WithEvents lblLtcStatus As Label
-   Friend WithEvents pbLogoSlot As PictureBox
-   Friend WithEvents pbClapper As PictureBox
-   Friend WithEvents pbSlateBody As PictureBox
-   Friend WithEvents tsiZeroTC As ToolStripMenuItem
-   Friend WithEvents cbTakeInc As CheckBox
-   Friend WithEvents butEdit As Button
-   Friend WithEvents butSwAudio As Button
-   Friend WithEvents butSwDayNit As Button
-   Friend WithEvents butSwIntExt As Button
-   Friend WithEvents tsiLoadProfile As ToolStripMenuItem
-   Friend WithEvents tsiSaveProfile As ToolStripMenuItem
-   Friend WithEvents tsiExportMarkersNow As ToolStripMenuItem
-   Friend WithEvents tsiOpenLogFolder As ToolStripMenuItem
+    Friend WithEvents cmsPrimary As ContextMenuStrip
+    Friend WithEvents tsiReset As ToolStripMenuItem
+    Friend WithEvents tsiOptions As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents tsiExit As ToolStripMenuItem
+    Friend WithEvents tsiEdit As ToolStripMenuItem
+    Friend WithEvents plPrimary As Panel
+    Friend WithEvents butQuit As Button
+    Friend WithEvents lblHideMos As Label
+    Friend WithEvents lblHideSync As Label
+    Friend WithEvents lblHideNite As Label
+    Friend WithEvents lblHideDay As Label
+    Friend WithEvents lblHideExt As Label
+    Friend WithEvents lblHideInt As Label
+    Friend WithEvents lblDate As Label
+    Friend WithEvents lblFPS As Label
+    Friend WithEvents lblDOP As Label
+    Friend WithEvents lblDirector As Label
+    Friend WithEvents lblProduction As Label
+    Friend WithEvents lblRoll As Label
+    Friend WithEvents lblTake As Label
+    Friend WithEvents lblScene As Label
+    Friend WithEvents lblTimecode As Label
+    Friend WithEvents lblLtcStatus As Label
+    Friend WithEvents pbLogoSlot As PictureBox
+    Friend WithEvents pbClapper As PictureBox
+    Friend WithEvents pbSlateBody As PictureBox
+    Friend WithEvents tsiZeroTC As ToolStripMenuItem
+    Friend WithEvents cbTakeInc As CheckBox
+    Friend WithEvents butEdit As Button
+    Friend WithEvents butSwAudio As Button
+    Friend WithEvents butSwDayNit As Button
+    Friend WithEvents butSwIntExt As Button
+    Friend WithEvents tsiLoadProfile As ToolStripMenuItem
+    Friend WithEvents tsiSaveProfile As ToolStripMenuItem
+    Friend WithEvents tsiExportMarkersNow As ToolStripMenuItem
+    Friend WithEvents tsiOpenLogFolder As ToolStripMenuItem
     Friend WithEvents tsiRevealCurrentMarkerFile As ToolStripMenuItem
     Friend WithEvents tsiValidateMarkerCsv As ToolStripMenuItem
-   Friend WithEvents nudTakes As NumericUpDown
-   Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
-   Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
-   Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
-   Friend WithEvents tsiChangeLogo As ToolStripMenuItem
+    Friend WithEvents nudTakes As NumericUpDown
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
+    Friend WithEvents tsiChangeLogo As ToolStripMenuItem
     Friend WithEvents tsiLtcCalibrationTone As ToolStripMenuItem
-   Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents cbLock As CheckBox
 End Class

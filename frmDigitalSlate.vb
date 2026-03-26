@@ -282,6 +282,9 @@ Partial Public Class frmDigitalSlate
 
 		nudTakes.Value = _targetValue
 		RefreshTargetLabel()
+
+		cbLock.Text = "LOCK SLATE"
+		ApplySlateLockState()
 	End Sub
 
 	Private Sub RefreshTargetLabel()
@@ -309,7 +312,68 @@ Partial Public Class frmDigitalSlate
 		Catch ex As Exception
 			' Ignore if menu items are not present in designer yet
 		End Try
+
+		ApplySlateLockState()
 	End Sub
+
+	Private Function IsSlateLocked() As Boolean
+		Return cbLock IsNot Nothing AndAlso cbLock.Checked
+	End Function
+
+	Private Sub ApplySlateLockState()
+		Dim locked As Boolean = IsSlateLocked()
+		Dim timerRunning As Boolean = (Timer1 IsNot Nothing AndAlso Timer1.Enabled)
+
+		If cbLock IsNot Nothing Then
+			cbLock.Text = If(locked, "🔒SLATE LOCKED", "LOCK SLATE")
+			EnsureLockCheckboxFitsText()
+		End If
+
+		If butSwIntExt IsNot Nothing Then butSwIntExt.Enabled = Not locked
+		If butSwDayNit IsNot Nothing Then butSwDayNit.Enabled = Not locked
+		If butSwAudio IsNot Nothing Then butSwAudio.Enabled = Not locked
+		If butEdit IsNot Nothing Then butEdit.Enabled = Not locked
+		If cbTakeInc IsNot Nothing Then cbTakeInc.Enabled = Not locked
+		If nudTakes IsNot Nothing Then nudTakes.Enabled = Not locked
+
+		If tsiEdit IsNot Nothing Then tsiEdit.Enabled = Not locked
+		If tsiOptions IsNot Nothing Then tsiOptions.Enabled = Not locked
+		If tsiChangeLogo IsNot Nothing Then tsiChangeLogo.Enabled = Not locked
+		If tsiReset IsNot Nothing Then tsiReset.Enabled = Not locked
+		If tsiZeroTC IsNot Nothing Then tsiZeroTC.Enabled = (Not locked) AndAlso (Not timerRunning)
+		If tsiSaveProfile IsNot Nothing Then tsiSaveProfile.Enabled = (Not locked) AndAlso (Not timerRunning)
+		If tsiLoadProfile IsNot Nothing Then tsiLoadProfile.Enabled = (Not locked) AndAlso (Not timerRunning)
+	End Sub
+
+	Private Sub EnsureLockCheckboxFitsText()
+		If cbLock Is Nothing Then Return
+
+		Dim currentRight As Integer = cbLock.Right
+		Dim measured As Size = TextRenderer.MeasureText(cbLock.Text, cbLock.Font)
+		Dim desiredWidth As Integer = Math.Max(185, measured.Width + 34)
+		cbLock.Width = desiredWidth
+		cbLock.Left = currentRight - cbLock.Width
+	End Sub
+
+	Private Function BlockWhenSlateLocked() As Boolean
+		If Not IsSlateLocked() Then Return False
+		SystemSounds.Asterisk.Play()
+		Return True
+	End Function
+
+	Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
+		If IsSlateLocked() Then
+			Select Case keyData
+				Case (Keys.Alt Or Keys.Shift Or Keys.E),
+					 (Keys.Alt Or Keys.Shift Or Keys.O),
+					 (Keys.Alt Or Keys.Shift Or Keys.S)
+					SystemSounds.Asterisk.Play()
+					Return True
+			End Select
+		End If
+
+		Return MyBase.ProcessCmdKey(msg, keyData)
+	End Function
 
 	Public Sub CenterPanel()
 		If plPrimary IsNot Nothing Then
@@ -322,7 +386,7 @@ Partial Public Class frmDigitalSlate
 		If _slateScaleInitialized Then Return
 		If plPrimary Is Nothing Then Return
 
-     ClearControlSizeConstraintsRecursive(plPrimary)
+		ClearControlSizeConstraintsRecursive(plPrimary)
 
 		_slateDesignSize = plPrimary.Size
 		_slateControlBounds.Clear()
@@ -391,6 +455,7 @@ Partial Public Class frmDigitalSlate
 
 		plPrimary.ResumeLayout()
 		CenterPanel()
+		EnsureLockCheckboxFitsText()
 
 		If lblTimecode IsNot Nothing AndAlso DateTime.UtcNow >= _timecodeOverlayUntilUtc Then
 			_timecodeLabelBaseFont = New Font(lblTimecode.Font.FontFamily, lblTimecode.Font.Size, lblTimecode.Font.Style)
@@ -444,22 +509,22 @@ Partial Public Class frmDigitalSlate
 	End Sub
 
 	Private Function GetSlateDateForOverlay() As String
-     Dim applyCaps As Func(Of String, String) = Function(value As String)
-			If World.vMain.displayCaps = 1 Then
-				Return If(value, String.Empty).ToUpperInvariant()
-			End If
-			Return If(value, String.Empty)
-		End Function
+		Dim applyCaps As Func(Of String, String) = Function(value As String)
+													   If World.vMain.displayCaps = 1 Then
+														   Return If(value, String.Empty).ToUpperInvariant()
+													   End If
+													   Return If(value, String.Empty)
+												   End Function
 
 		If Not String.IsNullOrWhiteSpace(World.vMain.custDate) Then
-         Return applyCaps(World.vMain.custDate)
+			Return applyCaps(World.vMain.custDate)
 		End If
 
 		If Not String.IsNullOrWhiteSpace(World.vMain.currentDate) Then
-          Return applyCaps(World.vMain.currentDate)
+			Return applyCaps(World.vMain.currentDate)
 		End If
 
-     Return applyCaps(Date.Now.ToString("dd MMM yyyy"))
+		Return applyCaps(Date.Now.ToString("dd MMM yyyy"))
 	End Function
 
 	Private Function GetMetadataItems() As List(Of String)
@@ -508,7 +573,7 @@ Partial Public Class frmDigitalSlate
 		Dim productionPart As String = SanitizeFilePart(World.vMain.production)
 		Dim scenePart As String = SanitizeFilePart(World.vMain.scene)
 		Dim rollPart As String = SanitizeFilePart(World.vMain.roll)
-        Dim sessionPart As String = If(IsSessionMetadataEnabled(), SanitizeFilePart(World.vMain.sessionId), "NOSESSION")
+		Dim sessionPart As String = If(IsSessionMetadataEnabled(), SanitizeFilePart(World.vMain.sessionId), "NOSESSION")
 		Dim baseName As String
 
 		If World.vMain.markerAppendDaily = 1 Then
@@ -520,7 +585,7 @@ Partial Public Class frmDigitalSlate
 
 		Dim candidatePath As String = Path.Combine(World.vMain.logOutputFolder, baseName & ".csv")
 		Dim suffix As Integer = 1
-    Do While World.vMain.markerAppendDaily <> 1 AndAlso File.Exists(candidatePath)
+		Do While World.vMain.markerAppendDaily <> 1 AndAlso File.Exists(candidatePath)
 			candidatePath = Path.Combine(World.vMain.logOutputFolder, $"{baseName}_{suffix:00}.csv")
 			suffix += 1
 		Loop
@@ -609,11 +674,11 @@ Partial Public Class frmDigitalSlate
 			End If
 
 			Dim inTc As String = NormalizeTimecode(inTcRaw)
-       Dim markerName As String = $"{World.vMain.scene}_T{World.vMain.take}"
-		Dim description As String = $"Roll {World.vMain.roll}; FPS {framesPerSecond:0.###}"
-		If IsSessionMetadataEnabled() Then
-			description &= $"; Unit {World.vMain.unitName}; Op {World.vMain.operatorName}; Session {World.vMain.sessionId}"
-		End If
+			Dim markerName As String = $"{World.vMain.scene}_T{World.vMain.take}"
+			Dim description As String = $"Roll {World.vMain.roll}; FPS {framesPerSecond:0.###}"
+			If IsSessionMetadataEnabled() Then
+				description &= $"; Unit {World.vMain.unitName}; Op {World.vMain.operatorName}; Session {World.vMain.sessionId}"
+			End If
 
 			If Not File.Exists(filePath) Then
 				Dim header As String = "Marker Name,Description,In,Out,Duration,Marker Color,Marker Type"
@@ -661,6 +726,8 @@ Partial Public Class frmDigitalSlate
 			tsiLoadProfile.Enabled = False
 		Catch ex As Exception
 		End Try
+
+		ApplySlateLockState()
 	End Sub
 
 	Private Async Function ShowTimecodeOverlayAsync(text As String, durationMs As Integer, Optional useLargeFont As Boolean = False) As Task
@@ -810,7 +877,7 @@ Partial Public Class frmDigitalSlate
 	End Function
 
 	Private Async Function runCountDown(count As Integer) As Task
-     If Timer1.Enabled Then Return
+		If Timer1.Enabled Then Return
 		If count <= 0 Then Return
 
 		Dim filePath = GetAudioPath("countdown.wav")
@@ -858,7 +925,7 @@ Partial Public Class frmDigitalSlate
 	End Function
 
 	Private Async Function playSyncBeep(count As Integer, Optional onFinalBeepStart As Action = Nothing, Optional preloadedPlayer As SoundPlayer = Nothing) As Task
-     If Timer1.Enabled Then Return
+		If Timer1.Enabled Then Return
 		If preloadedPlayer IsNot Nothing Then
 			Try
 				For i As Integer = 1 To count
@@ -990,11 +1057,13 @@ Partial Public Class frmDigitalSlate
 			End Try
 		End If
 
+		ApplySlateLockState()
+
 	End Sub
 
 	Protected Overrides Sub OnFormClosing(e As FormClosingEventArgs)
 		Try
-       _ltcHealthTimer.Stop()
+			_ltcHealthTimer.Stop()
 		Catch
 		End Try
 
@@ -1072,6 +1141,7 @@ Partial Public Class frmDigitalSlate
 	End Sub
 
 	Private Async Sub tsiZeroTC_Click(sender As Object, e As EventArgs) Handles tsiZeroTC.Click
+		If BlockWhenSlateLocked() Then Return
 
 		If Timer1.Enabled = False Then
 			Await ResetTimecodeAsync()
@@ -1087,6 +1157,7 @@ Partial Public Class frmDigitalSlate
 	End Sub
 
 	Private Sub tsiOptions_Click(sender As Object, e As EventArgs) Handles tsiOptions.Click
+		If BlockWhenSlateLocked() Then Return
 		frmSettings.ShowDialog()
 		ResetResolveLogFilePathCache()
 		SyncLtcOutputState()
@@ -1191,14 +1262,17 @@ Partial Public Class frmDigitalSlate
 	End Sub
 
 	Private Sub tsiReset_Click(sender As Object, e As EventArgs) Handles tsiReset.Click
+		If BlockWhenSlateLocked() Then Return
 		resetSlate()
 	End Sub
 
 	Private Sub tsiEdit_Click(sender As Object, e As EventArgs) Handles tsiEdit.Click
+		If BlockWhenSlateLocked() Then Return
 		frmEdit.ShowDialog()
 	End Sub
 
 	Private Sub butEdit_Click(sender As Object, e As EventArgs) Handles butEdit.Click
+		If BlockWhenSlateLocked() Then Return
 		frmEdit.ShowDialog()
 	End Sub
 
@@ -1213,6 +1287,7 @@ Partial Public Class frmDigitalSlate
 
 	' Menu handlers for save/load profile files (.clap)
 	Private Sub tsiSaveProfile_Click(sender As Object, e As EventArgs) Handles tsiSaveProfile.Click
+		If BlockWhenSlateLocked() Then Return
 		' Delegate to shared Functions handler (which presents SaveFileDialog and verifies file)
 		Try
 			World.Functions.SaveSlateWithDialog()
@@ -1222,6 +1297,7 @@ Partial Public Class frmDigitalSlate
 	End Sub
 
 	Private Sub tsiLoadProfile_Click(sender As Object, e As EventArgs) Handles tsiLoadProfile.Click
+		If BlockWhenSlateLocked() Then Return
 		' Delegate to shared Functions handler (which presents OpenFileDialog and verifies file)
 		Try
 			World.Functions.LoadSlateWithDialog()
@@ -1244,6 +1320,7 @@ Partial Public Class frmDigitalSlate
 	End Sub
 
 	Private Sub tsiChangeLogo_Click(sender As Object, e As EventArgs) Handles tsiChangeLogo.Click
+		If BlockWhenSlateLocked() Then Return
 		Using ofd As New OpenFileDialog()
 			ofd.Filter = "PNG files (*.png)|*.png"
 			ofd.Title = "Select logo image"
@@ -1301,6 +1378,9 @@ Partial Public Class frmDigitalSlate
 		End Function
 	End Class
 
+	Private Sub cbLock_CheckedChanged(sender As Object, e As EventArgs) Handles cbLock.CheckedChanged
+		ApplySlateLockState()
+	End Sub
 End Class
 
 
