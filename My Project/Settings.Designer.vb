@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "18.4.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -75,6 +75,18 @@ Namespace My
             End Get
             Set
                 Me("cfgBeepCount") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property cfgSkipSound() As Integer
+            Get
+                Return CType(Me("cfgSkipSound"),Integer)
+            End Get
+            Set
+                Me("cfgSkipSound") = value
             End Set
         End Property
         
@@ -305,223 +317,211 @@ Namespace My
                 Me("cfgCustDate") = value
             End Set
         End Property
-
-		<Global.System.Configuration.UserScopedSettingAttribute(),  _
-		 Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-		 Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-		Public Property cfgLtcEnabled() As Integer
-			Get
-				Return CType(Me("cfgLtcEnabled"), Integer)
-			End Get
-			Set
-				Me("cfgLtcEnabled") = value
-			End Set
-		End Property
-
-		<Global.System.Configuration.UserScopedSettingAttribute(),  _
-		 Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-		 Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-		Public Property cfgLtcFpsMode() As Integer
-			Get
-				Return CType(Me("cfgLtcFpsMode"), Integer)
-			End Get
-			Set
-				Me("cfgLtcFpsMode") = value
-			End Set
-		End Property
-
-		<Global.System.Configuration.UserScopedSettingAttribute(),  _
-		 Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-		 Global.System.Configuration.DefaultSettingValueAttribute("-1")>  _
-		Public Property cfgLtcOutputDeviceId() As Integer
-			Get
-				Return CType(Me("cfgLtcOutputDeviceId"), Integer)
-			End Get
-			Set
-				Me("cfgLtcOutputDeviceId") = value
-			End Set
-		End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property cfgLtcEnabled() As Integer
+            Get
+                Return CType(Me("cfgLtcEnabled"),Integer)
+            End Get
+            Set
+                Me("cfgLtcEnabled") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property cfgLtcFpsMode() As Integer
+            Get
+                Return CType(Me("cfgLtcFpsMode"),Integer)
+            End Get
+            Set
+                Me("cfgLtcFpsMode") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-1")>  _
+        Public Property cfgLtcOutputDeviceId() As Integer
+            Get
+                Return CType(Me("cfgLtcOutputDeviceId"),Integer)
+            End Get
+            Set
+                Me("cfgLtcOutputDeviceId") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property cfgLtcUnmute() As Integer
             Get
-                Return CType(Me("cfgLtcUnmute"), Integer)
+                Return CType(Me("cfgLtcUnmute"),Integer)
             End Get
             Set
-                Me("cfgLtcUnmute") = Value
+                Me("cfgLtcUnmute") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>
-        Public Property cfgSkipSound() As Integer
-            Get
-                Return CType(Me("cfgSkipSound"), Integer)
-            End Get
-            Set
-                Me("cfgSkipSound") = Value
-            End Set
-        End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property cfgShowCountdownNumbers() As Integer
             Get
-                Return CType(Me("cfgShowCountdownNumbers"), Integer)
+                Return CType(Me("cfgShowCountdownNumbers"),Integer)
             End Get
             Set
-                Me("cfgShowCountdownNumbers") = Value
+                Me("cfgShowCountdownNumbers") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
         Public Property cfgAlwaysFullPreroll() As Integer
             Get
-                Return CType(Me("cfgAlwaysFullPreroll"), Integer)
+                Return CType(Me("cfgAlwaysFullPreroll"),Integer)
             End Get
             Set
-                Me("cfgAlwaysFullPreroll") = Value
+                Me("cfgAlwaysFullPreroll") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
         Public Property cfgMetadataFlashEnabled() As Integer
             Get
-                Return CType(Me("cfgMetadataFlashEnabled"), Integer)
+                Return CType(Me("cfgMetadataFlashEnabled"),Integer)
             End Get
             Set
-                Me("cfgMetadataFlashEnabled") = Value
+                Me("cfgMetadataFlashEnabled") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
         Public Property cfgMetadataFlashFpsEnabled() As Integer
             Get
-                Return CType(Me("cfgMetadataFlashFpsEnabled"), Integer)
+                Return CType(Me("cfgMetadataFlashFpsEnabled"),Integer)
             End Get
             Set
-                Me("cfgMetadataFlashFpsEnabled") = Value
+                Me("cfgMetadataFlashFpsEnabled") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
         Public Property cfgMetadataFlashDateEnabled() As Integer
             Get
-                Return CType(Me("cfgMetadataFlashDateEnabled"), Integer)
+                Return CType(Me("cfgMetadataFlashDateEnabled"),Integer)
             End Get
             Set
-                Me("cfgMetadataFlashDateEnabled") = Value
+                Me("cfgMetadataFlashDateEnabled") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property cfgSlateScaleMultiplier() As Double
+            Get
+                Return CType(Me("cfgSlateScaleMultiplier"),Double)
+            End Get
+            Set
+                Me("cfgSlateScaleMultiplier") = value
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property cfgLogOutToFile() As Integer
             Get
-                Return CType(Me("cfgLogOutToFile"), Integer)
+                Return CType(Me("cfgLogOutToFile"),Integer)
             End Get
             Set
-                Me("cfgLogOutToFile") = Value
+                Me("cfgLogOutToFile") = value
             End Set
         End Property
 
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property cfgLogOutputFolder() As String
             Get
-                Return CType(Me("cfgLogOutputFolder"), String)
+                Return CType(Me("cfgLogOutputFolder"),String)
             End Get
             Set
-                Me("cfgLogOutputFolder") = Value
+                Me("cfgLogOutputFolder") = value
             End Set
         End Property
 
-      <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>
-      Public Property cfgMarkerAppendDaily() As Integer
-         Get
-            Return CType(Me("cfgMarkerAppendDaily"), Integer)
-         End Get
-         Set
-            Me("cfgMarkerAppendDaily") = Value
-         End Set
-      End Property
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property cfgMarkerAppendDaily() As Integer
+            Get
+                Return CType(Me("cfgMarkerAppendDaily"),Integer)
+            End Get
+            Set
+                Me("cfgMarkerAppendDaily") = value
+            End Set
+        End Property
 
-      <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
-      Public Property cfgSessionId() As String
-         Get
-            Return CType(Me("cfgSessionId"), String)
-         End Get
-         Set
-            Me("cfgSessionId") = Value
-         End Set
-      End Property
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property cfgSessionId() As String
+            Get
+                Return CType(Me("cfgSessionId"),String)
+            End Get
+            Set
+                Me("cfgSessionId") = value
+            End Set
+        End Property
 
-      <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
-      Public Property cfgUnitName() As String
-         Get
-            Return CType(Me("cfgUnitName"), String)
-         End Get
-         Set
-            Me("cfgUnitName") = Value
-         End Set
-      End Property
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property cfgUnitName() As String
+            Get
+                Return CType(Me("cfgUnitName"),String)
+            End Get
+            Set
+                Me("cfgUnitName") = value
+            End Set
+        End Property
 
-      <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
-      Public Property cfgOperatorName() As String
-         Get
-            Return CType(Me("cfgOperatorName"), String)
-         End Get
-         Set
-            Me("cfgOperatorName") = Value
-         End Set
-      End Property
-
-      <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
-      Public Property cfgSessionMetadataEnabled() As Integer
-         Get
-            Return CType(Me("cfgSessionMetadataEnabled"), Integer)
-         End Get
-         Set
-            Me("cfgSessionMetadataEnabled") = Value
-         End Set
-      End Property
-
-      <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>
-      Public Property cfgSlateScaleMultiplier() As Double
-         Get
-            Return CType(Me("cfgSlateScaleMultiplier"), Double)
-         End Get
-         Set
-            Me("cfgSlateScaleMultiplier") = Value
-         End Set
-      End Property
-   End Class
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property cfgOperatorName() As String
+            Get
+                Return CType(Me("cfgOperatorName"),String)
+            End Get
+            Set
+                Me("cfgOperatorName") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property cfgSessionMetadataEnabled() As Integer
+            Get
+                Return CType(Me("cfgSessionMetadataEnabled"),Integer)
+            End Get
+            Set
+                Me("cfgSessionMetadataEnabled") = value
+            End Set
+        End Property
+    End Class
 End Namespace
 
 Namespace My

@@ -11,6 +11,8 @@ Namespace World
 
 	Public Class Functions
 
+		Public Shared PendingExternalSlateFilePath As String = String.Empty
+
 		Public Shared Function IsSessionMetadataEnabled() As Boolean
 			Return World.vMain.sessionMetadataEnabled = 1
 		End Function
@@ -371,70 +373,85 @@ Namespace World
 					ofd.Filter = "Clapper files (*.clap)|*.clap|All files (*.*)|*.*"
 					ofd.Title = "Open slate configuration"
 					If ofd.ShowDialog() = DialogResult.OK Then
-						Dim settings As SettingsProfile = Nothing
-						If Not JsonSettingsManager.TryLoadSlateFromFile(ofd.FileName, settings) Then
-							MessageBox.Show("Selected file is not a valid slate configuration.", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error)
-							Return
-						End If
-
-						' Apply to active slate (World.vMain) — direct assignment since SettingsProfile now uses numeric types
-						Try
-							World.vMain.scene = settings.Scene
-							World.vMain.scenePre = settings.ScenePre
-							World.vMain.sceneNum = settings.SceneNum
-							World.vMain.shot = settings.Shot
-							World.vMain.take = settings.Take
-							World.vMain.roll = settings.Roll
-							World.vMain.cameraNum = settings.CameraNum
-							World.vMain.camCardNum = settings.CamCardNum
-							World.vMain.production = settings.Production
-							World.vMain.director = settings.Director
-							World.vMain.dop = settings.DOP
-							World.vMain.fps = settings.FPS
-							World.vMain.custDate = settings.CustDate
-							World.vMain.currentDate = settings.CurrentDate
-							World.vMain.int = settings.Int
-							World.vMain.day = settings.Day
-							World.vMain.sync = settings.Sync
-							World.vMain.ltcEnabled = settings.LtcEnabled
-							World.vMain.ltcFpsMode = settings.LtcFpsMode
-							World.vMain.ltcOutputDeviceId = settings.LtcOutputDeviceId
-							World.vMain.ltcUnmute = settings.LtcUnmute
-							World.vMain.skipSound = settings.SkipSound
-							World.vMain.showCountdownNumbers = settings.ShowCountdownNumbers
-							World.vMain.alwaysFullPreroll = settings.AlwaysFullPreroll
-							World.vMain.metadataFlashFpsEnabled = settings.MetadataFlashFpsEnabled
-							World.vMain.metadataFlashDateEnabled = settings.MetadataFlashDateEnabled
-							World.vMain.logOutToFile = settings.LogOutToFile
-							World.vMain.logOutputFolder = settings.LogOutputFolder
-							World.vMain.markerAppendDaily = settings.MarkerAppendDaily
-                          If IsSessionMetadataEnabled() Then
-								World.vMain.sessionId = settings.SessionId
-								World.vMain.unitName = settings.UnitName
-								World.vMain.operatorName = settings.OperatorName
-								If String.IsNullOrWhiteSpace(World.vMain.sessionId) Then
-									World.vMain.sessionId = GenerateNewSessionId()
-								End If
-							Else
-								World.vMain.sessionId = String.Empty
-								World.vMain.unitName = String.Empty
-								World.vMain.operatorName = String.Empty
-							End If
-
-							' Update UI
-							refreshSlate()
-
-							' flash file loaded
-							Await FlashTimecodeAsync("FILE LOADED", 3000)
-						Catch ex As Exception
-							MessageBox.Show("Error applying loaded slate: " & ex.Message, "Apply error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-						End Try
+                Await LoadSlateFromFilePath(ofd.FileName)
 					End If
 				End Using
 			Catch ex As Exception
 				MessageBox.Show("Unexpected error loading slate: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
 		End Sub
+
+		Public Shared Async Function LoadSlateFromFilePath(filePath As String, Optional flashLoadedMessage As Boolean = True) As Task(Of Boolean)
+			Try
+				If String.IsNullOrWhiteSpace(filePath) Then Return False
+				If frmDigitalSlate.Timer1.Enabled Then
+					MessageBox.Show("Cannot load while timecode is running.", "Load disabled", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Return False
+				End If
+
+				Dim settings As SettingsProfile = Nothing
+				If Not JsonSettingsManager.TryLoadSlateFromFile(filePath, settings) Then
+					MessageBox.Show("Selected file is not a valid slate configuration.", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error)
+					Return False
+				End If
+
+				Try
+					World.vMain.scene = settings.Scene
+					World.vMain.scenePre = settings.ScenePre
+					World.vMain.sceneNum = settings.SceneNum
+					World.vMain.shot = settings.Shot
+					World.vMain.take = settings.Take
+					World.vMain.roll = settings.Roll
+					World.vMain.cameraNum = settings.CameraNum
+					World.vMain.camCardNum = settings.CamCardNum
+					World.vMain.production = settings.Production
+					World.vMain.director = settings.Director
+					World.vMain.dop = settings.DOP
+					World.vMain.fps = settings.FPS
+					World.vMain.custDate = settings.CustDate
+					World.vMain.currentDate = settings.CurrentDate
+					World.vMain.int = settings.Int
+					World.vMain.day = settings.Day
+					World.vMain.sync = settings.Sync
+					World.vMain.ltcEnabled = settings.LtcEnabled
+					World.vMain.ltcFpsMode = settings.LtcFpsMode
+					World.vMain.ltcOutputDeviceId = settings.LtcOutputDeviceId
+					World.vMain.ltcUnmute = settings.LtcUnmute
+					World.vMain.skipSound = settings.SkipSound
+					World.vMain.showCountdownNumbers = settings.ShowCountdownNumbers
+					World.vMain.alwaysFullPreroll = settings.AlwaysFullPreroll
+					World.vMain.metadataFlashFpsEnabled = settings.MetadataFlashFpsEnabled
+					World.vMain.metadataFlashDateEnabled = settings.MetadataFlashDateEnabled
+					World.vMain.logOutToFile = settings.LogOutToFile
+					World.vMain.logOutputFolder = settings.LogOutputFolder
+					World.vMain.markerAppendDaily = settings.MarkerAppendDaily
+					If IsSessionMetadataEnabled() Then
+						World.vMain.sessionId = settings.SessionId
+						World.vMain.unitName = settings.UnitName
+						World.vMain.operatorName = settings.OperatorName
+						If String.IsNullOrWhiteSpace(World.vMain.sessionId) Then
+							World.vMain.sessionId = GenerateNewSessionId()
+						End If
+					Else
+						World.vMain.sessionId = String.Empty
+						World.vMain.unitName = String.Empty
+						World.vMain.operatorName = String.Empty
+					End If
+
+					refreshSlate()
+					If flashLoadedMessage Then
+						Await FlashTimecodeAsync("FILE LOADED", 3000)
+					End If
+					Return True
+				Catch ex As Exception
+					MessageBox.Show("Error applying loaded slate: " & ex.Message, "Apply error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+					Return False
+				End Try
+			Catch ex As Exception
+				MessageBox.Show("Unexpected error loading slate: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+				Return False
+			End Try
+		End Function
 
 		Public Sub parseScene()
 			With frmEdit

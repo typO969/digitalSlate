@@ -285,6 +285,15 @@ Partial Public Class frmDigitalSlate
 
 		cbLock.Text = "LOCK SLATE"
 		ApplySlateLockState()
+     TryHandlePendingExternalSlateFile()
+	End Sub
+
+	Private Sub TryHandlePendingExternalSlateFile()
+		Dim pendingPath As String = World.Functions.PendingExternalSlateFilePath
+		If String.IsNullOrWhiteSpace(pendingPath) Then Return
+
+		World.Functions.PendingExternalSlateFilePath = String.Empty
+		World.Functions.LoadSlateFromFilePath(pendingPath, False)
 	End Sub
 
 	Private Sub RefreshTargetLabel()

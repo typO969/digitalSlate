@@ -68,18 +68,18 @@
     <Setting Name="cfgCustDate" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-	<Setting Name="cfgLtcEnabled" Type="System.Int32" Scope="User">
-	  <Value Profile="(Default)">0</Value>
-	</Setting>
-	<Setting Name="cfgLtcFpsMode" Type="System.Int32" Scope="User">
-	  <Value Profile="(Default)">1</Value>
-	</Setting>
-	<Setting Name="cfgLtcOutputDeviceId" Type="System.Int32" Scope="User">
-	  <Value Profile="(Default)">-1</Value>
-	</Setting>
-	<Setting Name="cfgLtcUnmute" Type="System.Int32" Scope="User">
-	  <Value Profile="(Default)">0</Value>
-	</Setting>
+    <Setting Name="cfgLtcEnabled" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="cfgLtcFpsMode" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgLtcOutputDeviceId" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="cfgLtcUnmute" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
     <Setting Name="cfgShowCountdownNumbers" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
@@ -96,6 +96,27 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="cfgSlateScaleMultiplier" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="cfgLogOutToFile" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="cfgLogOutputFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="cfgMarkerAppendDaily" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="cfgSessionId" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="cfgUnitName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="cfgOperatorName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="cfgSessionMetadataEnabled" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
