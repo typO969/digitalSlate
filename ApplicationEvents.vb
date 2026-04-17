@@ -30,11 +30,11 @@ Namespace My
          World.Functions.PendingExternalSlateFilePath = clapPath
       End Sub
 
-      Private Sub MyApplication_StartupNextInstance(sender As Object, e As Microsoft.VisualBasic.ApplicationServices.StartupNextInstanceEventArgs) Handles Me.StartupNextInstance
+       Private Async Sub MyApplication_StartupNextInstance(sender As Object, e As Microsoft.VisualBasic.ApplicationServices.StartupNextInstanceEventArgs) Handles Me.StartupNextInstance
          Dim clapPath As String = TryGetClapPath(e.CommandLine)
          If String.IsNullOrWhiteSpace(clapPath) Then Return
 
-         World.Functions.LoadSlateFromFilePath(clapPath)
+            Await World.Functions.LoadSlateFromFilePath(clapPath)
 
          Try
             If frmDigitalSlate IsNot Nothing Then

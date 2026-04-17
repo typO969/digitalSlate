@@ -156,6 +156,21 @@ Partial Public Class frmDigitalSlate
 		End Using
 	End Function
 
+	Private Async Function runVisualCountDown(count As Integer) As Task
+		If Timer1.Enabled Then Return
+		If count <= 0 Then Return
+
+		Dim cadenceClock As Stopwatch = Stopwatch.StartNew()
+		Const CountdownCadenceMs As Integer = 1000
+
+		For i As Integer = 1 To count
+			Await WaitUntilElapsedMsAsync(cadenceClock, (i - 1) * CountdownCadenceMs)
+			Await HandleBeepVisualsAsync(i, count, True)
+		Next
+
+		Await WaitUntilElapsedMsAsync(cadenceClock, count * CountdownCadenceMs)
+	End Function
+
 	Private Sub TryLoadPersistedLogo()
 		Try
 			EnsureLogoOverlayControl()
@@ -285,15 +300,15 @@ Partial Public Class frmDigitalSlate
 
 		cbLock.Text = "LOCK SLATE"
 		ApplySlateLockState()
-     TryHandlePendingExternalSlateFile()
+		TryHandlePendingExternalSlateFile()
 	End Sub
 
-	Private Sub TryHandlePendingExternalSlateFile()
+	Private Async Sub TryHandlePendingExternalSlateFile()
 		Dim pendingPath As String = World.Functions.PendingExternalSlateFilePath
 		If String.IsNullOrWhiteSpace(pendingPath) Then Return
 
 		World.Functions.PendingExternalSlateFilePath = String.Empty
-		World.Functions.LoadSlateFromFilePath(pendingPath, False)
+		Await World.Functions.LoadSlateFromFilePath(pendingPath, False)
 	End Sub
 
 	Private Sub RefreshTargetLabel()
@@ -809,6 +824,22 @@ Partial Public Class frmDigitalSlate
 		End Using
 	End Function
 
+	Private Async Function playVisualSyncBeep(count As Integer, Optional onFinalBeepStart As Action = Nothing) As Task
+		If Timer1.Enabled Then Return
+		If count <= 0 Then
+			If onFinalBeepStart IsNot Nothing Then onFinalBeepStart()
+			Return
+		End If
+
+		For i As Integer = 1 To count
+			Await HandleBeepVisualsAsync(i, count, False)
+			If i = count AndAlso onFinalBeepStart IsNot Nothing Then
+				onFinalBeepStart()
+			End If
+			Await Task.Delay(250)
+		Next
+	End Function
+
 	Private Function GetMetadataFlashDurationMs() As Integer
 		Return GetFrameDurationMs(3)
 	End Function
@@ -938,11 +969,12 @@ Partial Public Class frmDigitalSlate
 		If preloadedPlayer IsNot Nothing Then
 			Try
 				For i As Integer = 1 To count
-					Await HandleBeepVisualsAsync(i, count, False)
+					Dim visualsTask As Task = HandleBeepVisualsAsync(i, count, False)
 					If i = count AndAlso onFinalBeepStart IsNot Nothing Then
 						onFinalBeepStart()
 					End If
 					Await Task.Run(Sub() preloadedPlayer.PlaySync())
+					Await visualsTask
 				Next
 			Catch ex As Exception
 				MessageBox.Show("Error playing sync beep: " & ex.Message)
@@ -955,11 +987,12 @@ Partial Public Class frmDigitalSlate
 
 			Try
 				For i As Integer = 1 To count
-					Await HandleBeepVisualsAsync(i, count, False)
+					Dim visualsTask As Task = HandleBeepVisualsAsync(i, count, False)
 					If i = count AndAlso onFinalBeepStart IsNot Nothing Then
 						onFinalBeepStart()
 					End If
 					Await Task.Run(Sub() beepPlayer.PlaySync())
+					Await visualsTask
 				Next
 			Catch ex As Exception
 				MessageBox.Show("Error playing sync beep: " & ex.Message)
@@ -1009,8 +1042,20 @@ Partial Public Class frmDigitalSlate
 
 			Try
 				If World.vMain.skipSound = 1 Then
-					Await ShowMetadataFlashSequenceAsync()
-					startAtSync()
+					Dim useFullPreroll As Boolean = (World.vMain.alwaysFullPreroll = 1)
+					Dim shouldRunCountdown As Boolean = useFullPreroll OrElse (lblTimecode.Text = zeroTC)
+					metadataCountdownEligible = (shouldRunCountdown AndAlso World.vMain.showCountdownNumbers <> 1 AndAlso World.vMain.countdownCount >= GetMetadataItems().Count)
+
+					If shouldRunCountdown Then
+						Await runVisualCountDown(World.vMain.countdownCount)
+					End If
+
+					If Not metadataCountdownEligible Then
+						Await ShowMetadataFlashSequenceAsync()
+					End If
+
+					Await playVisualSyncBeep(World.vMain.beepCount, startAtSync)
+					tsiZeroTC.Enabled = False
 				Else
 					Dim useFullPreroll As Boolean = (World.vMain.alwaysFullPreroll = 1)
 					Dim shouldRunCountdown As Boolean = useFullPreroll OrElse (lblTimecode.Text = zeroTC)
