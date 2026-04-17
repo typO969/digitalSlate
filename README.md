@@ -70,7 +70,4 @@ The app can write Resolve-compatible CSV marker rows with:
 ## Status
 
 Active project in production-focused iteration.
-
-## License
-
-Add your preferred license here (for example: MIT).
+Looking for bugs, but I consider this project more or less completed.
