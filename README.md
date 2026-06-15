@@ -4,6 +4,17 @@ A Windows desktop digital clapperboard for film and video production, built with
 
 `digitalSlate` provides an on-set slate workflow with timecode display, countdown/sync beeps, optional LTC generation, marker logging, and profile save/load.
 
+<img width="1500" height="1050" alt="20260615_125741" src="https://github.com/user-attachments/assets/8f89cbb8-70c8-470a-b59e-8ce7e959c561" />
+(Close up Photo of program in action on a tablet)
+<br>
+<br>
+
+<img width="1383" height="1017" alt="20260615_125618" src="https://github.com/user-attachments/assets/2b8eb640-6c3a-47bc-82e0-55b285ba4a0b" />
+(Another example photo)
+<br>
+<br>
+
+
 ## Features
 
 - Full-screen slate UI with responsive scaling
